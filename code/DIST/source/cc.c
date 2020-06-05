@@ -11,6 +11,7 @@
 #include "data_form_change.h"
 
 int cc_cnt = 0;
+int cc_debug_cnt = 0;
 long ccTimer1start;
 float ccTime;
 float a = 0;
@@ -34,10 +35,34 @@ int i;
 
 int PC_mode;
 int PC_status;
+unsigned int temp_sum_h=0, temp_sum_l=0;
+unsigned long temp_sum = 0;
+float temp_float = 0.;
+
+
+int coil_num = 0;
+int is_debug_mode = 0;
+int sen_mode = 0;
+int is_ready = 0;
+int error_cnt[8] = {0,};
+
+int ref_gen_mode = 0;
+int ref_num = 0;
+
 
 __interrupt void cc(void) {
 	ccTimer1start = ReadCpuTimer1Counter();
 	cc_cnt++;
+
+	if(is_debug_mode&&Flag.init_charge_done){
+	    EALLOW;
+	    PieVectTable.EPWM2_INT = &cc_debug;
+	    EDIS;
+	}
+
+
+
+
 
 	if (reset_inv_num >= 2 * Fsw) {
 		if (Flag.OverallMode == OVERALL_MODE_INIT) {
@@ -405,6 +430,132 @@ __interrupt void cc(void) {
 	EPwm2Regs.ETCLR.bit.INT = 1;
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP3;
 }
+
+__interrupt void cc_debug(void) {
+
+    static int time_cnt = 0;
+    ccTimer1start = ReadCpuTimer1Counter();
+    cc_debug_cnt++;
+
+    if(!is_debug_mode){
+        EALLOW;
+        PieVectTable.EPWM2_INT = &cc;
+        EDIS;
+    }
+
+
+
+
+
+    if (!is_ready)
+    {
+        Flag.OverallMode = OVERALL_MODE_INIT;
+        init_mode_spi_func();
+    }
+    else
+    {
+        if (sen_mode)
+        {
+            for (i = 0; i < 8; i++)
+            {
+                current_ref_set[i] = 0.0;
+            }
+            time_cnt++;
+            if(time_cnt == 5000*2){
+                coil_num++;
+                time_cnt=0;
+            }
+            if(coil_num<8){
+                current_ref_set[coil_num] = 10.0;
+            }else if(coil_num<9){
+
+            }else{
+                coil_num=0;
+            }
+
+        }
+        else
+        {
+            coil_num = 0;
+            time_cnt = 0;
+
+        }
+
+        for (i = 0; i < 8; i++)
+        {
+
+            current_ref[i] =
+                    ((current_ref_set[i] >= 10) ?
+                            10 :
+                            ((current_ref_set[i] <= -10) ? -10 : current_ref_set[i]));
+            if (current_ref_set[i] == 0.0)
+            {
+                current_ref[i] = 0.00000000001;
+            }
+        }
+
+
+
+        for (i = 0; i < 8; i++)
+        {
+            temp_sum = *(unsigned long *) (&(current_ref[i]));
+            temp_sum_h = temp_sum >> 16;
+            temp_sum_l = temp_sum - temp_sum_h * 65536;
+
+            current_reference[2 * i] = temp_sum_h;
+            current_reference[2 * i + 1] = temp_sum_l;
+        }
+
+        Flag.OverallMode = OVERALL_MODE_RUN;
+        debug_mode_spi_func();
+
+        for (i = 0; i < 8; i++)
+        {
+            temp_sum = current_sen_debug[2 * i] * 65536;
+            temp_sum = temp_sum + current_sen_debug[2 * i + 1];
+            temp_float = *((float *) (&temp_sum));
+
+            current_sen[i] = temp_float;
+        }
+
+        for (i = 0; i < 8; i++)
+        {
+//            if (fabs(current_sen[i] - current_ref[i]) > 2)
+//            {
+//
+//                if (error_cnt[i]++ > 5000)
+//                {
+//                    is_ready = 0;
+//                }
+//            }
+//            else
+//            {
+//                if (error_cnt[i]-- < 0)
+//                {
+//                    error_cnt[i] = 0;
+//                }
+//            }
+
+    }
+}
+
+
+
+
+
+
+
+
+    test_fault_b = (ccTimer1start - ReadCpuTimer1Counter()) * SYS_CLK_PRD;
+    if (ccTime < test_fault_b) {
+        ccTime = test_fault_b;
+    }
+
+    // Clear INT flag for this timer
+    EPwm2Regs.ETCLR.bit.INT = 1;
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP3;
+}
+
 
 void reset_INV_boards(void) {
 	// INV 1

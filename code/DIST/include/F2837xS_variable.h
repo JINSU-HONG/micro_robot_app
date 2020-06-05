@@ -218,6 +218,11 @@ extern uint8 rx_mem_conf[8];          // for setting RMSR regsiter
 // data stack
 extern unsigned int current_reference[16]; // H, L * 8
 extern unsigned int voltage_reference[16]; // H, L * 8
+extern unsigned long current_sen_debug[16];
+extern float current_ref[8];
+extern float current_sen[8];
+extern float current_ref_set[8];
+extern int sen_mode;
 extern unsigned int UDP_data[32];
 extern unsigned int INV_status[4];
 extern unsigned int INV_data_buf[16];

@@ -11,5 +11,6 @@
 void init_mode_spi_func();
 void inv_test_mode_spi_func();
 void idle_mode_spi_func();
+unsigned int CalcChecksum(unsigned int *data, int leng);
 
 #endif /* CC_SPI_FUNC_H */

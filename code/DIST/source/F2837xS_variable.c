@@ -58,7 +58,11 @@ uint8 rx_mem_conf[8] = {32,16,16,0,0,0,0,0};          // for setting RMSR regsit
 
 // data stack
 unsigned int current_reference[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // H, L * 8
+unsigned long current_sen_debug[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // H, L * 8
 unsigned int voltage_reference[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // H, L * 8
+float current_ref[8] = {0., 0., 0., 0., 0., 0., 0., 0.};
+float current_sen[8] = {0., 0., 0., 0., 0., 0., 0., 0.};
+float current_ref_set[8] = {0., 0., 0., 0., 0., 0., 0., 0.};
 unsigned int UDP_data[32] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 unsigned int INV_status[4] = {0, 0, 0, 0};
 unsigned int INV_data_buf[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};

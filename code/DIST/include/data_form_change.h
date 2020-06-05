@@ -15,6 +15,8 @@ void AddSendBinaryData(uint8* buf, int new_data_h, int new_data_l, int* len);
 float ReadRecvFloatData(uint8* buf, int* iter);
 int ReadRecvIntData(uint8* buf, int* iter);
 short ReadRecvShortData(uint8* buf, int* iter);
-void convert_binary_to_float(float* float_p, unsigned int int_data_h, unsigned int int_data_l);
+void convert_float_to_binary(float* float_data, unsigned long* int_data_h,
+        unsigned long* int_data_l);
+void convert_binary_to_float(float* float_data, int int_data_h, int int_data_l);
 
 #endif /* DATA_FORM_CHAGNE_H */

@@ -5,6 +5,7 @@
 #include "F2837xS_variable.h"
 
 __interrupt void cc(void);
+__interrupt void cc_debug(void);
 
 void AD_Process(void);
 void PLL_Process(void);

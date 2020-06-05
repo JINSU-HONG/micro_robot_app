@@ -45,8 +45,12 @@ short ReadRecvShortData(uint8* buf, int* iter) {
 	return reading_data;
 }
 
-void convert_binary_to_float(float* float_p, unsigned int int_data_h, unsigned int int_data_l) {
-	unsigned long total_data;
-	total_data = ((unsigned long)int_data_h << 16) + (unsigned long)int_data_l;
-	*float_p = *(float *)(&total_data);
+void convert_float_to_binary(float* float_data, unsigned long* int_data_h,
+        unsigned long* int_data_l) {
+    *int_data_h = ((*(unsigned long*) (float_data)) & 0xFFFF0000) >> 16;
+    *int_data_l = (*(unsigned long*) (float_data)) & 0xFFFF;
+}
+void convert_binary_to_float(float* float_data, int int_data_h, int int_data_l) {
+    unsigned long sum = ((unsigned long) int_data_h) << 16 + int_data_l;
+    *float_data = *((float *) (&sum));
 }

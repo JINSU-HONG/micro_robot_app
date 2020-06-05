@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
+SHELL = cmd.exe
+
 # Add inputs and outputs from these tool invocations to the build variables 
 ASM_SRCS += \
 ../source/F2837xS_CodeStartBranch.asm \
@@ -34,6 +36,33 @@ C_SRCS += \
 ../source/socket.c \
 ../source/w5300.c 
 
+C_DEPS += \
+./source/F2837xS_Adc.d \
+./source/F2837xS_CpuTimers.d \
+./source/F2837xS_DA.d \
+./source/F2837xS_DefaultISR.d \
+./source/F2837xS_EPwm.d \
+./source/F2837xS_Emif.d \
+./source/F2837xS_GlobalVariableDefs.d \
+./source/F2837xS_Gpio.d \
+./source/F2837xS_PieCtrl.d \
+./source/F2837xS_PieVect.d \
+./source/F2837xS_Spi.d \
+./source/F2837xS_SysCtrl.d \
+./source/F2837xS_Xbar.d \
+./source/F2837xS_fault.d \
+./source/F2837xS_struct.d \
+./source/F2837xS_variable.d \
+./source/Filter.d \
+./source/RingBuff.d \
+./source/cc.d \
+./source/cc_spi_func.d \
+./source/data_form_change.d \
+./source/easy2837xS_sci_v8.4.d \
+./source/main.d \
+./source/socket.d \
+./source/w5300.d 
+
 OBJS += \
 ./source/F2837xS_Adc.obj \
 ./source/F2837xS_CodeStartBranch.obj \
@@ -64,62 +93,8 @@ OBJS += \
 ./source/w5300.obj 
 
 ASM_DEPS += \
-./source/F2837xS_CodeStartBranch.pp \
-./source/F2837xS_usDelay.pp 
-
-C_DEPS += \
-./source/F2837xS_Adc.pp \
-./source/F2837xS_CpuTimers.pp \
-./source/F2837xS_DA.pp \
-./source/F2837xS_DefaultISR.pp \
-./source/F2837xS_EPwm.pp \
-./source/F2837xS_Emif.pp \
-./source/F2837xS_GlobalVariableDefs.pp \
-./source/F2837xS_Gpio.pp \
-./source/F2837xS_PieCtrl.pp \
-./source/F2837xS_PieVect.pp \
-./source/F2837xS_Spi.pp \
-./source/F2837xS_SysCtrl.pp \
-./source/F2837xS_Xbar.pp \
-./source/F2837xS_fault.pp \
-./source/F2837xS_struct.pp \
-./source/F2837xS_variable.pp \
-./source/Filter.pp \
-./source/RingBuff.pp \
-./source/cc.pp \
-./source/cc_spi_func.pp \
-./source/data_form_change.pp \
-./source/easy2837xS_sci_v8.4.pp \
-./source/main.pp \
-./source/socket.pp \
-./source/w5300.pp 
-
-C_DEPS__QUOTED += \
-"source\F2837xS_Adc.pp" \
-"source\F2837xS_CpuTimers.pp" \
-"source\F2837xS_DA.pp" \
-"source\F2837xS_DefaultISR.pp" \
-"source\F2837xS_EPwm.pp" \
-"source\F2837xS_Emif.pp" \
-"source\F2837xS_GlobalVariableDefs.pp" \
-"source\F2837xS_Gpio.pp" \
-"source\F2837xS_PieCtrl.pp" \
-"source\F2837xS_PieVect.pp" \
-"source\F2837xS_Spi.pp" \
-"source\F2837xS_SysCtrl.pp" \
-"source\F2837xS_Xbar.pp" \
-"source\F2837xS_fault.pp" \
-"source\F2837xS_struct.pp" \
-"source\F2837xS_variable.pp" \
-"source\Filter.pp" \
-"source\RingBuff.pp" \
-"source\cc.pp" \
-"source\cc_spi_func.pp" \
-"source\data_form_change.pp" \
-"source\easy2837xS_sci_v8.4.pp" \
-"source\main.pp" \
-"source\socket.pp" \
-"source\w5300.pp" 
+./source/F2837xS_CodeStartBranch.d \
+./source/F2837xS_usDelay.d 
 
 OBJS__QUOTED += \
 "source\F2837xS_Adc.obj" \
@@ -150,9 +125,36 @@ OBJS__QUOTED += \
 "source\socket.obj" \
 "source\w5300.obj" 
 
+C_DEPS__QUOTED += \
+"source\F2837xS_Adc.d" \
+"source\F2837xS_CpuTimers.d" \
+"source\F2837xS_DA.d" \
+"source\F2837xS_DefaultISR.d" \
+"source\F2837xS_EPwm.d" \
+"source\F2837xS_Emif.d" \
+"source\F2837xS_GlobalVariableDefs.d" \
+"source\F2837xS_Gpio.d" \
+"source\F2837xS_PieCtrl.d" \
+"source\F2837xS_PieVect.d" \
+"source\F2837xS_Spi.d" \
+"source\F2837xS_SysCtrl.d" \
+"source\F2837xS_Xbar.d" \
+"source\F2837xS_fault.d" \
+"source\F2837xS_struct.d" \
+"source\F2837xS_variable.d" \
+"source\Filter.d" \
+"source\RingBuff.d" \
+"source\cc.d" \
+"source\cc_spi_func.d" \
+"source\data_form_change.d" \
+"source\easy2837xS_sci_v8.4.d" \
+"source\main.d" \
+"source\socket.d" \
+"source\w5300.d" 
+
 ASM_DEPS__QUOTED += \
-"source\F2837xS_CodeStartBranch.pp" \
-"source\F2837xS_usDelay.pp" 
+"source\F2837xS_CodeStartBranch.d" \
+"source\F2837xS_usDelay.d" 
 
 C_SRCS__QUOTED += \
 "../source/F2837xS_Adc.c" \
