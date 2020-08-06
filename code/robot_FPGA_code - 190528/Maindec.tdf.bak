@@ -1,0 +1,234 @@
+PARAMETERS
+(
+	RESET_WIDTH = 8,
+	PWM_NUMBER = 3 
+);
+
+CONSTANT RESET_BIT = CEIL(LOG2(RESET_WIDTH));
+
+
+SUBDESIGN MAINDEC2
+(
+--	CC_D[15..0],
+--	RES_STAT[2..0], DIN_D[7..0],	
+--	A[18..0], RnW, _CS,
+--	_RD, _WR : INPUT;
+--	_ADC, _ADCS0, _ADCS1, _ADCS2, _ADCS3, _ADCS4, _ADCS5,
+--	 _ADRD, _ADWR,_SWRESET, _RD_STRB	: OUTPUT;--_MADCS,
+--	_ADCV, CC_nCS, DIO_nCS, DI_nCS,
+--	DO_nCS, DA0_nCS, DA1_nCS	
+	
+	
+--	D[15..0]						: BIDIR;
+--	RES0_CS, RES0_RST, RES1_CS, RES1_RST, RES2_CS, RES2_RST, RES_CS		: OUTPUT; 
+
+	A[15..0], nCS, RnW, CLK, nRST :INPUT;
+--	D[8..0]
+	
+		
+	
+--ADC output,  1. another processing need in this block, 2. read dec 3. CS
+--	ADRESET,
+	nAD_BS, 
+--	nADRD,
+--	nReserv,
+--	MS_BASE,
+	nAD_CS[8..0],
+	ADCV[8..0]
+	
+--pwm_out
+--	nPWM_CS[2..0],
+--FAULT output
+--	nFAULT_BASE,
+--	nHW_FAULT_RD,
+--	nBGFAB_RD, 	 
+--	nBGFCD_RD,	
+--	nBGFEF_RD	 
+--	nFAULT_RD,
+--	nFAULT_MASK,
+--	nFAULT_CLR
+	:OUTPUT;		
+)
+
+
+VARIABLE
+
+			
+
+
+	nAD_BASE, nAD_CS_BASE, nAD_WR_BASE, nAD_RD_BASE, nAD_RST, nAD_CV 
+	: NODE;
+	
+	
+	--AD_RST, AD conv signal processing
+--	RESETSW, RESETCNT[RESET_BIT..0], ADCONV[8..0]
+--	: DFF;
+
+BEGIN
+-------------------------------------------------------
+--AD decoding
+--------------------------------------------------------	
+	nAD_BASE = (A[15..12] != H"1") OR nCS;--nADRD
+		nAD_CS_BASE	= nAD_BASE OR (A[11..8] != H"0") OR not RnW;
+			
+			nAD_CS[0]	= nAD_CS_BASE OR (A[3..0] != H"0");
+			nAD_CS[1]   = nAD_CS_BASE OR (A[3..0] != H"2");
+			nAD_CS[2]	= nAD_CS_BASE OR (A[3..0] != H"4");
+			nAD_CS[3]	= nAD_CS_BASE OR (A[3..0] != H"6");
+			nAD_CS[4]	= nAD_CS_BASE OR (A[3..0] != H"8");
+			nAD_CS[5]	= nAD_CS_BASE OR (A[3..0] != H"A");
+			nAD_CS[6]	= nAD_CS_BASE OR (A[3..0] != H"C");
+			nAD_CS[7]	= nAD_CS_BASE OR (A[3..0] != H"E");
+			nAD_CS[8]	= nAD_CS_BASE OR (A[7..0] != H"10");
+		
+		
+			
+		nAD_WR_BASE	= nAD_BASE OR (A[11..8] != H"1") OR RnW;
+		
+			nAD_RST = nAD_WR_BASE OR (A[3..0] != H"0");
+			nAD_CV  = nAD_WR_BASE OR (A[3..0] != H"2");
+			
+		nAD_RD_BASE	= nAD_BASE OR (A[11..8] != H"2") OR not RnW;--CHECK
+		
+			nAD_BS = nAD_RD_BASE or (A[3..0] != H"0");
+-------------------------------------------------------
+	ADCV[0] = nAD_CV;
+	ADCV[1] = nAD_CV;
+	ADCV[2] = nAD_CV;
+
+
+
+
+----------------------------------------------------------
+--others
+----------------------------------------------------------
+			
+--ADC rst processing	
+--	RESETCNT[].CLK = CLK;
+--	RESETCNT[].CLRN = nRST;
+--	IF (RESETCNT[].Q == 0) THEN
+--		IF(NOT nAD_RST) THEN				-- Start when _RESET signal is selected
+--			RESETCNT[].D = RESET_WIDTH;	-- RESET Signal length
+--		ELSE
+--			RESETCNT[].D = RESETCNT[].Q;
+--		END IF;
+--	ELSE
+--		RESETCNT[].D = RESETCNT[].Q - 1;
+--	END IF;
+	
+--	RESETSW.CLK = CLK;
+--	RESETSW.CLRN = nRST;
+--	RESETSW.D = (RESETCNT[].Q != 0);
+----------------------------
+--ADC PROCESSING
+----------------------------
+--method 1
+--ADC conv processing	
+--	ADCONV[].CLK = CLK;
+--	ADCONV[].CLRN = nRST;	
+--	if (NOT nAD_CV) THEN 
+
+--		ADCONV[].D = D[];
+--		For I IN 0 To 5 GENERATE
+--			ADCONV[I].D = D[I];
+--		END GENERATE;
+--	ELSE
+	--	ADCONV[0].D = '1';
+	--	ADCONV[1].D = '1';
+	--	ADCONV[2].D = '1';
+	--	ADCONV[] = 1;
+	--	For J IN 0 To 2 GENERATE
+	--		ADCONV[J].D = '1';
+	--	END GENERATE;
+		
+--	END IF;
+
+--method 2
+--	ADCONV[].CLK = CLK;
+--	ADCONV[].CLRN = nRST;
+--
+--	For I IN 0 To 5 GENERATE
+--		ADCONV[I] = nAD_CV;
+--	END GENERATE; 
+	
+----------------------------
+--PWM PROCESSING
+----------------------------
+
+		
+	 
+	-- OUTPUT
+	--ADC
+--	ADRESET = RESETSW.Q;
+--	ADCV[8..0] = ADCONV[].Q;
+
+
+
+	
+	
+	
+		
+		
+--		_ADRD	= _ADC OR not RW; --ADRD go to buf enable
+--		_ADWR	= _ADC OR RW; --ADWR select ADCcontroller
+--		_ADCV	= _ADC OR (A[6..0] != B"1000000") OR RW;	-- 0X0B0
+--		_MADCS = _ADC	OR (A[6..5] != B"00");		-- BASE 0X000
+--		_ADCS0 = _ADC OR (A[7..4] != H"0");	-- 0X000 ~ 0X003
+--		_ADCS1 = _ADC OR (A[7..4] != H"1");	-- 0X004 ~ 0X007
+--		_ADCS2 = _ADC OR (A[7..4] != H"2");	-- 0X008 ~ 0X00B
+--		_ADCS3 = _ADC OR (A[7..4] != H"3");	-- 0X000 ~ 0X003
+--		_ADCS4 = _ADC OR (A[7..4] != H"4");	-- 0X004 ~ 0X007
+--		_ADCS5 = _ADC OR (A[7..4] != H"5");	-- 0X008 ~ 0X00B
+
+--	_EPLDRD = (A[15..12] != H"2") OR _CS;
+--		_RD_STRB = _EPLDRD OR (A[7..4] != H"0");
+--		DIO_nCS	= _MPLD OR (A[9..5] != B"00100");
+--		DI_nCS = DIO_nCS OR (A[4..0] != B"00000");-- BASE 0X080(0x200080)
+--		DO_nCS = DIO_nCS OR (A[4..0] != B"00001");-- BASE 0X081
+		
+--		DA0_nCS = _MPLD OR (A[9..4] != B"010000");
+--		DA1_nCS = _MPLD OR (A[9..4] != B"010001");
+		
+--		RES_CS = _MPLD OR (A[9..5] != B"10000");
+--		RES0_CS = RES_CS OR (A[4..0] != B"00000");
+--		RES0_RST = RES_CS OR (A[4..0] != B"00001");
+--		RES1_CS = RES_CS OR (A[4..0] != B"00010");
+--		RES1_RST = RES_CS OR (A[4..0] != B"00011");
+--		RES2_CS = RES_CS OR (A[4..0] != B"00100");
+--		RES2_RST = RES_CS OR (A[4..0] != B"00101");
+			
+					
+--	CC_nCS = (A[1..0] != B"01") OR _CS;		-- 2 WAIT : EPLD ACCESS
+
+
+--	_SWRESET = (_MPLD OR A[9..0] != H"3FF") OR RW;	-- 0X050 ~ 0X05F	: MUST USE _CS SIGNAL!!!
+	-- EPLD WRITE : BASE ADDRESS 0X0000
+	-- A[1..0] = A[18..17]
+	
+	
+	
+--	CASE A[1..0] IS
+--		WHEN B"01"	=> BD[] = CC_D[15..0];
+--		WHEN OTHERS => BD[] = 0;
+--	END CASE;
+
+--	CASE A[1..0] IS
+--		WHEN B"00" => CASE A[9..0] IS
+--						WHEN B"1000000110" => BD[2..0] = RES_STAT[2..0];
+--											  BD[15..3] = 0;
+--						WHEN B"0010000000" => BD[7..0] = DIN_D[7..0];
+--											  BD[15..8] = 0;
+--						WHEN OTHERS => BD[] = 0;
+--					  END CASE;
+--	END CASE;	
+ 
+		
+	
+--	FOR I IN 0 TO 15 GENERATE
+--		D[I] = TRI(BD[I], RW AND (NOT (_MPLD AND CC_nCS)));
+--	END GENERATE;
+	
+	
+	--_ESLOW = VCC;
+	--_EFAST = VCC;
+END;

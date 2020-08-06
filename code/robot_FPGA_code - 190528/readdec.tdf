@@ -1,0 +1,33 @@
+SUBDESIGN READDEC2
+(
+	nINV_CS1_0, --category
+	nINV_CS1_1,
+	nINV_CS1_2,
+	nINV_CS1_3,
+	nEM1OE,
+	Doutreal[15..0]
+			: INPUT;
+	
+	D[15..0] 	
+			: BIDIR;
+)
+
+VARIABLE
+	BD[15..0]					: NODE;
+	
+BEGIN
+
+	IF(NOT (nEM1OE)) THEN
+	
+		BD[15..0] =  Doutreal[15..0];
+--		
+		END IF;
+	
+	FOR I IN 0 TO 15 GENERATE
+		D[I] = TRI(BD[I], not nEM1OE );
+	END GENERATE;
+ 
+  
+END;
+
+

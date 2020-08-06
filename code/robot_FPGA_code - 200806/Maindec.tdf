@@ -1,0 +1,169 @@
+PARAMETERS
+(
+	RESET_WIDTH = 8,
+	PWM_NUMBER = 3 
+);
+
+CONSTANT RESET_BIT = CEIL(LOG2(RESET_WIDTH));
+
+
+SUBDESIGN MAINDEC2
+(
+
+
+	--A[15..0], nCS, RnW, CLK, D[8..0],nRST :INPUT;
+	A[19..0], nEM1CS2, nEM1OE, nEM1WE, CLK, D[15..0],nRST :INPUT;
+
+		
+	
+	
+
+	--nINV0_CS,
+	nINV0_CS[7..0],
+	nINV1_CS[7..0],
+	nINV2_CS[7..0],
+	nINV3_CS[7..0],
+	nINV4_CS[7..0],
+	nINV5_CS[7..0],
+	nINV6_CS[7..0],
+	nINV7_CS[7..0],
+	nMS_BASE,
+	nREserv,
+	nINV_SEND
+	
+	
+	:OUTPUT;		
+)
+
+
+VARIABLE
+
+			
+
+	nINV_BASE
+	--nAD_BASE, nAD_CS_BASE, nAD_WR_BASE, nAD_RD_BASE, nAD_RST,-- nAD_CV ,nAD_CVOFF,
+	--nDA_BASE,nDA0_CS_BASE,nDA0_SOC_BASE,nDA_init,nDA_mode,nFAULT_BASE
+	: NODE;
+	
+		
+	RESETSW, RESETCNT[RESET_BIT..0],nADCONV[8..0]
+	: DFF;
+
+BEGIN
+
+
+	
+-------------------------------------------------------
+--INV decoding
+--------------------------------------------------------	
+	
+	nINV_BASE =(A[19..16]!=H"0") or nEM1CS2;
+	--nINV_BASE=1;		
+		
+		--nINV0_CS = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"0") or nINV_BASE;
+		
+		
+		
+		nINV0_CS[0] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"0") or (A[3..0]!=H"0") or nINV_BASE;
+		nINV0_CS[1] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"0") or (A[3..0]!=H"1") or nINV_BASE;
+		nINV0_CS[2] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"0") or (A[3..0]!=H"2") or nINV_BASE;
+		nINV0_CS[3] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"0") or (A[3..0]!=H"3") or nINV_BASE;
+		nINV0_CS[4] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"0") or (A[3..0]!=H"4") or nINV_BASE;
+		nINV0_CS[5] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"0") or (A[3..0]!=H"5") or nINV_BASE;
+		nINV0_CS[6] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"0") or (A[3..0]!=H"6") or nINV_BASE;
+		nINV0_CS[7] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"0") or (A[3..0]!=H"7") or nINV_BASE;
+	
+		
+		
+			
+		nINV1_CS[0] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"1") or (A[3..0]!=H"0") or nINV_BASE;
+		nINV1_CS[1] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"1") or (A[3..0]!=H"1") or nINV_BASE;
+		nINV1_CS[2] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"1") or (A[3..0]!=H"2") or nINV_BASE;
+		nINV1_CS[3] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"1") or (A[3..0]!=H"3") or nINV_BASE;
+		nINV1_CS[4] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"1") or (A[3..0]!=H"4") or nINV_BASE;
+		nINV1_CS[5] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"1") or (A[3..0]!=H"5") or nINV_BASE;
+		nINV1_CS[6] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"1") or (A[3..0]!=H"6") or nINV_BASE;
+		nINV1_CS[7] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"1") or (A[3..0]!=H"7") or nINV_BASE;
+
+		
+		nINV2_CS[0] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"2") or (A[3..0]!=H"0") or nINV_BASE;
+		nINV2_CS[1] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"2") or (A[3..0]!=H"1") or nINV_BASE;
+		nINV2_CS[2] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"2") or (A[3..0]!=H"2") or nINV_BASE;
+		nINV2_CS[3] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"2") or (A[3..0]!=H"3") or nINV_BASE;
+		nINV2_CS[4] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"2") or (A[3..0]!=H"4") or nINV_BASE;
+		nINV2_CS[5] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"2") or (A[3..0]!=H"5") or nINV_BASE;
+		nINV2_CS[6] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"2") or (A[3..0]!=H"6") or nINV_BASE;
+		nINV2_CS[7] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"2") or (A[3..0]!=H"7") or nINV_BASE;
+	
+		
+		
+		nINV3_CS[0] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"3") or (A[3..0]!=H"0") or nINV_BASE;
+		nINV3_CS[1] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"3") or (A[3..0]!=H"1") or nINV_BASE;
+		nINV3_CS[2] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"3") or (A[3..0]!=H"2") or nINV_BASE;
+		nINV3_CS[3] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"3") or (A[3..0]!=H"3") or nINV_BASE;
+		nINV3_CS[4] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"3") or (A[3..0]!=H"4") or nINV_BASE;
+		nINV3_CS[5] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"3") or (A[3..0]!=H"5") or nINV_BASE;
+		nINV3_CS[6] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"3") or (A[3..0]!=H"6") or nINV_BASE;
+		nINV3_CS[7] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"3") or (A[3..0]!=H"7") or nINV_BASE;
+
+		
+		
+		nINV4_CS[0] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"4") or (A[3..0]!=H"0") or nINV_BASE;
+		nINV4_CS[1] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"4") or (A[3..0]!=H"1") or nINV_BASE;
+		nINV4_CS[2] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"4") or (A[3..0]!=H"2") or nINV_BASE;
+		nINV4_CS[3] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"4") or (A[3..0]!=H"3") or nINV_BASE;
+		nINV4_CS[4] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"4") or (A[3..0]!=H"4") or nINV_BASE;
+		nINV4_CS[5] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"4") or (A[3..0]!=H"5") or nINV_BASE;
+		nINV4_CS[6] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"4") or (A[3..0]!=H"6") or nINV_BASE;
+		nINV4_CS[7] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"4") or (A[3..0]!=H"7") or nINV_BASE;
+	
+		
+		
+		nINV5_CS[0] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"5") or (A[3..0]!=H"0") or nINV_BASE;
+		nINV5_CS[1] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"5") or (A[3..0]!=H"1") or nINV_BASE;
+		nINV5_CS[2] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"5") or (A[3..0]!=H"2") or nINV_BASE;
+		nINV5_CS[3] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"5") or (A[3..0]!=H"3") or nINV_BASE;
+		nINV5_CS[4] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"5") or (A[3..0]!=H"4") or nINV_BASE;
+		nINV5_CS[5] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"5") or (A[3..0]!=H"5") or nINV_BASE;
+		nINV5_CS[6] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"5") or (A[3..0]!=H"6") or nINV_BASE;
+		nINV5_CS[7] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"5") or (A[3..0]!=H"7") or nINV_BASE;
+	
+		
+		
+		nINV6_CS[0] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"6") or (A[3..0]!=H"0") or nINV_BASE;
+		nINV6_CS[1] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"6") or (A[3..0]!=H"1") or nINV_BASE;
+		nINV6_CS[2] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"6") or (A[3..0]!=H"2") or nINV_BASE;
+		nINV6_CS[3] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"6") or (A[3..0]!=H"3") or nINV_BASE;
+		nINV6_CS[4] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"6") or (A[3..0]!=H"4") or nINV_BASE;
+		nINV6_CS[5] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"6") or (A[3..0]!=H"5") or nINV_BASE;
+		nINV6_CS[6] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"6") or (A[3..0]!=H"6") or nINV_BASE;
+		nINV6_CS[7] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"6") or (A[3..0]!=H"7") or nINV_BASE;
+	
+				
+		nINV7_CS[0] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"7") or (A[3..0]!=H"0") or nINV_BASE;
+		nINV7_CS[1] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"7") or (A[3..0]!=H"1") or nINV_BASE;
+		nINV7_CS[2] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"7") or (A[3..0]!=H"2") or nINV_BASE;
+		nINV7_CS[3] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"7") or (A[3..0]!=H"3") or nINV_BASE;
+		nINV7_CS[4] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"7") or (A[3..0]!=H"4") or nINV_BASE;
+		nINV7_CS[5] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"7") or (A[3..0]!=H"5") or nINV_BASE;
+		nINV7_CS[6] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"7") or (A[3..0]!=H"6") or nINV_BASE;
+		nINV7_CS[7] = (A[15..12]!=H"0") or (A[11..8]!=H"2") or (A[7..4]!=H"7") or (A[3..0]!=H"7") or nINV_BASE;
+		
+			
+		
+		
+	nINV_SEND = (A[19..16]!=H"1") or  (A[15..12]!=H"0") or (A[11..8]!=H"0") or nEM1CS2;
+	 
+	 nReserv = (NOT(nMS_BASE)) OR nEM1CS2;	
+	 nMS_BASE = nINV_BASE;
+-----------------------------------------------------------------------			
+
+--------
+
+	END;
+
+	
+	
+	
+	
+

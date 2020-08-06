@@ -1,0 +1,34 @@
+# do jy_eh.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 01:05:08 on Jul 29,2020
+# vcom -work work jy_eh.vho 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package VITAL_Timing
+# -- Loading package VITAL_Primitives
+# -- Loading package dffeas_pack
+# -- Loading package altera_primitives_components
+# -- Loading package cycloneive_atom_pack
+# -- Loading package cycloneive_components
+# -- Compiling entity FPGA_20140329
+# -- Compiling architecture structure of FPGA_20140329
+# End time: 01:05:11 on Jul 29,2020, Elapsed time: 0:00:03
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 01:05:11 on Jul 29,2020
+# vcom -work work Waveform.vwf.vht 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity FPGA_20140329_vhd_vec_tst
+# -- Compiling architecture FPGA_20140329_arch of FPGA_20140329_vhd_vec_tst
+# End time: 01:05:12 on Jul 29,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vsim -novopt -c -t 1ps -sdfmax "FPGA_20140329_vhd_vec_tst/i1=jy_eh_vhd.sdo" -L cycloneive -L altera -L altera_mf -L 220model -L sgate -L altera_lnsim work.FPGA_20140329_vhd_vec_tst 
+# Start time: 01:05:12 on Jul 29,2020
+# ** Error (suppressible): (vsim-12110) The -novopt option has no effect on this product. -novopt option is now deprecated and will be removed in future releases.
+# Error loading design
+# End time: 01:05:13 on Jul 29,2020, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0

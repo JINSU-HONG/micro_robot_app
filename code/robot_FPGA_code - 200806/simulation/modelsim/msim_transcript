@@ -1,0 +1,345 @@
+# Reading pref.tcl
+# do jy_eh_run_msim_rtl_vhdl.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 2020.1 Lib Mapping Utility 2020.02 Feb 28 2020
+# vmap work rtl_work 
+# Copying C:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/user/Desktop/robot_FPGA_code\ -\ 190528/db {C:/Users/user/Desktop/robot_FPGA_code - 190528/db/pll_altpll.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 18:25:39 on Jul 30,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/user/Desktop/robot_FPGA_code - 190528/db" C:/Users/user/Desktop/robot_FPGA_code - 190528/db/pll_altpll.v 
+# -- Compiling module pll_altpll
+# 
+# Top level modules:
+# 	pll_altpll
+# End time: 18:25:40 on Jul 30,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/user/Desktop/robot_FPGA_code - 190528/Reset_Gen.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 18:25:40 on Jul 30,2020
+# vcom -reportprogress 300 -93 -work work C:/Users/user/Desktop/robot_FPGA_code - 190528/Reset_Gen.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity RESET_GEN
+# -- Compiling architecture BEHAVIOR of RESET_GEN
+# End time: 18:25:41 on Jul 30,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/user/Desktop/robot_FPGA_code - 190528/pll.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 18:25:41 on Jul 30,2020
+# vcom -reportprogress 300 -93 -work work C:/Users/user/Desktop/robot_FPGA_code - 190528/pll.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity pll
+# -- Compiling architecture SYN of pll
+# End time: 18:25:41 on Jul 30,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/user/Desktop/robot_FPGA_code - 190528/da_test.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 18:25:41 on Jul 30,2020
+# vcom -reportprogress 300 -93 -work work C:/Users/user/Desktop/robot_FPGA_code - 190528/da_test.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_UNSIGNED
+# -- Loading package NUMERIC_STD
+# -- Compiling entity da_test
+# -- Compiling architecture behav of da_test
+# End time: 18:25:42 on Jul 30,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# 
+vsim rtl_work.da_test
+# vsim rtl_work.da_test 
+# Start time: 20:00:39 on Jul 30,2020
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.da_test(behav)
+vsim rtl_work.da_test(behav)
+# End time: 20:01:00 on Jul 30,2020, Elapsed time: 0:00:21
+# Errors: 0, Warnings: 0
+# vsim rtl_work.da_test(behav) 
+# Start time: 20:01:01 on Jul 30,2020
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.da_test(behav)
+vsim rtl_work.da_test(behav)
+# End time: 20:01:05 on Jul 30,2020, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0
+# vsim rtl_work.da_test(behav) 
+# Start time: 20:01:05 on Jul 30,2020
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.da_test(behav)
+add wave -position insertpoint  \
+sim:/da_test/nINV_SEND
+add wave -position insertpoint  \
+sim:/da_test/CLK
+add wave -position insertpoint  \
+sim:/da_test/SCLK
+add wave -position insertpoint sim:/da_test/Data_insert/*
+add wave -position insertpoint sim:/da_test/Data_insert2/*
+add wave -position insertpoint sim:/da_test/SYNC_temp_gen/*
+force -freeze sim:/da_test/nINV_SEND 1 0, 0 {5000 ps} -r 10000
+force -freeze sim:/da_test/nINV_SEND 1 0
+run
+force -freeze sim:/da_test/nINV_SEND 1 0
+force -freeze sim:/da_test/CLK 1 0, 0 {5000 ps} -r 10000
+run
+noforce sim:/da_test/nINV_SEND
+force -freeze sim:/da_test/nINV_SEND 1 0
+run
+add wave -position insertpoint  \
+sim:/da_test/ini_sig
+run
+run
+force -freeze sim:/da_test/nINV_SEND 0 0
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/da_test/nINV_SEND 1 0
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/da_test/nINV_SEND 0 0
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/da_test/nINV_SEND 1 0
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/da_test/nINV_SEND 0 0
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+add wave -position insertpoint  \
+sim:/da_test/nSYNC
+run
+run
+run
+run
+run
+force -freeze sim:/da_test/nINV_SEND 1 0
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/da_test/nINV_SEND 0 0
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+# End time: 21:52:36 on Aug 06,2020, Elapsed time: 169:51:31
+# Errors: 0, Warnings: 0

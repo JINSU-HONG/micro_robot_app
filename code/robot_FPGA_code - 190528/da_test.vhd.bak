@@ -1,0 +1,559 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
+
+ENTITY da_test is
+
+port(
+		
+		
+		CLK 	: in std_logic;
+		nDA0_CS0 : in std_logic_vector(1 downto 0);
+		nDA0_CS1 : in std_logic_vector(1 downto 0);
+		nDA0_CS2 : in std_logic_vector(1 downto 0);
+		nDA0_CS3 : in std_logic_vector(1 downto 0);
+		D : in std_logic_vector(15 downto 0);
+	--	ENB : in std_logic;
+		nSYNC : out std_logic;
+		Data : out std_logic;
+		nDA0_SOC : in std_logic;
+		nDA0_SOC_OFF : in std_logic;
+		SCLK : out std_logic;
+		nDA0_init : in std_logic;
+		nDA0_init_off : in std_logic;
+	--	nDA_BZ : out std_logic_vector(15 downto 0);
+	--	nDA_init_BZ : out std_logic_vector(15 downto 0);
+		nDA0_mode0 : in std_logic;
+		nDA0_mode1 : in std_logic
+
+	);
+end da_test;
+
+architecture behav of da_test is
+	type row_t is array(0 to 3) of std_logic_vector(23 downto 0);
+	signal nSYNC_temp : std_logic; 
+	signal nSYNC_init_temp : std_logic;
+	signal CLK_out_temp : std_logic;
+	signal Din : std_logic_vector(23 downto 0);
+	signal Data_temp : std_logic;
+	signal data_matrix : row_t:= (others => (others =>'0'));
+	signal alert : std_logic;
+	--signal nDA_BZ_temp : std_logic_vector(15 downto 0) := (others =>'1');
+	--signal nDA_BZ_init_temp : std_logic_vector(15 downto 0) := (others =>'1');
+	--shared variable cnt : std_logic_vector(1 downto 0);
+	shared variable holdtime : integer :=6;
+	shared variable da_start : integer := 0;
+	shared variable da_init : integer := 0;
+	shared variable da_mode : integer := 0;
+	
+	
+	begin
+	
+	cnt_gen : PROCESS (CLK)
+		variable cnt : integer:=0;
+		--variable cnt : std_logic_vector(1 downto 0);
+		begin
+			IF(CLK'EVENT AND CLK='1') THEN
+				--cnt := cnt + 1;
+				--CLK_out_temp <= cnt(1);
+				case(cnt) is
+					when 0 => CLK_out_temp <= '1';
+					when 1 => CLK_out_temp <= '1';
+					when 2 => CLK_out_temp <= '0';
+					when 3 => CLK_out_temp <= '0';
+					WHEN OTHERS	=> CLK_out_temp <='0';
+				end case;
+				
+				if cnt <3 then
+					cnt := cnt + 1;
+				else 
+					cnt := 0;
+				end if;
+				
+			END IF;
+		end process;
+		
+		--data_matrix(0) <= "000011110000111100001111";
+		--data_matrix(1) <= "111100001111000011110000";
+	--	data_matrix(2) <= "111111111111111111111111";
+	--	data_matrix(3) <= "000000001111111111100000";
+	
+	da_mode_sel : process(nDA0_mode0,nDA0_mode1)
+		begin
+			if(nDA0_mode0 = '0') then
+				da_mode := 0;
+			end if;
+			if(nDA0_mode1 = '0')  then
+				da_mode := 1;
+			end if;
+			
+			
+		end process;
+		
+	Matrix_stack :process(nDA0_CS0,nDA0_CS1,nDA0_CS2,nDA0_CS3)
+--		variable stackAdapter0 : integer :=0;
+--		variable stackAdapter1 : integer :=0;
+--		variable stackAdapter2 : integer :=0;
+--		variable stackAdapter3 : integer :=0;
+		begin 
+			if(da_mode = 1) then 
+				if(nDA0_CS0(1) = '0') then
+					data_matrix(0)(23) <= '0';
+					data_matrix(0)(22) <= '0';
+					data_matrix(0)(21) <= '0';
+					data_matrix(0)(20) <= '1';
+					data_matrix(0)(19) <= '0';
+					data_matrix(0)(18) <= '0';
+					data_matrix(0)(17) <= '0';
+					data_matrix(0)(16) <= '0';
+					--data_matrix(0)(15) <= '0';
+					--data_matrix(0)(14) <= '0';
+					--data_matrix(0)(13) <= '0';
+					--data_matrix(0)(12) <= '0';
+					--data_matrix(0)(11) <= '0';
+					--data_matrix(0)(10) <= '0';
+					--data_matrix(0)(9) <= '0';
+					--data_matrix(0)(8) <= '0';
+					--data_matrix(0)(7) <= '1';
+					--data_matrix(0)(6) <= '0';
+					--data_matrix(0)(5) <= '0';
+					--data_matrix(0)(4) <= '0';
+					data_matrix(0)(15) <= D(15);
+					data_matrix(0)(14) <= D(14);
+					data_matrix(0)(13) <= D(13);
+					data_matrix(0)(12) <= D(12);
+					data_matrix(0)(11) <= D(11);
+					data_matrix(0)(10) <= D(10);
+					data_matrix(0)(9) <= D(9);
+					data_matrix(0)(8) <= D(8);
+					data_matrix(0)(7) <= D(7);
+					data_matrix(0)(6) <= D(6);
+					data_matrix(0)(5) <= D(5);
+					data_matrix(0)(4) <= D(4);
+					data_matrix(0)(3) <= D(3);
+					data_matrix(0)(2) <= D(2);
+					data_matrix(0)(1) <= D(1);
+					data_matrix(0)(0) <= D(0);
+				
+				elsif(nDA0_CS1(1) = '0') then
+					data_matrix(1)(23) <= '0';
+					data_matrix(1)(22) <= '0';
+					data_matrix(1)(21) <= '0';
+					data_matrix(1)(20) <= '1';
+					data_matrix(1)(19) <= '0';
+					data_matrix(1)(18) <= '0';
+					data_matrix(1)(17) <= '1';
+					data_matrix(1)(16) <= '0';
+					--data_matrix(1)(15) <= '1';
+					--data_matrix(1)(14) <= '1';
+					--data_matrix(1)(13) <= '1';
+					--data_matrix(1)(12) <= '1';
+					--data_matrix(1)(11) <= '1';
+					--data_matrix(1)(10) <= '1';
+					--data_matrix(1)(9) <= '1';
+					--data_matrix(1)(8) <= '1';
+					--data_matrix(1)(7) <= '1';
+					--data_matrix(1)(6) <= '1';
+					--data_matrix(1)(5) <= '1';
+					--data_matrix(1)(4) <= '1';
+					data_matrix(1)(15) <= D(15);
+					data_matrix(1)(14) <= D(14);
+					data_matrix(1)(13) <= D(13);
+					data_matrix(1)(12) <= D(12);
+					data_matrix(1)(11) <= D(11);
+					data_matrix(1)(10) <= D(10);
+					data_matrix(1)(9) <= D(9);
+					data_matrix(1)(8) <= D(8);
+					data_matrix(1)(7) <= D(7);
+					data_matrix(1)(6) <= D(6);
+					data_matrix(1)(5) <= D(5);
+					data_matrix(1)(4) <= D(4);
+					data_matrix(1)(3) <= D(3);
+					data_matrix(1)(2) <= D(2);
+					data_matrix(1)(1) <= D(1);
+					data_matrix(1)(0) <= D(0);
+				
+				elsif(nDA0_CS2(1) = '0') then
+					data_matrix(2)(23) <= '0';
+					data_matrix(2)(22) <= '0';
+					data_matrix(2)(21) <= '0';
+					data_matrix(2)(20) <= '1';
+					data_matrix(2)(19) <= '0';
+					data_matrix(2)(18) <= '1';
+					data_matrix(2)(17) <= '0';
+					data_matrix(2)(16) <= '0';
+					data_matrix(2)(15) <= D(15);
+					data_matrix(2)(14) <= D(14);
+					data_matrix(2)(13) <= D(13);
+					data_matrix(2)(12) <= D(12);
+					data_matrix(2)(11) <= D(11);
+					data_matrix(2)(10) <= D(10);
+					data_matrix(2)(9) <= D(9);
+					data_matrix(2)(8) <= D(8);
+					data_matrix(2)(7) <= D(7);
+					data_matrix(2)(6) <= D(6);
+					data_matrix(2)(5) <= D(5);
+					data_matrix(2)(4) <= D(4);
+					data_matrix(2)(3) <= D(3);
+					data_matrix(2)(2) <= D(2);
+					data_matrix(2)(1) <= D(1);
+					data_matrix(2)(0) <= D(0);
+						
+				elsif(nDA0_CS3(1) = '0') then	
+					data_matrix(3)(23) <= '0';
+					data_matrix(3)(22) <= '0';
+					data_matrix(3)(21) <= '0';
+					data_matrix(3)(20) <= '1';
+					data_matrix(3)(19) <= '0';
+					data_matrix(3)(18) <= '1';
+					data_matrix(3)(17) <= '1';
+					data_matrix(3)(16) <= '0';
+					data_matrix(3)(15) <= D(15);
+					data_matrix(3)(14) <= D(14);
+					data_matrix(3)(13) <= D(13);
+					data_matrix(3)(12) <= D(12);
+					data_matrix(3)(11) <= D(11);
+					data_matrix(3)(10) <= D(10);
+					data_matrix(3)(9) <= D(9);
+					data_matrix(3)(8) <= D(8);
+					data_matrix(3)(7) <= D(7);
+					data_matrix(3)(6) <= D(6);
+					data_matrix(3)(5) <= D(5);
+					data_matrix(3)(4) <= D(4);
+					data_matrix(3)(3) <= D(3);
+					data_matrix(3)(2) <= D(2);
+					data_matrix(3)(1) <= D(1);
+					data_matrix(3)(0) <= D(0);
+			
+		
+				end if;
+			elsif(da_mode = 0) then 
+					if(nDA0_CS0(1) = '0') then
+					data_matrix(0)(23) <= '0';
+					data_matrix(0)(22) <= '0';
+					data_matrix(0)(21) <= '0';
+					data_matrix(0)(20) <= '0';
+					data_matrix(0)(19) <= '0';
+					data_matrix(0)(18) <= '0';
+					data_matrix(0)(17) <= '0';
+					data_matrix(0)(16) <= '1';
+					data_matrix(0)(15) <= '0';
+					data_matrix(0)(14) <= '0';
+					data_matrix(0)(13) <= '0';
+					data_matrix(0)(12) <= '1';
+					data_matrix(0)(11) <= '0';
+					data_matrix(0)(10) <= '0';
+					data_matrix(0)(9) <= '0';
+					data_matrix(0)(8) <= '0';
+					data_matrix(0)(7) <= '0';
+					data_matrix(0)(6) <= '0';
+					data_matrix(0)(5) <= '0';
+					data_matrix(0)(4) <= '0';
+					data_matrix(0)(3) <= '0';
+					data_matrix(0)(2) <= '0';
+					data_matrix(0)(1) <= '0';
+					data_matrix(0)(0) <= '0';
+				
+				elsif(nDA0_CS1(1) = '0') then
+					data_matrix(1)(23) <= '0';
+					data_matrix(1)(22) <= '0';
+					data_matrix(1)(21) <= '0';
+					data_matrix(1)(20) <= '0';
+					data_matrix(1)(19) <= '0';
+					data_matrix(1)(18) <= '0';
+					data_matrix(1)(17) <= '0';
+					data_matrix(1)(16) <= '1';
+					data_matrix(1)(15) <= '0';
+					data_matrix(1)(14) <= '0';
+					data_matrix(1)(13) <= '0';
+					data_matrix(1)(12) <= '1';
+					data_matrix(1)(11) <= '0';
+					data_matrix(1)(10) <= '0';
+					data_matrix(1)(9) <= '0';
+					data_matrix(1)(8) <= '0';
+					data_matrix(1)(7) <= '0';
+					data_matrix(1)(6) <= '0';
+					data_matrix(1)(5) <= '0';
+					data_matrix(1)(4) <= '0';
+					data_matrix(1)(3) <= '0';
+					data_matrix(1)(2) <= '0';
+					data_matrix(1)(1) <= '0';
+					data_matrix(1)(0) <= '0';
+				
+				elsif(nDA0_CS2(1) = '0') then
+					data_matrix(2)(23) <= '0';
+					data_matrix(2)(22) <= '0';
+					data_matrix(2)(21) <= '0';
+					data_matrix(2)(20) <= '0';
+					data_matrix(2)(19) <= '0';
+					data_matrix(2)(18) <= '0';
+					data_matrix(2)(17) <= '0';
+					data_matrix(2)(16) <= '1';
+					data_matrix(2)(15) <= '0';
+					data_matrix(2)(14) <= '0';
+					data_matrix(2)(13) <= '0';
+					data_matrix(2)(12) <= '1';
+					data_matrix(2)(11) <= '0';
+					data_matrix(2)(10) <= '0';
+					data_matrix(2)(9) <= '0';
+					data_matrix(2)(8) <= '0';
+					data_matrix(2)(7) <= '0';
+					data_matrix(2)(6) <= '0';
+					data_matrix(2)(5) <= '0';
+					data_matrix(2)(4) <= '0';
+					data_matrix(2)(3) <= '0';
+					data_matrix(2)(2) <= '0';
+					data_matrix(2)(1) <= '0';
+					data_matrix(2)(0) <= '0';
+						
+				elsif(nDA0_CS3(1) = '0') then	
+					data_matrix(3)(23) <= '0';
+					data_matrix(3)(22) <= '0';
+					data_matrix(3)(21) <= '0';
+					data_matrix(3)(20) <= '0';
+					data_matrix(3)(19) <= '0';
+					data_matrix(3)(18) <= '0';
+					data_matrix(3)(17) <= '0';
+					data_matrix(3)(16) <= '1';
+					data_matrix(3)(15) <= '0';
+					data_matrix(3)(14) <= '0';
+					data_matrix(3)(13) <= '0';
+					data_matrix(3)(12) <= '1';
+					data_matrix(3)(11) <= '0';
+					data_matrix(3)(10) <= '0';
+					data_matrix(3)(9) <= '0';
+					data_matrix(3)(8) <= '0';
+					data_matrix(3)(7) <= '0';
+					data_matrix(3)(6) <= '0';
+					data_matrix(3)(5) <= '0';
+					data_matrix(3)(4) <= '0';
+					data_matrix(3)(3) <= '0';
+					data_matrix(3)(2) <= '0';
+					data_matrix(3)(1) <= '0';
+					data_matrix(3)(0) <= '0';
+				end if;
+			end if;
+		end process;
+		
+		
+	--Matrix_reader : process(CLK_out_temp,alert)
+	Matrix_reader : process(alert)
+		--variable readAdapter : integer :=0;
+		variable readAdapter : std_logic_vector(1 downto 0) := "00";
+		begin 
+			
+			
+				--if(CLK_out_temp'event and CLK_out_temp='0') then
+				
+					if(alert = '1') then 
+						if(da_mode =1) then 
+							case(readAdapter) is
+								when "00" => Din <= data_matrix(0) ;
+								when "01" => Din <= data_matrix(1) ;	
+								when "10" => Din <= data_matrix(2) ;
+								when "11" => Din <= data_matrix(3) ;
+								WHEN OTHERS	=> CLK_out_temp <='0';
+							end case;
+								readAdapter := readAdapter +1;
+						elsif(da_mode =0) then
+								Din <= data_matrix(0) ;
+						end if;
+							
+						--if(readAdapter < 5) then
+							--Din <= data_matrix(readAdapter-1) ;
+						--if(readAdapter=4) then
+						--	readAdapter :=0;
+						--end if;
+						--else
+						--	readAdapter :=0;
+						--end if;
+					
+					end if;
+					
+					
+				
+		
+		end process;
+		
+		da_soc : process(nDA0_SOC,nDA0_SOC_OFF,nDA0_init,nDA0_init_off)
+		begin
+			if(nDA0_SOC = '0') then
+				da_start := 1;
+			end if;
+			if(nDA0_SOC_OFF = '0')  then
+				da_start := 0;
+			end if;
+			if(nDA0_init = '0') then
+				da_init :=1;
+			end if;
+			if(nDA0_init_off = '0') then
+				da_init :=0;
+			end if;
+			
+		end process;
+		
+	--	Din <= "001010101000100101001010";
+		SYNC_gen : process(CLK_out_temp)
+		variable cnt2 : integer := 0;
+		variable cnt3 : integer := 0;
+		variable da_start_temp : integer :=0;
+		variable da_init_temp : integer :=0;
+		variable da_off_cnt : integer := 0;
+		variable da_init_off_cnt : integer := 0;
+		
+		begin 
+			IF(CLK_out_temp'EVENT and CLK_out_temp='1') then
+			--
+				if(da_start = 1) then 
+					da_start_temp := 1;
+					--nDA_BZ_temp <= "0000000000000000";
+				--else
+					--da_start_temp := 0;
+					--nDA_BZ_temp <= "1111111111111111";
+				end if;
+		
+				
+				if(da_init = 1) then 
+					da_init_temp := 1;
+				--	nDA_BZ_init_temp <= "0000000000000000";
+				--else
+					--da_init_temp := 0;
+				--	nDA_BZ_init_temp <= "1111111111111111";
+				end if;
+				
+				
+			--
+				
+				if(da_start_temp=1) then
+					
+					if(cnt2 = 1) then 
+							alert <='1';
+					else 
+							alert <= '0';
+					end if;
+					
+					if(cnt2 < holdtime+1) then
+						nSYNC_temp<='1';
+						cnt2 :=cnt2 + 1;
+				
+					elsif(cnt2 > holdtime and cnt2 < holdtime+29 ) then
+						nSYNC_temp<='0';
+						cnt2:=cnt2+1;
+					end if;
+					
+					if(cnt2 = holdtime+29) then
+						cnt2 := 0;
+					da_off_cnt := da_off_cnt+1;
+					--	da_init_off_cnt := da_init_off_cnt +1;
+					end if;
+				
+					if(da_off_cnt = 4) then
+						da_start_temp := 0;
+						da_off_cnt :=0;
+						--nDA_BZ_temp <= "1111111111111111";
+					end if;
+				
+				
+				elsif(da_init_temp=1) then
+					
+					if(cnt3 = 1) then 
+							alert <='1';
+					else 
+							alert <= '0';
+					end if;
+					
+					if(cnt3 < holdtime+1) then
+						nSYNC_temp<='1';
+						cnt3 :=cnt3 + 1;
+				
+					elsif(cnt3 > holdtime and cnt3 < holdtime+29 ) then
+						nSYNC_temp<='0';
+						cnt3:=cnt3+1;
+					end if;
+					
+					if(cnt3 = holdtime+29) then
+						cnt3 := 0;
+					--	da_off_cnt := da_off_cnt+1;
+						da_init_off_cnt := da_init_off_cnt +1;
+					end if;
+					
+					if(da_init_off_cnt = 1) then
+						da_init_temp := 0;
+						da_init_off_cnt :=0;
+					--	nDA_BZ_init_temp <= "1111111111111111";
+					end if;
+				
+				
+				else
+					nSYNC_temp <= '1';
+				end if;
+				
+			end if;
+		end process;
+		
+		
+		---
+		
+		
+		
+		
+		
+		
+		Data_insert : process(CLK_out_temp)
+		variable cnt_data : integer :=0;
+	
+		begin 
+			
+			IF(CLK_out_temp'EVENT and CLK_out_temp='0') then
+				if(nSYNC_temp = '0' ) then 
+			
+					if(cnt_data<24) then
+						Data_temp <= Din(23-cnt_data);
+						cnt_data:=cnt_data+1;
+					--else
+					--	Data_temp <= '0';
+					--	cnt_data:=cnt_data+1;
+					elsif(cnt_data>23 and cnt_data<28) then
+						Data_temp <= '0';
+						cnt_data:=cnt_data+1;
+					end if;
+					if(cnt_data = 28) then
+						cnt_data := 0;
+					end if;
+				else
+					Data_temp <= '0';
+					cnt_data := 0;
+				
+				end if;
+			end if;
+		
+		end process;
+		
+		nSYNC <= nSYNC_temp;
+		Data <= Data_temp;
+		SCLK <= not CLK_out_temp;
+	--	nDA_BZ <= nDA_BZ_temp;
+	--	nDA_init_BZ <= nDA_BZ_init_temp;
+	--	Data <= Data_temp;
+	
+		
+		
+		--Din <= "101011001010010110100011";
+		--data_split : PROCESS (CLK_out_temp,nSYNC_temp,Din)
+		--variable cnt3 : integer:=0;
+		--begin
+		--	IF(nSYNC_temp = '0') then
+		--		IF(CLK_out_temp'EVENT AND CLK_out_temp='1') THEN
+		--			if(cnt3<24) then
+		--				Data <= Din(cnt3);
+		--			else
+		--				Data <= '0';
+		--			end if;
+		--		end if;
+		--	END IF;
+		--end process;
+		
+	
+		
+end behav;

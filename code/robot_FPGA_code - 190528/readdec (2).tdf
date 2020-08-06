@@ -1,0 +1,65 @@
+SUBDESIGN READDEC2
+(
+	nAD_BS, --category
+	--READ DATA
+	-----ADC 
+	AD_BS[8..0],
+	XRnW,
+	
+	nTotalFLTSel,
+	nCurrFLTSel,
+	nVoltFLTSel,
+	nGateFLTSel,
+	nPWM_CS[2..0],
+	
+	------------Fault
+	TotalFLT[11..0],
+	CurrFLT[11..0],
+	VoltFLT[11..0],
+	GateFLT[11..0],
+	-----PWM 
+	
+	PWMA_D[15..0],
+	PWMB_D[15..0],
+	PWMC_D[15..0]
+	
+			: INPUT;
+	D[15..0] 	
+			: BIDIR;
+)
+
+VARIABLE
+	BD[15..0]					: NODE;
+	
+BEGIN
+
+	IF(NOT nAD_BS) THEN
+		BD[8..0] = AD_BS[8..0];
+		BD[15..9] = 0;
+	ELSIF (NOT nTotalFLTSel) THEN
+    	BD[11..0] = TotalFLT[11..0];
+		BD[15..12] = 0;
+	ELSIF (NOT nCurrFLTSel) THEN-- NOT nHW_FAULT_RD) THEN
+		BD[11..0] = CurrFLT[11..0]; --HW_FAULT_D[15..0];
+		BD[15..12] = 0;
+	ELSIF (NOT nVoltFLTSel) THEN     --nBGFAB_RD) THEN
+		BD[11..0] = VoltFLT[11..0];
+		BD[15..12] = 0;
+	ELSIF (NOT nGateFLTSel) THEN     --nBGFAB_RD) THEN
+		BD[11..0] = GateFLT[11..0];
+		BD[15..12] = 0;
+	ELSIF (NOT nPWM_CS[0]) THEN     
+		BD[15..0] = PWMA_D[15..0];
+	ELSIF (NOT nPWM_CS[1]) THEN     
+		BD[15..0] = PWMB_D[15..0];
+	ELSIF (NOT nPWM_CS[2]) THEN     
+		BD[15..0] = PWMC_D[15..0];
+	END IF;
+ 
+  
+	FOR I IN 0 TO 15 GENERATE
+		D[I] = TRI(BD[I], XRnW);
+	END GENERATE;
+END;
+
+

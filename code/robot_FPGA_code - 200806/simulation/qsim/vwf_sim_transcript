@@ -1,0 +1,236 @@
+Determining the location of the ModelSim executable...
+
+Using: C:\intelFPGA_lite\20.1\modelsim_ase\win32aloem
+
+To specify a ModelSim executable directory, select: Tools -> Options -> EDA Tool Options
+Note: if both ModelSim-Altera and ModelSim executables are available, ModelSim-Altera will be used.
+
+**** Generating the ModelSim Testbench ****
+
+quartus_eda --gen_testbench --tool=modelsim_oem --format=vhdl --write_settings_files=off jy_eh -c jy_eh --vector_source="C:/Users/user/Desktop/robot_FPGA_code - 190528/Waveform.vwf" --testbench_file="C:/Users/user/Desktop/robot_FPGA_code - 190528/simulation/qsim/Waveform.vwf.vht"
+
+Info: *******************************************************************
+Info: Running Quartus Prime EDA Netlist Writer
+    Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
+    Info: Copyright (C) 2020  Intel Corporation. All rights reserved.
+    Info: Your use of Intel Corporation's design tools, logic functions 
+    Info: and other software and tools, and any partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Intel Program License 
+    Info: Subscription Agreement, the Intel Quartus Prime License Agreement,
+    Info: the Intel FPGA IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Intel and sold by Intel or its authorized distributors.  Please
+    Info: refer to the applicable agreement for further details, at
+    Info: https://fpgasoftware.intel.com/eula.
+    Info: Processing started: Wed Jul 29 00:59:19 2020
+Info: Command: quartus_eda --gen_testbench --tool=modelsim_oem --format=vhdl --write_settings_files=off jy_eh -c jy_eh --vector_source="C:/Users/user/Desktop/robot_FPGA_code - 190528/Waveform.vwf" --testbench_file="C:/Users/user/Desktop/robot_FPGA_code - 190528/simulation/qsim/Waveform.vwf.vht"
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+
+da_test:inst3|da_start[15]" in vector source file when writing test bench files
+
+Completed successfully. 
+
+**** Generating the functional simulation netlist ****
+
+quartus_eda --write_settings_files=off --simulation --functional=on --flatten_buses=off --tool=modelsim_oem --format=vhdl --output_directory="C:/Users/user/Desktop/robot_FPGA_code - 190528/simulation/qsim/" jy_eh -c jy_eh
+
+Info: *******************************************************************
+Info: Running Quartus Prime EDA Netlist Writer
+    Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
+    Info: Copyright (C) 2020  Intel Corporation. All rights reserved.
+    Info: Your use of Intel Corporation's design tools, logic functions 
+    Info: and other software and tools, and any partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Intel Program License 
+    Info: Subscription Agreement, the Intel Quartus Prime License Agreement,
+    Info: the Intel FPGA IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Intel and sold by Intel or its authorized distributors.  Please
+    Info: refer to the applicable agreement for further details, at
+    Info: https://fpgasoftware.intel.com/eula.
+    Info: Processing started: Wed Jul 29 00:59:22 2020
+Info: Command: quartus_eda --write_settings_files=off --simulation=on --functional=on --flatten_buses=off --tool=modelsim_oem --format=vhdl --output_directory="C:/Users/user/Desktop/robot_FPGA_code - 190528/simulation/qsim/" jy_eh -c jy_eh
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (204019): Generated file jy_eh.vho in folder "C:/Users/user/Desktop/robot_FPGA_code - 190528/simulation/qsim//" for EDA simulation tool
+Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 1 warning
+    Info: Peak virtual memory: 4660 megabytes
+    Info: Processing ended: Wed Jul 29 00:59:25 2020
+    Info: Elapsed time: 00:00:03
+    Info: Total CPU time (on all processors): 00:00:02
+
+Completed successfully. 
+
+**** Generating the ModelSim .do script ****
+
+C:/Users/user/Desktop/robot_FPGA_code - 190528/simulation/qsim/jy_eh.do generated.
+
+Completed successfully. 
+
+**** Running the ModelSim simulation ****
+
+C:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/vsim -c -do jy_eh.do
+
+Reading pref.tcl
+
+# 2020.1
+
+
+# do jy_eh.do
+
+# ** Warning: (vlib-34) Library already exists at "work".
+
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 00:59:27 on Jul 29,2020
+# vcom -work work jy_eh.vho 
+# -- Loading package STANDARD
+
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package VITAL_Timing
+# -- Loading package VITAL_Primitives
+# -- Loading package dffeas_pack
+# -- Loading package altera_primitives_components
+# -- Loading package cycloneive_atom_pack
+# -- Loading package cycloneive_components
+# -- Compiling entity FPGA_20140329
+# -- Compiling architecture structure of FPGA_20140329
+
+# End time: 00:59:31 on Jul 29,2020, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0
+
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 00:59:32 on Jul 29,2020
+# vcom -work work Waveform.vwf.vht 
+
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity FPGA_20140329_vhd_vec_tst
+# -- Compiling architecture FPGA_20140329_arch of FPGA_20140329_vhd_vec_tst
+# End time: 00:59:32 on Jul 29,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+
+# vsim -voptargs=""+acc=rn"" -c -t 1ps -L cycloneive -L altera -L altera_mf -L 220model -L sgate -L altera_lnsim work.FPGA_20140329_vhd_vec_tst 
+# Start time: 00:59:32 on Jul 29,2020
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading work.fpga_20140329_vhd_vec_tst(fpga_20140329_arch)
+# Loading ieee.vital_timing(body)
+# Loading ieee.vital_primitives(body)
+# Loading altera.dffeas_pack
+# Loading altera.altera_primitives_components
+# Loading cycloneive.cycloneive_atom_pack(body)
+# Loading cycloneive.cycloneive_components
+# Loading work.fpga_20140329(structure)
+# Loading ieee.std_logic_arith(body)
+# Loading cycloneive.cycloneive_io_obuf(arch)
+# Loading cycloneive.cycloneive_io_ibuf(arch)
+# Loading cycloneive.cycloneive_lcell_comb(vital_lcell_comb)
+# Loading cycloneive.cycloneive_clkctrl(vital_clkctrl)
+# Loading cycloneive.cycloneive_ena_reg(behave)
+# Loading cycloneive.cycloneive_pllpack(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading cycloneive.cycloneive_pll(vital_pll)
+# Loading cycloneive.cycloneive_mn_cntr(behave)
+# Loading cycloneive.cycloneive_scale_cntr(behave)
+# Loading altera.dffeas(vital_dffeas)
+# ** Warning: Design size of 579870 statements exceeds ModelSim-Intel FPGA Starter Edition recommended capacity.
+# Expect performance to be adversely affected.
+# after#33
+
+# End time: 00:59:36 on Jul 29,2020, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 1
+
+Completed successfully. 
+
+**** Converting ModelSim VCD to vector waveform ****
+
+Reading C:/Users/user/Desktop/robot_FPGA_code - 190528/Waveform.vwf...
+
+Reading C:/Users/user/Desktop/robot_FPGA_code - 190528/simulation/qsim/jy_eh.msim.vcd...
+
+Processing channel transitions... 
+
+Warning: clk - signal not found in VCD.
+
+Warning: nINV_SEND - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[31] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[30] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[29] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[28] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[27] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[26] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[25] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[24] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[23] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[22] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[21] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[20] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[19] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[18] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[17] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[16] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[15] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[14] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[13] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[12] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[11] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[10] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[9] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[8] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[7] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[6] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[5] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[4] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[3] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[2] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[1] - signal not found in VCD.
+
+Warning: da_test:inst3|da_start[0] - signal not found in VCD.
+
+Writing the resulting VWF to C:/Users/user/Desktop/robot_FPGA_code - 190528/simulation/qsim/jy_eh_20200729005937.sim.vwf
+
+Finished VCD to VWF conversion.
+
+Completed successfully. 
+
+All completed.

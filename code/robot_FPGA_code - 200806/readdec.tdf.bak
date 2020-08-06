@@ -1,0 +1,30 @@
+SUBDESIGN READDEC2
+(
+	nAD_BS, --category
+	--READ DATA
+	-----ADC 
+	AD_BS[8..0],
+	XRnW
+	-----PWM 
+	
+			: INPUT;
+	D[15..0] 	
+			: BIDIR;
+)
+
+VARIABLE
+	BD[15..0]					: NODE;
+	
+BEGIN
+
+	IF(NOT nAD_BS) THEN
+		BD[8..0] = AD_BS[8..0];
+		BD[15..9] = 0;
+	
+	END IF;
+ 
+  
+	FOR I IN 0 TO 15 GENERATE
+		D[I] = TRI(BD[I], XRnW);
+	END GENERATE;
+END;

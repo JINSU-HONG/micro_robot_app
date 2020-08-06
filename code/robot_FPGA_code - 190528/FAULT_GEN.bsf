@@ -1,0 +1,105 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 16 16 264 160)
+	(text "FAULT_GEN" (rect 5 0 65 12)(font "Arial" ))
+	(text "inst" (rect 8 128 20 140)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK" (rect 0 0 20 12)(font "Arial" ))
+		(text "CLK" (rect 21 27 41 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 1))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "nRST" (rect 0 0 24 12)(font "Arial" ))
+		(text "nRST" (rect 21 43 45 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 1))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "nCurrFLT[11..0]" (rect 0 0 63 12)(font "Arial" ))
+		(text "nCurrFLT[11..0]" (rect 21 59 84 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 3))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "nVoltFLT[5..0]" (rect 0 0 59 12)(font "Arial" ))
+		(text "nVoltFLT[5..0]" (rect 21 75 80 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 3))
+	)
+	(port
+		(pt 0 96)
+		(input)
+		(text "nFault_CLR" (rect 0 0 50 12)(font "Arial" ))
+		(text "nFault_CLR" (rect 21 91 71 103)(font "Arial" ))
+		(line (pt 0 96)(pt 16 96)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "nGateFLT[5..0]" (rect 0 0 61 12)(font "Arial" ))
+		(text "nGateFLT[5..0]" (rect 21 107 82 119)(font "Arial" ))
+		(line (pt 0 112)(pt 16 112)(line_width 3))
+	)
+	(port
+		(pt 248 32)
+		(output)
+		(text "Curr_FAULT[15..0]" (rect 0 0 81 12)(font "Arial" ))
+		(text "Curr_FAULT[15..0]" (rect 146 27 227 39)(font "Arial" ))
+		(line (pt 248 32)(pt 232 32)(line_width 3))
+	)
+	(port
+		(pt 248 48)
+		(output)
+		(text "Volt_FAULT[15..0]" (rect 0 0 79 12)(font "Arial" ))
+		(text "Volt_FAULT[15..0]" (rect 148 43 227 55)(font "Arial" ))
+		(line (pt 248 48)(pt 232 48)(line_width 3))
+	)
+	(port
+		(pt 248 64)
+		(output)
+		(text "FAULT[15..0]" (rect 0 0 56 12)(font "Arial" ))
+		(text "FAULT[15..0]" (rect 171 59 227 71)(font "Arial" ))
+		(line (pt 248 64)(pt 232 64)(line_width 3))
+	)
+	(port
+		(pt 248 80)
+		(output)
+		(text "Gate_FAULT[15..0]" (rect 0 0 81 12)(font "Arial" ))
+		(text "Gate_FAULT[15..0]" (rect 146 75 227 87)(font "Arial" ))
+		(line (pt 248 80)(pt 232 80)(line_width 3))
+	)
+	(parameter
+		"SIZE"
+		"16"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 232 128)(line_width 1))
+	)
+	(annotation_block (parameter)(rect 264 -64 364 16))
+)

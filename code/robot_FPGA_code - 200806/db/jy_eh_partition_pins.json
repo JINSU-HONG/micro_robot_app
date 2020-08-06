@@ -1,0 +1,257 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "SPISIMOB2",
+					"strict" : false
+				},
+				{
+					"name" : "SPISIMOB3",
+					"strict" : false
+				},
+				{
+					"name" : "SPISIMOB4",
+					"strict" : false
+				},
+				{
+					"name" : "SPISIMOB5",
+					"strict" : false
+				},
+				{
+					"name" : "SPISIMOB6",
+					"strict" : false
+				},
+				{
+					"name" : "SPISIMOB7",
+					"strict" : false
+				},
+				{
+					"name" : "SPISIMOB8",
+					"strict" : false
+				},
+				{
+					"name" : "nSPISTEB_UN",
+					"strict" : false
+				},
+				{
+					"name" : "SPICLKB_UN",
+					"strict" : false
+				},
+				{
+					"name" : "DIO_FPGA1",
+					"strict" : false
+				},
+				{
+					"name" : "DIO_FPGA3",
+					"strict" : false
+				},
+				{
+					"name" : "DIO_FPGA5",
+					"strict" : false
+				},
+				{
+					"name" : "DIO_FPGA0",
+					"strict" : false
+				},
+				{
+					"name" : "SPISIMOB1",
+					"strict" : false
+				},
+				{
+					"name" : "D[15]",
+					"strict" : false
+				},
+				{
+					"name" : "D[14]",
+					"strict" : false
+				},
+				{
+					"name" : "D[13]",
+					"strict" : false
+				},
+				{
+					"name" : "D[12]",
+					"strict" : false
+				},
+				{
+					"name" : "D[11]",
+					"strict" : false
+				},
+				{
+					"name" : "D[10]",
+					"strict" : false
+				},
+				{
+					"name" : "D[9]",
+					"strict" : false
+				},
+				{
+					"name" : "D[8]",
+					"strict" : false
+				},
+				{
+					"name" : "D[7]",
+					"strict" : false
+				},
+				{
+					"name" : "D[6]",
+					"strict" : false
+				},
+				{
+					"name" : "D[5]",
+					"strict" : false
+				},
+				{
+					"name" : "D[4]",
+					"strict" : false
+				},
+				{
+					"name" : "D[3]",
+					"strict" : false
+				},
+				{
+					"name" : "D[2]",
+					"strict" : false
+				},
+				{
+					"name" : "D[1]",
+					"strict" : false
+				},
+				{
+					"name" : "D[0]",
+					"strict" : false
+				},
+				{
+					"name" : "nEM1CS2",
+					"strict" : false
+				},
+				{
+					"name" : "A[19]",
+					"strict" : false
+				},
+				{
+					"name" : "A[18]",
+					"strict" : false
+				},
+				{
+					"name" : "A[17]",
+					"strict" : false
+				},
+				{
+					"name" : "A[15]",
+					"strict" : false
+				},
+				{
+					"name" : "A[14]",
+					"strict" : false
+				},
+				{
+					"name" : "A[13]",
+					"strict" : false
+				},
+				{
+					"name" : "A[12]",
+					"strict" : false
+				},
+				{
+					"name" : "A[11]",
+					"strict" : false
+				},
+				{
+					"name" : "A[10]",
+					"strict" : false
+				},
+				{
+					"name" : "A[8]",
+					"strict" : false
+				},
+				{
+					"name" : "A[16]",
+					"strict" : false
+				},
+				{
+					"name" : "A[9]",
+					"strict" : false
+				},
+				{
+					"name" : "EM1CLK",
+					"strict" : false
+				},
+				{
+					"name" : "nEM1WE",
+					"strict" : false
+				},
+				{
+					"name" : "A[2]",
+					"strict" : false
+				},
+				{
+					"name" : "A[7]",
+					"strict" : false
+				},
+				{
+					"name" : "A[3]",
+					"strict" : false
+				},
+				{
+					"name" : "A[6]",
+					"strict" : false
+				},
+				{
+					"name" : "A[1]",
+					"strict" : false
+				},
+				{
+					"name" : "A[4]",
+					"strict" : false
+				},
+				{
+					"name" : "A[0]",
+					"strict" : false
+				},
+				{
+					"name" : "A[5]",
+					"strict" : false
+				},
+				{
+					"name" : "nEM1OE",
+					"strict" : false
+				},
+				{
+					"name" : "SPISOMIB8",
+					"strict" : false
+				},
+				{
+					"name" : "SPISOMIB7",
+					"strict" : false
+				},
+				{
+					"name" : "SPISOMIB6",
+					"strict" : false
+				},
+				{
+					"name" : "SPISOMIB5",
+					"strict" : false
+				},
+				{
+					"name" : "SPISOMIB2",
+					"strict" : false
+				},
+				{
+					"name" : "SPISOMIB3",
+					"strict" : false
+				},
+				{
+					"name" : "SPISOMIB4",
+					"strict" : false
+				},
+				{
+					"name" : "SPISOMIB1",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
