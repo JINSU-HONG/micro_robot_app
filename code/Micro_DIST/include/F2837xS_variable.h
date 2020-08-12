@@ -225,6 +225,7 @@ extern float current_ref_set[8];
 extern int sen_mode;
 extern unsigned int UDP_data[32];
 extern unsigned int INV_status[4];
+extern unsigned int INV_status_record[4];
 extern unsigned int INV_data_buf[16];
 //extern bool current_fault_buf[8];
 //extern bool voltage_fault_buf[8];

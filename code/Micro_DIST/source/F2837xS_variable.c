@@ -65,6 +65,7 @@ float current_sen[8] = {0., 0., 0., 0., 0., 0., 0., 0.};
 float current_ref_set[8] = {0., 0., 0., 0., 0., 0., 0., 0.};
 unsigned int UDP_data[32] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 unsigned int INV_status[4] = {0, 0, 0, 0};
+unsigned int INV_status_record[4] = {0, 0, 0, 0};
 unsigned int INV_data_buf[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int disconnect_cnt = 0;
 bool mode_changed = true;
@@ -164,7 +165,7 @@ void InitParameters(void)
 	INV.Thetar_num = 0.;
 
 
-	INV.Fcc = 300.;
+	INV.Fcc = 200.;
 	INV.Wc_cc = 2. * PI * INV.Fcc;
 }
 

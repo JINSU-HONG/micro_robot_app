@@ -6,7 +6,7 @@
 
 //Switching frequency
 //double Fsw = 16e3;
-double Fsw = 10e3;
+float Fsw = 10e3;
 
 float Ih_ref_CC = 0.;
 float d_ext = 0.;
@@ -24,22 +24,22 @@ unsigned int temp_sum_h=0, temp_sum_l=0;
 float Ia_present = 0.;
 float Ib_present = 0.;
 float Ic_present = 0.;
-float present_current_ratio = 0.9;
+float present_current_ratio = 0.5;
 //float present_current_ratio = 1.;
 
 int PWM_style = UNIPOLAR_SV;
 Uint16 maxCount_ePWM = 0.;
 Uint16 maxCount_ePWM_safe = 0.;
 Uint16 minCount_ePWM_safe = 0.;
-double Fsamp = 10e3;
-double Tsamp = 0.;
-double INV_Tsamp = 0.;
-double half_Vdc=0.;
-double INV_Vdc=0. ;
+float Fsamp = 10e3;
+float Tsamp = 0.;
+float INV_Tsamp = 0.;
+float half_Vdc=0.;
+float INV_Vdc=0. ;
 
-double test_f=0;
+float test_f=0;
 float test_fault_a=0, test_fault_b=0, test_fault_c=0;
-double test_theta=0;
+float test_theta=0;
 unsigned short cnt_delay;
 
 unsigned int SPI_test=0;
@@ -53,7 +53,7 @@ int test_spi_a = 0, test_spi_b = 0, test_spi_c = 0, test_spi_d = 0;
 
 int input_relay_on = 1;
 
-double iden_duty = 0.25;
+float iden_duty = 0.25;
 
 /* DAC */
 int *da[4] = {0, 0, 0, 0};
@@ -65,12 +65,14 @@ int DacOffset=0;
 int fault_cnt = 0;
 unsigned long temp_sum = 0;
 
+int debug_mode = 0;
+
 INV_ INV;
 FLAG_ Flag;
 SpdObs_ SpdObs;
 
 // Scale & Offset ADCA
-double ScaleAin_adc_A[3] = {
+float ScaleAin_adc_A[3] = {
 							100. * 3.3 * 2. * 5.1 / 16. / 65536.,		//ADCINA0 (INVa_shunt_ADC_P/N) : SOC0
 							100. * 3.3 * 2. * 5.1 / 16. / 65536.,		//ADCINA1 (INVb_shunt_ADC_P/N) : SOC1
 							100. * 3.3 * 2. * 5.1 / 16. / 65536.		//ADCINA2 (INVc_shunt_ADC_P/N) : SOC2
@@ -81,7 +83,7 @@ long OffsetAin_adc_A[3] = {
 							0.,		//ADCINA2 (INVc_shunt_ADC_P/N) : SOC2
 						  };
 
-double ScaleAin_adc_B[5] = {
+float ScaleAin_adc_B[5] = {
 							1.,		//ADCINB0 (DSP_AD2) : SOC0
 							(33200*4+604.)/(604.)/4096 * 3.3 * ADCb_fix_ratio,		//ADCINB2 (Vdc_ADC) : SOC1
 							1.,		//ADCINB3 (Filt_a_AD) : SOC2
@@ -159,7 +161,7 @@ void InitParameters(void)
 	INV.ZCC_power = 0.5;
 	INV.DB_cnt = 300;
 
-	INV.Fcc = 200.;
+	INV.Fcc = 400.;
 	//INV.Fcc = 1000.;
 
 	INV.Wc_cc = INV.Fcc * 2 * PI;

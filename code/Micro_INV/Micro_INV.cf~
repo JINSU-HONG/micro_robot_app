@@ -1,5 +1,5 @@
 [Watch-1 Recent Index]
-Registered = 24
+Registered = 47
 All = 0
 [Window Size]
 Command-1Pos = 6, 28, 355, 458
@@ -23,12 +23,21 @@ Command-2Max = 0
 Watch-2Pos = 100, 100, 1691, 759
 Watch-2Min = 0
 Watch-2Max = 0
-Command-3Pos = 84, 78, 412, 737
+Command-3Pos = 1481, 182, 1809, 841
 Command-3Min = 0
 Command-3Max = 0
-Plot-1Pos = 52, 52, 1288, 585
+Plot-1Pos = -200, 124, 1036, 656
 Plot-1Min = 0
 Plot-1Max = 0
+Plot-2Pos = 22, 113, 1700, 744
+Plot-2Min = 0
+Plot-2Max = 0
+Command-4Pos = 182, 182, 1786, 813
+Command-4Min = 0
+Command-4Max = 0
+Plot-3Pos = 208, 208, 1812, 839
+Plot-3Min = 0
+Plot-3Max = 0
 [Command-1 position]
 first visible line = 8
 [Watch Window]
@@ -63,10 +72,10 @@ Watch Frame-9 = 0
 Watch Frame-9 (Name) = 
 Command Frame-0 = 1
 Command Frame-0 (Name) = Command-1
-Command Frame-1 = 0
-Command Frame-1 (Name) = 
-Command Frame-2 = 0
-Command Frame-2 (Name) = 
+Command Frame-1 = 1
+Command Frame-1 (Name) = Command-2
+Command Frame-2 = 1
+Command Frame-2 (Name) = Command-3
 Command Frame-3 = 0
 Command Frame-3 (Name) = 
 Command Frame-4 = 0
@@ -151,10 +160,10 @@ Array Frame-18 = 0
 Array Frame-18 (Name) = 
 Array Frame-19 = 0
 Array Frame-19 (Name) = 
-Plot Frame-0 = 0
-Plot Frame-0 (Name) = 
-Plot Frame-1 = 0
-Plot Frame-1 (Name) = 
+Plot Frame-0 = 1
+Plot Frame-0 (Name) = Plot-1
+Plot Frame-1 = 1
+Plot Frame-1 (Name) = Plot-2
 Plot Frame-2 = 0
 Plot Frame-2 (Name) = 
 Plot Frame-3 = 0
@@ -354,239 +363,75 @@ Plot-1 Max3 = 0
 Plot-1 Sampling Period = 500
 Plot-1 Total Plot Period = 5
 Plot-1 ShowAll = 0
+Plot-2 Name0 = Ih_ref
+Plot-2 Name1 = INV.Ih
+Plot-2 Name2 = 
+Plot-2 Name3 = 
+Plot-2 Auto0 = FALSE
+Plot-2 Auto1 = FALSE
+Plot-2 Auto2 = FALSE
+Plot-2 Auto3 = FALSE
+Plot-2 Visible0 = 1
+Plot-2 Visible1 = 1
+Plot-2 Visible2 = 1
+Plot-2 Visible3 = 1
+Plot-2 ShowLine0 = 1
+Plot-2 ShowLine1 = 1
+Plot-2 ShowLine2 = 1
+Plot-2 ShowLine3 = 1
+Plot-2 ShowSymbol0 = 1
+Plot-2 ShowSymbol1 = 1
+Plot-2 ShowSymbol2 = 1
+Plot-2 ShowSymbol3 = 1
+Plot-2 Min0 = -15
+Plot-2 Max0 = 15
+Plot-2 Min1 = -15
+Plot-2 Max1 = 15
+Plot-2 Min2 = 0
+Plot-2 Max2 = 0
+Plot-2 Min3 = 0
+Plot-2 Max3 = 0
+Plot-2 Sampling Period = 50
+Plot-2 Total Plot Period = 1
+Plot-2 ShowAll = 0
+Plot-2 Toolbar pause at exit = 0
+Plot-3 Name0 = INV.Vdc
+Plot-3 Name1 = INV_Vdc
+Plot-3 Name2 = 
+Plot-3 Name3 = 
+Plot-3 Auto0 = TRUE
+Plot-3 Auto1 = TRUE
+Plot-3 Auto2 = FALSE
+Plot-3 Auto3 = FALSE
+Plot-3 Visible0 = 1
+Plot-3 Visible1 = 1
+Plot-3 Visible2 = 1
+Plot-3 Visible3 = 1
+Plot-3 ShowLine0 = 1
+Plot-3 ShowLine1 = 1
+Plot-3 ShowLine2 = 1
+Plot-3 ShowLine3 = 1
+Plot-3 ShowSymbol0 = 1
+Plot-3 ShowSymbol1 = 1
+Plot-3 ShowSymbol2 = 1
+Plot-3 ShowSymbol3 = 1
+Plot-3 Min0 = 0
+Plot-3 Max0 = 0
+Plot-3 Min1 = 0
+Plot-3 Max1 = 0
+Plot-3 Min2 = 0
+Plot-3 Max2 = 0
+Plot-3 Min3 = 0
+Plot-3 Max3 = 0
+Plot-3 Sampling Period = 500
+Plot-3 Total Plot Period = 5
+Plot-3 ShowAll = 0
+Plot-3 Toolbar pause at exit = 0
 [28x SCI Boot Dialog]
 Auto Bauding Rate = 62956
-[Recent contents of Command-2 window]
-da[0] = &test_fault_b
-da_type[0] = 0
-da_scale[0] = <2048./4>
-da_mid[0] = 0
-
-test_fault_b=3
-
-da[1] = &INV.Ia;
-da_type[1] = ?
-da_scale[1] = 2048./1;
-da_mid[1] = ?
-
-da[2] = &test_fault_c;
-da_type[2] = 0;
-da_scale[2] = 2048./4;
-da_mid[2] = 0;
-
-da[3] = &test_fault_c;
-da_type[3] = 0;
-da_scale[3] = <2048./4>;
-da_mid[3] = 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[Recent contents of Command-3 window]
-Ih_ref_w = 0
-Ih_ref_w = 3.1416
-Ih_ref_amp = 0
-Ih_ref_amp = 1
-Ih_ref_amp = 0.8
-
-Flag.Ready = 0
-Flag.Ready = 1
-
-// 0 : stop,  1 : current control,  2 : direct duty
-Flag.CC_mode = 0
-Flag.CC_mode = 1
-Flag.CC_mode = 2
-
-d_ext = 0.05
-
-// 0 : SV, 1 : DPWM
-PWM_style = 0
-PWM_style = 1
-
-fault_cnt=0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[Watch-1 Watched Variables]
-Flag.OverallMode
-Flag.ModeStatus
-INV.Ia
-INV.Ib
-INV.Ic
-INV.Ih
-INV.Vdc
-test_fault_a
-test_fault_b
-test_fault_c
-fault_cnt
-Flag.Ready
-Flag.CC_mode
-temp_sum
-Ih_ref
-Ih_ref_amp
-Ih_ref_w
-Ih_ref_offset
-V_ff
-d_ext
-INV.Ih_integ
-INV.d_limit
-INV.d_integ
-test_d
-present_current_ratio
-INV.Kph
-INV.Kih_T
-test_spi_a
-test_spi_b
-INV.CompA
-INV.CompB
-INV.CompC
-maxCount_ePWM
-maxCount_ePWM_safe
-minCount_ePWM_safe
-input_relay_on
-cc_cnt
-DIST_mode
-PWM_style
-INV.CompP
-INV.CompM
-ccTime
-SPI_DAT_FILL
-test_cnt
-test_cnt2
-Flag.DTS
-EPwm7Regs.AQCTLA.bit.CAD
-EPwm6Regs.AQCTLA.bit.CAD
-EPwm6Regs.CMPA.bit.CMPA
-Flag.VoltageFault
-Flag.CurrentFault
-INV.Ls_iden
-INV.iden_cnt
-ePWMinit
-isSwitchOn
-temp_sum_l
-temp_sum_h
-spi_cnt
-disconnect_cnt
-check_sum_sucess
-checksum_fail_cnt
-SPI_data_RX[0]
-SPI_data_RX[1]
-SPI_data_RX[2]
-SPI_data_RX[3]
-SPI_data_RX[4]
-SPI_data_RX[5]
-SPI_data_TX[0]
-SPI_data_TX[1]
-SPI_data_TX[2]
-SPI_data_TX[3]
-SPI_data_TX[4]
+[Command-4 position]
+first visible line = 0
+[Recent contents of Command-4 window]
 
 [Recent contents of Command-1 window]
 
@@ -736,4 +581,267 @@ da_mid[3] = 0
 
 
 
+
+
+
+[Recent contents of Command-2 window]
+da[0] = &test_fault_b
+da_type[0] = 0
+da_scale[0] = <2048./4>
+da_mid[0] = 0
+
+test_fault_b=3
+
+da[1] = &INV.Ia;
+da_type[1] = ?
+da_scale[1] = 2048./1;
+da_mid[1] = ?
+
+da[2] = &test_fault_c;
+da_type[2] = 0;
+da_scale[2] = 2048./4;
+da_mid[2] = 0;
+
+da[3] = &test_fault_c;
+da_type[3] = 0;
+da_scale[3] = <2048./4>;
+da_mid[3] = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Recent contents of Command-3 window]
+Ih_ref_w = 0
+Ih_ref = 3.1416
+Ih_ref = 0
+Ih_ref = 1
+Ih_ref = -1
+Ih_ref = 5
+Ih_ref = -5
+
+Flag.Ready = 0
+Flag.Ready = 1
+
+// 0 : stop,  1 : current control,  2 : direct duty
+Flag.CC_mode = 0
+Flag.CC_mode = 1
+Flag.CC_mode = 2
+
+d_ext = 0.05
+
+// 0 : SV, 1 : DPWM
+PWM_style = 0
+PWM_style = 1
+
+fault_cnt=0
+
+debug_mode = 0
+debug_mode = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Watch-1 Watched Variables]
+Flag.OverallMode
+Flag.ModeStatus
+INV.Ia
+INV.Ib
+INV.Ic
+INV.Ih
+INV.Vdc
+test_fault_a
+test_fault_b
+test_fault_c
+fault_cnt
+Flag.Ready
+Flag.CC_mode
+temp_sum
+Ih_ref
+Ih_ref_amp
+Ih_ref_w
+Ih_ref_offset
+V_ff
+d_ext
+INV.Ih_integ
+INV.d_limit
+INV.d_integ
+test_d
+present_current_ratio
+INV.Kph
+INV.Kih_T
+test_spi_a
+test_spi_b
+INV.CompA
+INV.CompB
+INV.CompC
+maxCount_ePWM
+maxCount_ePWM_safe
+minCount_ePWM_safe
+input_relay_on
+cc_cnt
+DIST_mode
+PWM_style
+INV.CompP
+INV.CompM
+ccTime
+SPI_DAT_FILL
+test_cnt
+test_cnt2
+Flag.DTS
+EPwm7Regs.AQCTLA.bit.CAD
+EPwm6Regs.AQCTLA.bit.CAD
+EPwm6Regs.CMPA.bit.CMPA
+Flag.VoltageFault
+Flag.CurrentFault
+INV.Ls_iden
+INV.iden_cnt
+ePWMinit
+isSwitchOn
+temp_sum_l
+temp_sum_h
+spi_cnt
+disconnect_cnt
+check_sum_sucess
+checksum_fail_cnt
+SPI_data_RX[0]
+SPI_data_RX[1]
+SPI_data_RX[2]
+SPI_data_RX[3]
+SPI_data_RX[4]
+SPI_data_RX[5]
+SPI_data_TX[0]
+SPI_data_TX[1]
+SPI_data_TX[2]
+SPI_data_TX[3]
+test_val2
+SPI_data_TX[4]
+stack2[0]
+stack2[1]
+stack2[2]
+stack2[3]
+stack2[4]
+stack2[5]
+stack2[6]
+stack2[7]
+stack2[8]
+stack2[9]
+stack1[0]
+stack1[1]
+stack1[2]
+stack1[3]
+stack1[4]
+stack1[5]
+stack1[6]
+stack1[7]
+stack1[8]
+stack1[9]
+fault_record
+debug_mode
 

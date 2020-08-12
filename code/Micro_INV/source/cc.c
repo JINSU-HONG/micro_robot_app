@@ -12,6 +12,8 @@
 #pragma CODE_SECTION(HPwmUpdate, "ramfuncs");
 #pragma CODE_SECTION(HINV_Process, "ramfuncs");
 
+int i;
+
 int cc_cnt = 0;
 int spi_cnt = 0;
 int sync_cnt = 0;
@@ -33,17 +35,20 @@ float ccTime;
 float spiTime;
 float test_d;
 float temp_float = 0.;
-int pin_pin = 1;
 
 int DIST_mode = OVERALL_MODE_INIT;
 int DIST_status = MODE_STATUS_CHECKING;
 
 int check_sum_sucess = 0;
 
+float stack1[10];
+float stack2[10];
+int fault_record;
+
 unsigned int tempRX[2] = { 0, 0 };
 unsigned int tempTX[2] = { 0, 0 };
 
-double Idse_ref_CC = 0., Iqse_ref_CC = 0.;
+float Idse_ref_CC = 0., Iqse_ref_CC = 0.;
 
 void ready_SPI(float Ia, float Vdc);
 void convert_float_to_binary(float* float_data, unsigned long* int_data_h,
@@ -57,112 +62,149 @@ __interrupt void SPI_RXINT(void)
     delaycc(10e-6); // safe delay to move data; error occured for 1e-6 delay.
     disconnect_cnt = 0;
 
-    SPI_data_RX[0] = SpibRegs.SPIRXBUF;
-    SPI_data_RX[1] = SpibRegs.SPIRXBUF;
-    SPI_data_RX[2] = SpibRegs.SPIRXBUF;
-    SPI_data_RX[3] = SpibRegs.SPIRXBUF;
-    SPI_data_RX[4] = SpibRegs.SPIRXBUF;
-    SPI_data_RX[5] = SpibRegs.SPIRXBUF;
+    if(debug_mode){
+        SpibRegs.SPIFFRX.bit.RXFFINTCLR = 1;
+        //SpibRegs.SPIFFRX.bit.RXFIFORESET=1;
 
-    SPI_DAT_FILL = false;
+        PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
+        return;
+    }
 
-    if (CalcChecksum(SPI_data_RX, 5) == 0)
+    if (SpibRegs.SPIFFRX.bit.RXFFST == 6)
     {
-        check_sum_sucess++;
-        checksum_fail_cnt = 0;
+        SPI_data_RX[0] = SpibRegs.SPIRXBUF;
+        SPI_data_RX[1] = SpibRegs.SPIRXBUF;
+        SPI_data_RX[2] = SpibRegs.SPIRXBUF;
+        SPI_data_RX[3] = SpibRegs.SPIRXBUF;
+        SPI_data_RX[4] = SpibRegs.SPIRXBUF;
+        SPI_data_RX[5] = SpibRegs.SPIRXBUF;
 
-        DIST_mode = (SPI_data_RX[0] & 0x00F0) >> 4;
-        DIST_status = SPI_data_RX[0] & 0x000F;
+        SPI_DAT_FILL = false;
 
-        if (Flag.OverallMode != DIST_mode)
+        if (CalcChecksum(SPI_data_RX, 5) == 0)
         {
-            Flag.OverallMode = DIST_mode;
-            if (Flag.ModeStatus == MODE_STATUS_CHECKING
-                    || Flag.ModeStatus == MODE_STATUS_OK)
-            {
-                Flag.ModeStatus = MODE_STATUS_CHECKING;
-            }
-            if (DIST_mode == OVERALL_MODE_INIT)
-            {
-                Flag.CC_mode = 1;
-                Flag.Ready = 0;
-                Flag.CurrentFault = false;
-                Flag.VoltageFault = false;
-            }
-            else if (DIST_mode == OVERALL_MODE_INV_TEST)
-            {
-                Flag.Ready = 1; // set to 0 when coil test is finished
-                Flag.CC_mode = 2; // set to 1 when coil test is finished
+            check_sum_sucess++;
+            checksum_fail_cnt = 0;
 
-                INV.Ls_iden = 0.;
-                INV.iden_cnt = 0;
-                INV.iden_Vdc = 0.;
-                INV.iden_duty = iden_duty;
-                Flag.ModeStatus = MODE_STATUS_CHECKING;
-            }
-            else if (DIST_mode == OVERALL_MODE_IDLE
-                    || DIST_mode == OVERALL_MODE_RUN)
+            DIST_mode = (SPI_data_RX[0] & 0x00F0) >> 4;
+            DIST_status = SPI_data_RX[0] & 0x000F;
+
+            if (Flag.OverallMode != DIST_mode)
             {
-                if (Flag.ModeStatus != MODE_STATUS_INV_FAULT)
+                Flag.OverallMode = DIST_mode;
+                if (Flag.ModeStatus == MODE_STATUS_CHECKING
+                        || Flag.ModeStatus == MODE_STATUS_OK)
                 {
-                    Flag.Ready = 1;
+                    Flag.ModeStatus = MODE_STATUS_CHECKING;
+                }
+                if (DIST_mode == OVERALL_MODE_INIT)
+                {
                     Flag.CC_mode = 1;
-                    Flag.ModeStatus = MODE_STATUS_OK;
+                    Flag.Ready = 0;
+                    Flag.CurrentFault = false;
+                    Flag.VoltageFault = false;
+                }
+                else if (DIST_mode == OVERALL_MODE_INV_TEST)
+                {
+                    Flag.Ready = 1; // set to 0 when coil test is finished
+                    Flag.CC_mode = 2; // set to 1 when coil test is finished
+
+                    INV.Ls_iden = 0.;
+                    INV.iden_cnt = 0;
+                    INV.iden_Vdc = 0.;
+                    INV.iden_duty = iden_duty;
+                    Flag.ModeStatus = MODE_STATUS_CHECKING;
+                }
+                else if (DIST_mode == OVERALL_MODE_IDLE
+                        || DIST_mode == OVERALL_MODE_RUN)
+                {
+                    if (Flag.ModeStatus != MODE_STATUS_INV_FAULT)
+                    {
+                        Flag.Ready = 1;
+                        Flag.CC_mode = 1;
+                        Flag.ModeStatus = MODE_STATUS_OK;
+                    }
+                }
+                else if (DIST_mode == OVERALL_MODE_SAFETURNOFF)
+                {
+                    Flag.OverallMode = OVERALL_MODE_SAFETURNOFF;
+                    Ih_ref = 0.;
+                    input_relay_on = 0;
+                }
+                else
+                {
+                    Flag.OverallMode = OVERALL_MODE_INIT;
+                    Flag.ModeStatus = MODE_STATUS_CHECKING;
+                    Flag.CurrentFault = false;
+                    Flag.VoltageFault = false;
+                    Flag.Ready = 0;
+                    Ih_ref = 0.;
                 }
             }
-            else if (DIST_mode == OVERALL_MODE_SAFETURNOFF)
+
+            if (Flag.OverallMode == OVERALL_MODE_INIT && SPI_data_RX[1] != 0)
             {
-                Flag.OverallMode = OVERALL_MODE_SAFETURNOFF;
-                Ih_ref = 0.;
-                input_relay_on = 0;
+
             }
-            else
+
+            if (Flag.OverallMode == OVERALL_MODE_IDLE
+                    || Flag.OverallMode == OVERALL_MODE_RUN)
             {
-                Flag.OverallMode = OVERALL_MODE_INIT;
-                Flag.ModeStatus = MODE_STATUS_CHECKING;
-                Flag.CurrentFault = false;
-                Flag.VoltageFault = false;
-                Flag.Ready = 0;
-                Ih_ref = 0.;
+                //convert_binary_to_float(&Ih_ref, SPI_data_RX[1], SPI_data_RX[2]); // update current reference
+
+                tempRX[0] = SPI_data_RX[2]; //low 16 bit
+                tempRX[1] = SPI_data_RX[1]; //high 16 bit
+
+                temp_float = *((float *) (tempRX));
+                if (temp_float != 0)
+                { // 0 might be recv error
+                    if (fabs(temp_float) > (INV.FaultLevel + 1))
+                    {
+                        checksum_fail_cnt++;
+                    }
+                    else
+                    {
+                        Ih_ref = temp_float;
+                    }
+                }
+
             }
         }
-
-        if (Flag.OverallMode == OVERALL_MODE_INIT && SPI_data_RX[1] != 0)
+        else
         {
+            checksum_fail_cnt++;
 
-        }
-
-        if (Flag.OverallMode == OVERALL_MODE_IDLE
-                || Flag.OverallMode == OVERALL_MODE_RUN)
-        {
-            //convert_binary_to_float(&Ih_ref, SPI_data_RX[1], SPI_data_RX[2]); // update current reference
-
-            tempRX[0] = SPI_data_RX[2]; //low 16 bit
-            tempRX[1] = SPI_data_RX[1]; //high 16 bit
-
-            temp_float = *((float *) (tempRX));
-            if (temp_float != 0)
-            { // 0 might be recv error
-                Ih_ref = temp_float;
-            }
-            else if (temp_float > INV.FaultLevel)
+            if (checksum_fail_cnt == 10)
             {
-                // Ih_ref = Ih_ref; // pass
+                InitSpiGpio();
             }
-
         }
+
     }
     else
     {
         checksum_fail_cnt++;
+        // clear SPI BUF for safe operation
+        SpibRegs.SPIFFRX.bit.RXFIFORESET = 0;
+
+
     }
 
-    // clear SPI BUF for safe operation
-    SpibRegs.SPIFFRX.bit.RXFIFORESET = 0;
+    if (test_val2 == 1)
+    {
+        test_val2 = 0;
+        InitSpiGpio();
+    }
+
+//    // clear SPI BUF for safe operation
+//    SpibRegs.SPIFFRX.bit.RXFIFORESET = 0;
+//    SpibRegs.SPIFFTX.bit.TXFIFO = 0;
+//    delaycc(1e-6);
     SpibRegs.SPIFFTX.bit.TXFIFO = 0;
-    delaycc(0.5e-6);
+    delaycc(1e-7);
     SpibRegs.SPIFFRX.bit.RXFIFORESET = 1;
     SpibRegs.SPIFFTX.bit.TXFIFO = 1;
+
 
     if (Flag.OverallMode == OVERALL_MODE_INIT)
     {
@@ -249,6 +291,7 @@ __interrupt void SPI_RXINT(void)
     SpibRegs.SPITXBUF = SPI_data_TX[2];
     SpibRegs.SPITXBUF = SPI_data_TX[3];
     SpibRegs.SPITXBUF = SPI_data_TX[4];
+    SpibRegs.SPITXBUF = SPI_data_TX[5];
 
     spiTime = (spiTimer0start - ReadCpuTimer1Counter()) * SYS_CLK_PRD;
 
@@ -264,7 +307,7 @@ __interrupt void cc(void)
     ccTimer0start = ReadCpuTimer1Counter();
 
     disconnect_cnt++;
-    if (disconnect_cnt > 1000)
+    if (disconnect_cnt > 1000 && !debug_mode)
     {
         Flag.OverallMode = OVERALL_MODE_INIT;
         Flag.ModeStatus = MODE_STATUS_OK;
@@ -282,14 +325,12 @@ __interrupt void cc(void)
 
     AD_Process();
 
-    INV.Vdc = ScaleAin_adc_B[1]
-            * (double) (((long) AdcbResultRegs.ADCRESULT1)
-                    & Mode_12bit - OffsetAin_adc_B[1]); // ADCA_SOC1 : (Vdc_ADC)
+    INV.Vdc = INV.Vdc * 0.9
+            + (ScaleAin_adc_B[1]
+                    * (float) (((long) AdcbResultRegs.ADCRESULT1)
+                            & Mode_12bit - OffsetAin_adc_B[1])) * (1 - 0.9); // ADCA_SOC1 : (Vdc_ADC)
 
-    if (test_fault_a < INV.Vdc)
-        test_fault_a = INV.Vdc;
-
-    if (INV.Vdc > 500)
+    if (INV.Vdc > 400)
     {
         Flag.Ready = 0;
         Flag.ModeStatus = MODE_STATUS_INV_FAULT;
@@ -307,52 +348,31 @@ __interrupt void cc(void)
     else if (input_relay_on == 0)
     {
         RELAY_OFF();
+        Flag.Ready = 0;
+    }else{
+        Flag.Ready = 0;
     }
 
 //		Ia_present = ScaleAin_adc_A[0]*(double)((int)(AdcaResultRegs.ADCRESULT0&Mode_16bit) - (int)OffsetAin_adc_A[0] );   // ADCA_SOC0 : INVa_shunt_ADC_P/N
     Ib_present = ScaleAin_adc_A[1]
-            * (double) ((int) (AdcaResultRegs.ADCRESULT1 & Mode_16bit)
+            * (float) ((int) (AdcaResultRegs.ADCRESULT1 & Mode_16bit)
                     - (int) OffsetAin_adc_A[1]); // ADCA_SOC1 : INVb_shunt_ADC_P/N
     Ic_present = ScaleAin_adc_A[2]
-            * (double) ((int) (AdcaResultRegs.ADCRESULT2 & Mode_16bit)
+            * (float) ((int) (AdcaResultRegs.ADCRESULT2 & Mode_16bit)
                     - (int) OffsetAin_adc_A[2]); // ADCA_SOC2 : INVc_shunt_ADC_P/N
-    //INV.Ia = ScaleAin_adc_A[0]*(double)((int)(AdcaResultRegs.ADCRESULT0&Mode_12bit) - (int)OffsetAin_adc_A[0] );   // ADCA_SOC0 : INVa_shunt_ADC_P/N
-    //INV.Ib = ScaleAin_adc_A[1]*(double)((int)(AdcaResultRegs.ADCRESULT1&Mode_12bit) - (int)OffsetAin_adc_A[1] );   // ADCA_SOC1 : INVb_shunt_ADC_P/N
-    //INV.Ic = ScaleAin_adc_A[2]*(double)((int)(AdcaResultRegs.ADCRESULT2&Mode_12bit) - (int)OffsetAin_adc_A[2] );   // ADCA_SOC2 : INVc_shunt_ADC_P/N
 
-//		INV.Ia = Ia_present * present_current_ratio + INV.Ia * (1-present_current_ratio);
-//		if (Ib_present != 0) { // 0 might be error
-//			INV.Ib = Ic_present * present_current_ratio + INV.Ib * (1-present_current_ratio);
-//		}
-//		INV.Ic = Ic_present * present_current_ratio + INV.Ic * (1-present_current_ratio);
+
 
     if (Ib_present != 0)
     { // 0 might be error
-        INV.Ih = (Ib_present - Ic_present) / 2 * present_current_ratio
+        INV.Ih = (Ib_present - Ic_present)*0.5 * present_current_ratio
                 + INV.Ih * (1 - present_current_ratio);
     }
 
-//		if (fabs(INV.Ia) > INV.FaultLevel) {
-//			test_fault_a = INV.Ia;
-//			//Flag.Ready=0;
-//			Flag.ModeStatus = MODE_STATUS_INV_FAULT;
-//			Flag.CurrentFault = true;
-//			fault_cnt = 11;
-//		}
-//		if (fabs(INV.Ib) > INV.FaultLevel) {
-//			test_fault_b = INV.Ib;
-//			Flag.Ready=0;
-//			Flag.ModeStatus = MODE_STATUS_INV_FAULT;
-//			Flag.CurrentFault = true;
-//			fault_cnt = 22;
-//		}
-//		if (fabs(INV.Ic) > INV.FaultLevel){
-//			test_fault_c = INV.Ic;
-//			Flag.Ready=0;
-//			Flag.ModeStatus = MODE_STATUS_INV_FAULT;
-//			Flag.CurrentFault = true;
-//			fault_cnt = 33;
-//		}
+
+    if(fabs(INV.Ih) > 7.5){
+        fault_record =1 ;
+    }
 
     if (fabs(INV.Ih) > INV.FaultLevel)
     {
@@ -361,6 +381,7 @@ __interrupt void cc(void)
         Flag.ModeStatus = MODE_STATUS_INV_FAULT;
         Flag.CurrentFault = true;
         fault_cnt = 11;
+
     }
 
     if (Flag.OverallMode == OVERALL_MODE_INV_TEST && INV.Ls_iden == 0.)
@@ -409,7 +430,7 @@ __interrupt void cc(void)
             if (EPwm2Regs.TBSTS.bit.CTRDIR == TB_DOWN)
             {
                 //INV.Ih_ref = 0.; // for test
-                INV.Ih_ref = Ih_ref; // follow given reference
+                INV.Ih_ref = Ih_ref * (1 - 0.5) + INV.Ih_ref * 0.5; // follow given reference
                 HINV_Process();
             }
             else
@@ -472,6 +493,18 @@ __interrupt void cc(void)
 
      SpiDacOut();
      */
+
+    if (!fault_record)
+    {
+        for (i = 9; i > 0; i--)
+        {
+            stack1[i] = stack1[i - 1];
+            stack2[i] = stack2[i - 1];
+        }
+        stack1[0] = Ib_present;
+        stack2[0] = (INV.Vhp + half_Vdc);
+
+    }
 
     ccTime = (ccTimer0start - ReadCpuTimer1Counter()) * SYS_CLK_PRD;
 
@@ -576,10 +609,7 @@ void HINV_Process(void)
 {
     if (Flag.CC_mode == 1)
     {
-        if (Ih_ref_old * INV.Ih_ref <= 0)
-        { // ref zero crossing
-            INV.Ih_integ = 0.;
-        }
+
         Ih_ref_old = INV.Ih_ref;
 
         INV.Err_Ih = INV.Ih_ref - INV.Ih;

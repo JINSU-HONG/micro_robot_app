@@ -572,11 +572,11 @@ void inv_test_mode_spi_func(void)
 
     if (using_inv_num >= 3)
     {
-        INV2_CS_0 = INV_data_buf[1];
-        INV2_CS_1 = INV_data_buf[2];
-        INV2_CS_2 = INV_data_buf[3];
-        INV2_CS_3 = INV_data_buf[4];
-        INV2_CS_4 = INV_data_buf[5];
+        INV2_CS_0 = INV_data_buf[0];
+        INV2_CS_1 = INV_data_buf[1];
+        INV2_CS_2 = INV_data_buf[2];
+        INV2_CS_3 = INV_data_buf[3];
+        INV2_CS_4 = INV_data_buf[4];
     }
 
     if (using_inv_num >= 4)
@@ -861,14 +861,17 @@ void inv_test_mode_spi_func(void)
         if (INV_status[0] != 0x00 || INV_status[1] != 0x00)
         {
             Flag.ModeStatus = MODE_STATUS_INV_FAULT;
+            memcpy(INV_status_record,INV_status,8);
         }
         else if (INV_status[3] != 0x00)
         {
             Flag.ModeStatus = MODE_STATUS_CON_LOST;
+            memcpy(INV_status_record,INV_status,8);
         }
         else if (INV_status[2] != 0x00)
         {
             Flag.ModeStatus = MODE_STATUS_CHECKING;
+            memcpy(INV_status_record,INV_status,8);
         }
         else
         {
@@ -1270,10 +1273,13 @@ void idle_mode_spi_func()
         if (INV_status[0] != 0x00 || INV_status[1] != 0x00)
         {
             Flag.ModeStatus = MODE_STATUS_INV_FAULT;
+            memcpy(INV_status_record,INV_status,8);
+
         }
         else if (INV_status[3] != 0x00)
         {
             Flag.ModeStatus = MODE_STATUS_CON_LOST;
+            memcpy(INV_status_record,INV_status,8);
             INV_status[0] = 0x00;
             INV_status[1] = 0x00;
             for (i = 2; i < 18; i++)

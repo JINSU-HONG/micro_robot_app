@@ -35,19 +35,19 @@ extern unsigned short cnt_delay;
 
 
 // Switchcing frequency
-extern double Fsw;
-extern double Fsamp;
-extern double Tsamp;
-extern double INV_Tsamp;
+extern float Fsw;
+extern float Fsamp;
+extern float Tsamp;
+extern float INV_Tsamp;
 extern Uint16 maxCount_ePWM;
 extern Uint16 maxCount_ePWM_safe;
 extern Uint16 minCount_ePWM_safe;
 
 //for ADC result calculation
-extern double ScaleAin_adc_A[3];
+extern float ScaleAin_adc_A[3];
 extern long OffsetAin_adc_A[3];
 
-extern double ScaleAin_adc_B[5];
+extern float ScaleAin_adc_B[5];
 extern long OffsetAin_adc_B[5];
 
 //DUTY OFF
@@ -59,8 +59,8 @@ extern void InitController(void);
 
 //test
 extern int PWM_style;
-extern double half_Vdc;
-extern double INV_Vdc;
+extern float half_Vdc;
+extern float INV_Vdc;
 extern float Ih_ref_CC;
 extern float d_ext;
 extern float Ih_ref_amp;
@@ -79,9 +79,9 @@ extern float Ib_present;
 extern float Ic_present;
 extern float present_current_ratio;
 
-extern double test_f;
+extern float test_f;
 extern float test_fault_a,test_fault_b,test_fault_c;
-extern double test_theta;
+extern float test_theta;
 extern int test_spi_a, test_spi_b, test_spi_c, test_spi_d;
 
 extern bool SPI_DAT_FILL;
@@ -94,86 +94,88 @@ extern unsigned long temp_sum;
 
 extern int input_relay_on;
 
-extern double iden_duty;
+extern float iden_duty;
+
+extern int debug_mode;
 
 // Inverter Parameter
 typedef struct _INV_
 {
 	//Motor parameter
 	int 	Pole, PolePair;
-	double 	InvPolePair;
-	double 	Rs, Ls, INV_Ls, Ke, Lds, Lqs, LAMpm, INV_LAMpm, INV_Ls_Tsw, Ls_Fs;
-	double 	Idss, Iqss, Idse, Iqse;
-	double 	Thetar, Thetarm, ThetaAdv, ThetaOffset;
-	double 	Wr, Wrm, Wrpm;
-	double	Ls_iden;
+	float 	InvPolePair;
+	float 	Rs, Ls, INV_Ls, Ke, Lds, Lqs, LAMpm, INV_LAMpm, INV_Ls_Tsw, Ls_Fs;
+	float 	Idss, Iqss, Idse, Iqse;
+	float 	Thetar, Thetarm, ThetaAdv, ThetaOffset;
+	float 	Wr, Wrm, Wrpm;
+	float	Ls_iden;
 	int		iden_cnt;
-	double	iden_Vdc;
-	double 	iden_duty;
-	double	FaultLevel;
+	float	iden_Vdc;
+	float 	iden_duty;
+	float	FaultLevel;
 
 	//current controller
-	double   R_comp,L_comp;
-	double	Idse_ref, Iqse_ref ;
-	double 	Idse_ref_tmp, Iqse_ref_tmp ;
-	double	Idss_ref, Iqss_ref ;
-	double	Idse_ref_set, Iqse_ref_set ;
-	double   Ias_ref, Ibs_ref, Ics_ref;
-	double   Idse_old, Iqse_old;
-	double   sinThetar, cosThetar, Theta_sq;
+	float   R_comp,L_comp;
+	float	Idse_ref, Iqse_ref ;
+	float 	Idse_ref_tmp, Iqse_ref_tmp ;
+	float	Idss_ref, Iqss_ref ;
+	float	Idse_ref_set, Iqse_ref_set ;
+	float   Ias_ref, Ibs_ref, Ics_ref;
+	float   Idse_old, Iqse_old;
+	float   sinThetar, cosThetar, Theta_sq;
 
-	double 	Ia, Ib, Ic;
+	float 	Ia, Ib, Ic;
 
 
-	double  Err_Ih, Ih_integ;
-	double	Kph, Kah, Kih_T;
-	double	Vhp, Vhm;
-	double  Ih, Ih_ref;
-	double  Vh_ref_ff, Vh_ref_fb, Vh_ref, Vh_ref_set, Vh_anti;
+	float  Err_Ih, Ih_integ;
+	float	Kph, Kah, Kih_T;
+	float	Vhp, Vhm;
+	float  Ih, Ih_ref;
+	float  Vh_ref_ff, Vh_ref_fb, Vh_ref, Vh_ref_set, Vh_anti;
 
 	int		CompP, CompM;
 	int		CompP_DB, CompM_DB;
-	double	ZCC_current;
-	double	ZCC_current_INV;
-	double	ZCC_power;
+	float	ZCC_current;
+	float	ZCC_current_INV;
+	float	ZCC_power;
 	int		DB_cnt;
 	int		clear_integ_cnt;
 
-	double	Err_Idse, Err_Iqse;
-	double 	Idse_integ,Iqse_integ;
-	double	Kpd, Kpq, Kad, Kaq, Kid_T, Kiq_T;
-	double  Kp, Ki; // micro robot
-	double  d_integ; // micro robot
-	double  d_limit; // micro robot
+	float	Err_Idse, Err_Iqse;
+	float 	Idse_integ,Iqse_integ;
+	float	Kpd, Kpq, Kad, Kaq, Kid_T, Kiq_T;
+	float  Kp, Ki; // micro robot
+	float  d_integ; // micro robot
+	float  d_limit; // micro robot
 
-	double  	Vdse, Vqse;
-	double   Vdse_ref, Vqse_ref;
-	double   Vdse_ref_fb, Vqse_ref_fb;
-	double   Vdse_ref_ff, Vqse_ref_ff;
-	double   Vdss_ref, Vqss_ref, Vdss_ref_old, Vqss_ref_old;
-	double   Vdse_ref_set, Vqse_ref_set;
-	double   Vdss_ref_set, Vqss_ref_set;
-	double   Vas_ref, Vbs_ref, Vcs_ref;
-	double   Vas, Vbs, Vcs;
-	double   Vdss, Vqss;
-	double   Van_ref_set, Vbn_ref_set, Vcn_ref_set;
-	double   Vdqse_ref;
-	double   Vdc;
+	float  	Vdse, Vqse;
+	float   Vdse_ref, Vqse_ref;
+	float   Vdse_ref_fb, Vqse_ref_fb;
+	float   Vdse_ref_ff, Vqse_ref_ff;
+	float   Vdss_ref, Vqss_ref, Vdss_ref_old, Vqss_ref_old;
+	float   Vdse_ref_set, Vqse_ref_set;
+	float   Vdss_ref_set, Vqss_ref_set;
+	float   Vas_ref, Vbs_ref, Vcs_ref;
+	float   Vas, Vbs, Vcs;
+	float   Vdss, Vqss;
+	float   Van_ref_set, Vbn_ref_set, Vcn_ref_set;
+	float   Vdqse_ref;
+	float   Vdc;
 
-	double	Vdse_ref_lim,Vqse_ref_lim;
-	double	Vdse_ref_set_old,Vqse_ref_set_old;
-	double	Vdss_ref_set_old,Vqss_ref_set_old;
+	float	Vdse_ref_lim,Vqse_ref_lim;
+	float	Vdse_ref_set_old,Vqse_ref_set_old;
+	float	Vdss_ref_set_old,Vqss_ref_set_old;
 
-	double 	Vdse_anti, Vqse_anti;
+	float 	Vdse_anti, Vqse_anti;
 
-	double	Van_ref, Vbn_ref, Vcn_ref;
+	float	Van_ref, Vbn_ref, Vcn_ref;
 
-	double	alpha, Wc_cc, Fcc;
-	double	Idqse_ref, Te_real;
+	float	alpha, Wc_cc, Fcc;
+	float	Idqse_ref, Te_real;
 
-	double 	Rv;
-	double	Vmax, Vmin, Vmid, Vsn, Vsn_max, Vsn_min;
-	double   Thetar_num;
+	float 	Rv;
+	float	Vmax, Vmin, Vmid, Vsn, Vsn_max, Vsn_min;
+	float   Thetar_num;
 
 	unsigned int		CompA, CompB, CompC;
 
@@ -184,14 +186,14 @@ extern INV_ INV;
 //Speed Observer
 typedef struct _SPD_OBS
 {
-	double	Theta_est,Thetar_est, Err_Theta, Err_Theta_integ;
-	double	Te_est_old, Te_est, Te_ff, Tl_est;
-	double	Ki_so, Kp_so, Kd_so, Wc_so;
-	double	K1, K2, K3;
-	double	Wrm_est_d, Wr_est, Wrm_est_old, Wrm_est;
-	double	Theta_est_d;
-	double	Tl_est_d;
-	double	Jm, B, Inv_Jm;
+    float	Theta_est,Thetar_est, Err_Theta, Err_Theta_integ;
+    float	Te_est_old, Te_est, Te_ff, Tl_est;
+    float	Ki_so, Kp_so, Kd_so, Wc_so;
+    float	K1, K2, K3;
+    float	Wrm_est_d, Wr_est, Wrm_est_old, Wrm_est;
+    float	Theta_est_d;
+    float	Tl_est_d;
+    float	Jm, B, Inv_Jm;
 } SpdObs_;
 extern SpdObs_ SpdObs;
 
