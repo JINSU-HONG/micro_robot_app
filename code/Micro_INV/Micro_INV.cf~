@@ -26,7 +26,7 @@ Watch-2Max = 0
 Command-3Pos = 1481, 182, 1809, 841
 Command-3Min = 0
 Command-3Max = 0
-Plot-1Pos = -200, 124, 1036, 656
+Plot-1Pos = 303, 152, 1539, 684
 Plot-1Min = 0
 Plot-1Max = 0
 Plot-2Pos = 22, 113, 1700, 744
@@ -433,6 +433,103 @@ Auto Bauding Rate = 62956
 first visible line = 0
 [Recent contents of Command-4 window]
 
+[Watch-1 Watched Variables]
+Flag.OverallMode
+Flag.ModeStatus
+INV.Ia
+INV.Ib
+INV.Ic
+INV.Ih
+INV.Vdc
+test_fault_a
+test_fault_b
+test_fault_c
+fault_cnt
+Flag.Ready
+Flag.CC_mode
+temp_sum
+Ih_ref
+Ih_ref_amp
+Ih_ref_w
+Ih_ref_offset
+V_ff
+d_ext
+INV.Ih_integ
+INV.d_limit
+INV.d_integ
+test_d
+present_current_ratio
+INV.Kph
+INV.Kih_T
+test_spi_a
+test_spi_b
+INV.CompA
+INV.CompB
+INV.CompC
+maxCount_ePWM
+maxCount_ePWM_safe
+minCount_ePWM_safe
+input_relay_on
+cc_cnt
+DIST_mode
+PWM_style
+INV.CompP
+INV.CompM
+ccTime
+SPI_DAT_FILL
+test_cnt
+test_cnt2
+Flag.DTS
+EPwm7Regs.AQCTLA.bit.CAD
+EPwm6Regs.AQCTLA.bit.CAD
+EPwm6Regs.CMPA.bit.CMPA
+Flag.VoltageFault
+Flag.CurrentFault
+INV.Ls_iden
+INV.iden_cnt
+ePWMinit
+isSwitchOn
+temp_sum_l
+temp_sum_h
+spi_cnt
+disconnect_cnt
+check_sum_sucess
+checksum_fail_cnt
+SPI_data_RX[0]
+SPI_data_RX[1]
+SPI_data_RX[2]
+SPI_data_RX[3]
+SPI_data_RX[4]
+SPI_data_RX[5]
+SPI_data_TX[0]
+SPI_data_TX[1]
+SPI_data_TX[2]
+SPI_data_TX[3]
+test_val2
+SPI_data_TX[4]
+stack2[0]
+stack2[1]
+stack2[2]
+stack2[3]
+stack2[4]
+stack2[5]
+stack2[6]
+stack2[7]
+stack2[8]
+stack2[9]
+stack1[0]
+stack1[1]
+stack1[2]
+stack1[3]
+stack1[4]
+stack1[5]
+stack1[6]
+stack1[7]
+stack1[8]
+stack1[9]
+fault_record
+debug_mode
+
 [Recent contents of Command-1 window]
 
 input_relay_on=?
@@ -459,6 +556,8 @@ da[3] = &INV.Ib
 da_type[3] = 0
 da_scale[3] = <2048./0.4>
 da_mid[3] = 0
+
+
 
 
 
@@ -661,6 +760,8 @@ da_mid[3] = 0;
 
 
 
+
+
 [Recent contents of Command-3 window]
 Ih_ref_w = 0
 Ih_ref = 3.1416
@@ -748,100 +849,5 @@ debug_mode = 1
 
 
 
-[Watch-1 Watched Variables]
-Flag.OverallMode
-Flag.ModeStatus
-INV.Ia
-INV.Ib
-INV.Ic
-INV.Ih
-INV.Vdc
-test_fault_a
-test_fault_b
-test_fault_c
-fault_cnt
-Flag.Ready
-Flag.CC_mode
-temp_sum
-Ih_ref
-Ih_ref_amp
-Ih_ref_w
-Ih_ref_offset
-V_ff
-d_ext
-INV.Ih_integ
-INV.d_limit
-INV.d_integ
-test_d
-present_current_ratio
-INV.Kph
-INV.Kih_T
-test_spi_a
-test_spi_b
-INV.CompA
-INV.CompB
-INV.CompC
-maxCount_ePWM
-maxCount_ePWM_safe
-minCount_ePWM_safe
-input_relay_on
-cc_cnt
-DIST_mode
-PWM_style
-INV.CompP
-INV.CompM
-ccTime
-SPI_DAT_FILL
-test_cnt
-test_cnt2
-Flag.DTS
-EPwm7Regs.AQCTLA.bit.CAD
-EPwm6Regs.AQCTLA.bit.CAD
-EPwm6Regs.CMPA.bit.CMPA
-Flag.VoltageFault
-Flag.CurrentFault
-INV.Ls_iden
-INV.iden_cnt
-ePWMinit
-isSwitchOn
-temp_sum_l
-temp_sum_h
-spi_cnt
-disconnect_cnt
-check_sum_sucess
-checksum_fail_cnt
-SPI_data_RX[0]
-SPI_data_RX[1]
-SPI_data_RX[2]
-SPI_data_RX[3]
-SPI_data_RX[4]
-SPI_data_RX[5]
-SPI_data_TX[0]
-SPI_data_TX[1]
-SPI_data_TX[2]
-SPI_data_TX[3]
-test_val2
-SPI_data_TX[4]
-stack2[0]
-stack2[1]
-stack2[2]
-stack2[3]
-stack2[4]
-stack2[5]
-stack2[6]
-stack2[7]
-stack2[8]
-stack2[9]
-stack1[0]
-stack1[1]
-stack1[2]
-stack1[3]
-stack1[4]
-stack1[5]
-stack1[6]
-stack1[7]
-stack1[8]
-stack1[9]
-fault_record
-debug_mode
+
 

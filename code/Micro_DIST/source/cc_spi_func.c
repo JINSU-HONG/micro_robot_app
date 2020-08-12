@@ -1,30 +1,29 @@
 #include "F2837xS_variable.h"
 #include "cc_spi_func.h"
 
+#include "check_CRC.h"
+
 //#pragma CODE_SECTION(init_mode_spi_func, "ramfuncs");
 //#pragma CODE_SECTION(inv_test_mode_spi_func, "ramfuncs");
 #pragma CODE_SECTION(idle_mode_spi_func, "ramfuncs");
 #pragma CODE_SECTION(CalcChecksum, "ramfuncs");
 
+unsigned int com_check_success[8] = { 0, };
+unsigned int com_check_fail[8] = { 0, };
+unsigned int com_check_fail_reset[8] = { 0, };
 
-
-int check_sum_cnt[8] = {0,};
-int check_sum_fail[8] = {0,};
-
-unsigned int debug_val[10] = {0,};
-
-
+unsigned int debug_val[10] = { 0, };
+uint16_t WC = 0;
 
 void init_mode_spi_func(void)
 {
-    int mode_plus_status = Flag.OverallMode * 16 + Flag.ModeStatus;
-
+    uint16_t mode_plus_status = Flag.OverallMode * 16 + Flag.ModeStatus;
     // connection test
     INV_data_buf[0] = mode_plus_status;
     INV_data_buf[1] = 0;
     INV_data_buf[2] = 0;
-    INV_data_buf[3] = 0;
-    INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+    INV_data_buf[3] = WC++;
+    INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
     if (using_inv_num >= 1)
     {
@@ -113,9 +112,9 @@ void init_mode_spi_func(void)
     INV_data_buf[3] = INV0_CS_3; // dummy
     INV_data_buf[4] = INV0_CS_4; // dummy
 
-    if (using_inv_num >= 1 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 1 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[0]++;
+        com_check_success[0]++;
         if (INV_data_buf[0] == 0xFFFF || INV_data_buf[1] == 0xFFFF)
         { // CON_LOST
             INV_status[1] += 1;
@@ -158,7 +157,7 @@ void init_mode_spi_func(void)
     }
     else
     {
-
+        com_check_fail[0]++;
     }
 
     INV_data_buf[0] = INV1_CS_0; // connection test
@@ -167,9 +166,9 @@ void init_mode_spi_func(void)
     INV_data_buf[3] = INV1_CS_3; // dummy
     INV_data_buf[4] = INV1_CS_4; // dummy
 
-    if (using_inv_num >= 2 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 2 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[1]++;
+        com_check_success[1]++;
         if (INV_data_buf[0] == 0xFFFF || INV_data_buf[1] == 0xFFFF)
         { // CON_LOST
             INV_status[1] += 2;
@@ -211,7 +210,7 @@ void init_mode_spi_func(void)
     }
     else
     {
-
+        com_check_fail[1]++;
     }
 
     INV_data_buf[0] = INV2_CS_0; // connection test
@@ -220,9 +219,9 @@ void init_mode_spi_func(void)
     INV_data_buf[3] = INV2_CS_3; // dummy
     INV_data_buf[4] = INV2_CS_4; // dummy
 
-    if (using_inv_num >= 3 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 3 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[2]++;
+        com_check_success[2]++;
         if (INV_data_buf[0] == 0xFFFF || INV_data_buf[1] == 0xFFFF)
         { // CON_LOST
             INV_status[1] += 4;
@@ -264,7 +263,7 @@ void init_mode_spi_func(void)
     }
     else
     {
-
+        com_check_fail[2]++;
     }
     INV_data_buf[0] = INV3_CS_0; // connection test
     INV_data_buf[1] = INV3_CS_1; // CON_LOST INVs
@@ -272,9 +271,9 @@ void init_mode_spi_func(void)
     INV_data_buf[3] = INV3_CS_3; // dummy
     INV_data_buf[4] = INV3_CS_4; // dummy
 
-    if (using_inv_num >= 4 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 4 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[3]++;
+        com_check_success[3]++;
         if (INV_data_buf[0] == 0xFFFF || INV_data_buf[1] == 0xFFFF)
         { // CON_LOST
             INV_status[1] += 8;
@@ -314,6 +313,10 @@ void init_mode_spi_func(void)
             reset_inv_list[3] = 1;
         }
     }
+    else
+    {
+        com_check_fail[3]++;
+    }
 
     INV_data_buf[0] = INV4_CS_0; // connection test
     INV_data_buf[1] = INV4_CS_1; // CON_LOST INVs
@@ -321,9 +324,9 @@ void init_mode_spi_func(void)
     INV_data_buf[3] = INV4_CS_3; // dummy
     INV_data_buf[4] = INV4_CS_4; // dummy
 
-    if (using_inv_num >= 5 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 5 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[4]++;
+        com_check_success[4]++;
         if (INV_data_buf[0] == 0xFFFF || INV_data_buf[1] == 0xFFFF)
         { // CON_LOST
             INV_status[1] += 16;
@@ -363,6 +366,10 @@ void init_mode_spi_func(void)
             reset_inv_list[4] = 1;
         }
     }
+    else
+    {
+        com_check_fail[4]++;
+    }
 
     INV_data_buf[0] = INV5_CS_0; // connection test
     INV_data_buf[1] = INV5_CS_1; // CON_LOST INVs
@@ -370,9 +377,9 @@ void init_mode_spi_func(void)
     INV_data_buf[3] = INV5_CS_3; // dummy
     INV_data_buf[4] = INV5_CS_4; // dummy
 
-    if (using_inv_num >= 6 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 6 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[5]++;
+        com_check_success[5]++;
         if (INV_data_buf[0] == 0xFFFF || INV_data_buf[1] == 0xFFFF)
         { // CON_LOST
             INV_status[1] += 32;
@@ -412,6 +419,10 @@ void init_mode_spi_func(void)
             reset_inv_list[5] = 1;
         }
     }
+    else
+    {
+        com_check_fail[5]++;
+    }
 
     INV_data_buf[0] = INV6_CS_0; // connection test
     INV_data_buf[1] = INV6_CS_1; // CON_LOST INVs
@@ -419,9 +430,9 @@ void init_mode_spi_func(void)
     INV_data_buf[3] = INV6_CS_3; // dummy
     INV_data_buf[4] = INV6_CS_4; // dummy
 
-    if (using_inv_num >= 7 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 7 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[6]++;
+        com_check_success[6]++;
         if (INV_data_buf[0] == 0xFFFF || INV_data_buf[1] == 0xFFFF)
         { // CON_LOST
             INV_status[1] += 64;
@@ -461,6 +472,10 @@ void init_mode_spi_func(void)
             reset_inv_list[6] = 1;
         }
     }
+    else
+    {
+        com_check_fail[6]++;
+    }
 
     INV_data_buf[0] = INV7_CS_0; // connection test
     INV_data_buf[1] = INV7_CS_1; // CON_LOST INVs
@@ -468,9 +483,9 @@ void init_mode_spi_func(void)
     INV_data_buf[3] = INV7_CS_3; // dummy
     INV_data_buf[4] = INV7_CS_4; // dummy
 
-    if (using_inv_num >= 8 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 8 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[7]++;
+        com_check_success[7]++;
         if (INV_data_buf[0] == 0xFFFF || INV_data_buf[1] == 0xFFFF)
         { // CON_LOST
             INV_status[1] += 128;
@@ -509,6 +524,10 @@ void init_mode_spi_func(void)
         {
             reset_inv_list[7] = 1;
         }
+    }
+    else
+    {
+        com_check_fail[7]++;
     }
 
     if (mode_changed)
@@ -549,8 +568,8 @@ void inv_test_mode_spi_func(void)
     INV_data_buf[0] = mode_plus_status;
     INV_data_buf[1] = 0;
     INV_data_buf[2] = 0;
-    INV_data_buf[3] = 0;
-    INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+    INV_data_buf[3] = WC++;
+    INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
     if (using_inv_num >= 1)
     {
@@ -639,9 +658,9 @@ void inv_test_mode_spi_func(void)
     INV_data_buf[3] = INV0_CS_3; // dummy
     INV_data_buf[4] = INV0_CS_4; // dummy
 
-    if (using_inv_num >= 1 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 1 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[0]++;
+        com_check_success[0]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 1;
@@ -659,6 +678,10 @@ void inv_test_mode_spi_func(void)
             INV_status[2] += 1;
         }
     }
+    else
+    {
+        com_check_fail[0]++;
+    }
 
     INV_data_buf[0] = INV1_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV1_CS_1; // I2_H
@@ -666,9 +689,9 @@ void inv_test_mode_spi_func(void)
     INV_data_buf[3] = INV1_CS_3; // dummy
     INV_data_buf[4] = INV1_CS_4; // dummy
 
-    if (using_inv_num >= 2 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 2 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[1]++;
+        com_check_success[1]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 2;
@@ -686,6 +709,10 @@ void inv_test_mode_spi_func(void)
             INV_status[2] += 2;
         }
     }
+    else
+    {
+        com_check_fail[1]++;
+    }
 
     INV_data_buf[0] = INV2_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV2_CS_1; // I3_H
@@ -693,9 +720,9 @@ void inv_test_mode_spi_func(void)
     INV_data_buf[3] = INV2_CS_3; // dummy
     INV_data_buf[4] = INV2_CS_4; // dummy
 
-    if (using_inv_num >= 3 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 3 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[2]++;
+        com_check_success[2]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 4;
@@ -713,6 +740,10 @@ void inv_test_mode_spi_func(void)
             INV_status[2] += 4;
         }
     }
+    else
+    {
+        com_check_fail[2]++;
+    }
 
     INV_data_buf[0] = INV3_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV3_CS_1; // I4_H
@@ -720,9 +751,9 @@ void inv_test_mode_spi_func(void)
     INV_data_buf[3] = INV3_CS_3; // dummy
     INV_data_buf[4] = INV3_CS_4; // dummy
 
-    if (using_inv_num >= 4 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 4 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[3]++;
+        com_check_success[3]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 8;
@@ -740,6 +771,10 @@ void inv_test_mode_spi_func(void)
             INV_status[2] += 8;
         }
     }
+    else
+    {
+        com_check_fail[3]++;
+    }
 
     INV_data_buf[0] = INV4_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV4_CS_1; // I5_H
@@ -747,9 +782,9 @@ void inv_test_mode_spi_func(void)
     INV_data_buf[3] = INV4_CS_3; // dummy
     INV_data_buf[4] = INV4_CS_4; // dummy
 
-    if (using_inv_num >= 5 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 5 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[4]++;
+        com_check_success[4]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 16;
@@ -767,6 +802,10 @@ void inv_test_mode_spi_func(void)
             INV_status[2] += 16;
         }
     }
+    else
+    {
+        com_check_fail[4]++;
+    }
 
     INV_data_buf[0] = INV5_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV5_CS_1; // I6_H
@@ -774,9 +813,9 @@ void inv_test_mode_spi_func(void)
     INV_data_buf[3] = INV5_CS_3; // dummy
     INV_data_buf[4] = INV5_CS_4; // dummy
 
-    if (using_inv_num >= 6 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 6 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[5]++;
+        com_check_success[5]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 32;
@@ -794,6 +833,10 @@ void inv_test_mode_spi_func(void)
             INV_status[2] += 32;
         }
     }
+    else
+    {
+        com_check_fail[5]++;
+    }
 
     INV_data_buf[0] = INV6_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV6_CS_1; // I7_H
@@ -801,9 +844,9 @@ void inv_test_mode_spi_func(void)
     INV_data_buf[3] = INV6_CS_3; // dummy
     INV_data_buf[4] = INV6_CS_4; // dummy
 
-    if (using_inv_num >= 7 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 7 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[6]++;
+        com_check_success[6]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 64;
@@ -821,6 +864,10 @@ void inv_test_mode_spi_func(void)
             INV_status[2] += 64;
         }
     }
+    else
+    {
+        com_check_fail[6]++;
+    }
 
     INV_data_buf[0] = INV7_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV7_CS_1; // I8_H
@@ -828,9 +875,9 @@ void inv_test_mode_spi_func(void)
     INV_data_buf[3] = INV7_CS_3; // dummy
     INV_data_buf[4] = INV7_CS_4; // dummy
 
-    if (using_inv_num >= 8 && CalcChecksum(INV_data_buf, 5) == 0)
+    if (using_inv_num >= 8 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[7]++;
+        com_check_success[7]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 128;
@@ -848,6 +895,10 @@ void inv_test_mode_spi_func(void)
             INV_status[2] += 128;
         }
     }
+    else
+    {
+        com_check_fail[7]++;
+    }
 
     if (mode_changed)
     {
@@ -861,17 +912,14 @@ void inv_test_mode_spi_func(void)
         if (INV_status[0] != 0x00 || INV_status[1] != 0x00)
         {
             Flag.ModeStatus = MODE_STATUS_INV_FAULT;
-            memcpy(INV_status_record,INV_status,8);
         }
         else if (INV_status[3] != 0x00)
         {
             Flag.ModeStatus = MODE_STATUS_CON_LOST;
-            memcpy(INV_status_record,INV_status,8);
         }
         else if (INV_status[2] != 0x00)
         {
             Flag.ModeStatus = MODE_STATUS_CHECKING;
-            memcpy(INV_status_record,INV_status,8);
         }
         else
         {
@@ -895,15 +943,15 @@ void idle_mode_spi_func()
     int mode_plus_status = Flag.OverallMode * 16 + Flag.ModeStatus;
     int i;
 
-
+    WC++;
 
     if (using_inv_num >= 1)
     {
         INV_data_buf[0] = mode_plus_status;
         INV_data_buf[1] = current_reference[0]; // I1_ref_H
         INV_data_buf[2] = current_reference[1]; // I1_ref_L
-        INV_data_buf[3] = 0x0000;
-        INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+        INV_data_buf[3] = WC;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
         INV0_CS_0 = INV_data_buf[0];
         INV0_CS_1 = INV_data_buf[1];
@@ -917,8 +965,8 @@ void idle_mode_spi_func()
         INV_data_buf[0] = mode_plus_status;
         INV_data_buf[1] = current_reference[2]; // I1_ref_H
         INV_data_buf[2] = current_reference[3]; // I1_ref_L
-        INV_data_buf[3] = 0x0000;
-        INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+        INV_data_buf[3] = WC;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
         INV1_CS_0 = INV_data_buf[0];
         INV1_CS_1 = INV_data_buf[1];
@@ -932,8 +980,8 @@ void idle_mode_spi_func()
         INV_data_buf[0] = mode_plus_status;
         INV_data_buf[1] = current_reference[4]; // I1_ref_H
         INV_data_buf[2] = current_reference[5]; // I1_ref_L
-        INV_data_buf[3] = 0x0000;
-        INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+        INV_data_buf[3] = WC;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
         INV2_CS_0 = INV_data_buf[0];
         INV2_CS_1 = INV_data_buf[1];
@@ -947,8 +995,8 @@ void idle_mode_spi_func()
         INV_data_buf[0] = mode_plus_status;
         INV_data_buf[1] = current_reference[6]; // I1_ref_H
         INV_data_buf[2] = current_reference[7]; // I1_ref_L
-        INV_data_buf[3] = 0x0000;
-        INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+        INV_data_buf[3] = WC;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
         INV3_CS_0 = INV_data_buf[0];
         INV3_CS_1 = INV_data_buf[1];
@@ -962,8 +1010,8 @@ void idle_mode_spi_func()
         INV_data_buf[0] = mode_plus_status;
         INV_data_buf[1] = current_reference[8]; // I1_ref_H
         INV_data_buf[2] = current_reference[9]; // I1_ref_L
-        INV_data_buf[3] = 0x0000;
-        INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+        INV_data_buf[3] = WC;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
         INV4_CS_0 = INV_data_buf[0];
         INV4_CS_1 = INV_data_buf[1];
@@ -977,8 +1025,8 @@ void idle_mode_spi_func()
         INV_data_buf[0] = mode_plus_status;
         INV_data_buf[1] = current_reference[10]; // I1_ref_H
         INV_data_buf[2] = current_reference[11]; // I1_ref_L
-        INV_data_buf[3] = 0x0000;
-        INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+        INV_data_buf[3] = WC;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
         INV5_CS_0 = INV_data_buf[0];
         INV5_CS_1 = INV_data_buf[1];
@@ -992,8 +1040,8 @@ void idle_mode_spi_func()
         INV_data_buf[0] = mode_plus_status;
         INV_data_buf[1] = current_reference[12]; // I1_ref_H
         INV_data_buf[2] = current_reference[13]; // I1_ref_L
-        INV_data_buf[3] = 0x0000;
-        INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+        INV_data_buf[3] = WC;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
         INV6_CS_0 = INV_data_buf[0];
         INV6_CS_1 = INV_data_buf[1];
@@ -1007,8 +1055,8 @@ void idle_mode_spi_func()
         INV_data_buf[0] = mode_plus_status;
         INV_data_buf[1] = current_reference[14]; // I1_ref_H
         INV_data_buf[2] = current_reference[15]; // I1_ref_L
-        INV_data_buf[3] = 0x0000;
-        INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+        INV_data_buf[3] = WC;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
         INV7_CS_0 = INV_data_buf[0];
         INV7_CS_1 = INV_data_buf[1];
@@ -1032,9 +1080,10 @@ void idle_mode_spi_func()
     INV_data_buf[3] = INV0_CS_3; // dummy
     INV_data_buf[4] = INV0_CS_4; // dummy
 
-    if (using_inv_num >= 1 /*&& CalcChecksum(INV_data_buf, 5) == 0*/)
+    if (using_inv_num >= 1 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[0]++;
+        com_check_success[0]++;
+        com_check_fail_reset[0] = 0;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 1;
@@ -1054,6 +1103,15 @@ void idle_mode_spi_func()
         UDP_data[2] = INV_data_buf[1]; // I1_H
         UDP_data[3] = INV_data_buf[2]; // I1_L
     }
+    else
+    {
+        com_check_fail[0]++;
+        com_check_fail_reset[0]++;
+        if (com_check_fail_reset[0] > 200)
+        {
+            INV_status[3] += 1;
+        }
+    }
 
     INV_data_buf[0] = INV1_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV1_CS_1; // I2_H
@@ -1061,9 +1119,10 @@ void idle_mode_spi_func()
     INV_data_buf[3] = INV1_CS_3; // dummy
     INV_data_buf[4] = INV1_CS_4; // dummy
 
-    if (using_inv_num >= 2 /*&& CalcChecksum(INV_data_buf, 5) == 0*/)
+    if (using_inv_num >= 2 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[1]++;
+        com_check_success[1]++;
+        com_check_fail_reset[1] = 0;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 2;
@@ -1083,6 +1142,15 @@ void idle_mode_spi_func()
         UDP_data[4] = INV_data_buf[1]; // I2_H
         UDP_data[5] = INV_data_buf[2]; // I2_L
     }
+    else
+    {
+        com_check_fail[1]++;
+        com_check_fail_reset[1]++;
+        if (com_check_fail_reset[1] > 200)
+        {
+            INV_status[3] += 2;
+        }
+    }
 
     INV_data_buf[0] = INV2_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV2_CS_1; // I3_H
@@ -1090,9 +1158,10 @@ void idle_mode_spi_func()
     INV_data_buf[3] = INV2_CS_3; // dummy
     INV_data_buf[4] = INV2_CS_4; // dummy
 
-    if (using_inv_num >= 3 /*&& CalcChecksum(INV_data_buf, 5) == 0*/)
+    if (using_inv_num >= 3 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[2]++;
+        com_check_success[2]++;
+        com_check_fail_reset[2] = 0;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 4;
@@ -1112,6 +1181,15 @@ void idle_mode_spi_func()
         UDP_data[6] = INV_data_buf[1]; // I3_H
         UDP_data[7] = INV_data_buf[2]; // I3_L
     }
+    else
+    {
+        com_check_fail[2]++;
+        com_check_fail_reset[2]++;
+        if (com_check_fail_reset[2] > 200)
+        {
+            INV_status[3] += 4;
+        }
+    }
 
     INV_data_buf[0] = INV3_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV3_CS_1; // I4_H
@@ -1119,9 +1197,10 @@ void idle_mode_spi_func()
     INV_data_buf[3] = INV3_CS_3; // dummy
     INV_data_buf[4] = INV3_CS_4; // dummy
 
-    if (using_inv_num >= 4 /*&& CalcChecksum(INV_data_buf, 5) == 0*/)
+    if (using_inv_num >= 4 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[3]++;
+        com_check_success[3]++;
+        com_check_fail_reset[3] = 0;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 8;
@@ -1141,6 +1220,15 @@ void idle_mode_spi_func()
         UDP_data[8] = INV_data_buf[1]; // I4_H
         UDP_data[9] = INV_data_buf[2]; // I4_L
     }
+    else
+    {
+        com_check_fail[3]++;
+        com_check_fail_reset[3]++;
+        if (com_check_fail_reset[3] > 200)
+        {
+            INV_status[3] += 8;
+        }
+    }
 
     INV_data_buf[0] = INV4_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV4_CS_1; // I5_H
@@ -1148,9 +1236,10 @@ void idle_mode_spi_func()
     INV_data_buf[3] = INV4_CS_3; // dummy
     INV_data_buf[4] = INV4_CS_4; // dummy
 
-    if (using_inv_num >= 5 /*&& CalcChecksum(INV_data_buf, 5) == 0*/)
+    if (using_inv_num >= 5 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[4]++;
+        com_check_success[4]++;
+        com_check_fail_reset[4] = 0;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 16;
@@ -1170,6 +1259,15 @@ void idle_mode_spi_func()
         UDP_data[10] = INV_data_buf[1]; // I5_H
         UDP_data[11] = INV_data_buf[2]; // I5_L
     }
+    else
+    {
+        com_check_fail[4]++;
+        com_check_fail_reset[4]++;
+        if (com_check_fail_reset[4] > 200)
+        {
+            INV_status[3] += 16;
+        }
+    }
 
     INV_data_buf[0] = INV5_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV5_CS_1; // I6_H
@@ -1177,9 +1275,10 @@ void idle_mode_spi_func()
     INV_data_buf[3] = INV5_CS_3; // dummy
     INV_data_buf[4] = INV5_CS_4; // dummy
 
-    if (using_inv_num >= 6 /*&& CalcChecksum(INV_data_buf, 5) == 0*/)
+    if (using_inv_num >= 6 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[5]++;
+        com_check_success[5]++;
+        com_check_fail_reset[5] = 0;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 32;
@@ -1199,6 +1298,15 @@ void idle_mode_spi_func()
         UDP_data[12] = INV_data_buf[1]; // I6_H
         UDP_data[13] = INV_data_buf[2]; // I6_L
     }
+    else
+    {
+        com_check_fail[5]++;
+        com_check_fail_reset[5]++;
+        if (com_check_fail_reset[5] > 200)
+        {
+            INV_status[3] += 32;
+        }
+    }
 
     INV_data_buf[0] = INV6_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV6_CS_1; // I7_H
@@ -1206,9 +1314,10 @@ void idle_mode_spi_func()
     INV_data_buf[3] = INV6_CS_3; // dummy
     INV_data_buf[4] = INV6_CS_4; // dummy
 
-    if (using_inv_num >= 7 /*&& CalcChecksum(INV_data_buf, 5) == 0*/)
+    if (using_inv_num >= 7 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[6]++;
+        com_check_success[6]++;
+        com_check_fail_reset[6] = 0;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 64;
@@ -1228,6 +1337,15 @@ void idle_mode_spi_func()
         UDP_data[14] = INV_data_buf[1]; // I7_H
         UDP_data[15] = INV_data_buf[2]; // I7_L
     }
+    else
+    {
+        com_check_fail[6]++;
+        com_check_fail_reset[6]++;
+        if (com_check_fail_reset[6] > 200)
+        {
+            INV_status[3] += 64;
+        }
+    }
 
     INV_data_buf[0] = INV7_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV7_CS_1; // I8_H
@@ -1235,9 +1353,10 @@ void idle_mode_spi_func()
     INV_data_buf[3] = INV7_CS_3; // dummy
     INV_data_buf[4] = INV7_CS_4; // dummy
 
-    if (using_inv_num >= 8 /*&& CalcChecksum(INV_data_buf, 5) == 0*/)
+    if (using_inv_num >= 8 && Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[7]++;
+        com_check_success[7]++;
+        com_check_fail_reset[7] = 0;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 128;
@@ -1257,6 +1376,15 @@ void idle_mode_spi_func()
         UDP_data[16] = INV_data_buf[1]; // I8_H
         UDP_data[17] = INV_data_buf[2]; // I8_L
     }
+    else
+    {
+        com_check_fail[7]++;
+        com_check_fail_reset[7]++;
+        if (com_check_fail_reset[7] > 200)
+        {
+            INV_status[3] += 128;
+        }
+    }
 
     if (mode_changed)
     {
@@ -1273,13 +1401,13 @@ void idle_mode_spi_func()
         if (INV_status[0] != 0x00 || INV_status[1] != 0x00)
         {
             Flag.ModeStatus = MODE_STATUS_INV_FAULT;
-            memcpy(INV_status_record,INV_status,8);
+            memcpy(INV_status_record, INV_status, 8);
 
         }
         else if (INV_status[3] != 0x00)
         {
             Flag.ModeStatus = MODE_STATUS_CON_LOST;
-            memcpy(INV_status_record,INV_status,8);
+            memcpy(INV_status_record, INV_status, 8);
             INV_status[0] = 0x00;
             INV_status[1] = 0x00;
             for (i = 2; i < 18; i++)
@@ -1315,124 +1443,124 @@ void debug_mode_spi_func()
     int i;
 
     if (using_inv_num >= 1)
-     {
-         INV_data_buf[0] = mode_plus_status;
-         INV_data_buf[1] = current_reference[0]; // I1_ref_H
-         INV_data_buf[2] = current_reference[1]; // I1_ref_L
-         INV_data_buf[3] = 0x0000;
-         INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+    {
+        INV_data_buf[0] = mode_plus_status;
+        INV_data_buf[1] = current_reference[0]; // I1_ref_H
+        INV_data_buf[2] = current_reference[1]; // I1_ref_L
+        INV_data_buf[3] = 0x0000;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
-         INV0_CS_0 = INV_data_buf[0];
-         INV0_CS_1 = INV_data_buf[1];
-         INV0_CS_2 = INV_data_buf[2];
-         INV0_CS_3 = INV_data_buf[3];
-         INV0_CS_4 = INV_data_buf[4];
-     }
+        INV0_CS_0 = INV_data_buf[0];
+        INV0_CS_1 = INV_data_buf[1];
+        INV0_CS_2 = INV_data_buf[2];
+        INV0_CS_3 = INV_data_buf[3];
+        INV0_CS_4 = INV_data_buf[4];
+    }
 
-     if (using_inv_num >= 2)
-     {
-         INV_data_buf[0] = mode_plus_status;
-         INV_data_buf[1] = current_reference[2]; // I1_ref_H
-         INV_data_buf[2] = current_reference[3]; // I1_ref_L
-         INV_data_buf[3] = 0x0000;
-         INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+    if (using_inv_num >= 2)
+    {
+        INV_data_buf[0] = mode_plus_status;
+        INV_data_buf[1] = current_reference[2]; // I1_ref_H
+        INV_data_buf[2] = current_reference[3]; // I1_ref_L
+        INV_data_buf[3] = 0x0000;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
-         INV1_CS_0 = INV_data_buf[0];
-         INV1_CS_1 = INV_data_buf[1];
-         INV1_CS_2 = INV_data_buf[2];
-         INV1_CS_3 = INV_data_buf[3];
-         INV1_CS_4 = INV_data_buf[4];
-     }
+        INV1_CS_0 = INV_data_buf[0];
+        INV1_CS_1 = INV_data_buf[1];
+        INV1_CS_2 = INV_data_buf[2];
+        INV1_CS_3 = INV_data_buf[3];
+        INV1_CS_4 = INV_data_buf[4];
+    }
 
-     if (using_inv_num >= 3)
-     {
-         INV_data_buf[0] = mode_plus_status;
-         INV_data_buf[1] = current_reference[4]; // I1_ref_H
-         INV_data_buf[2] = current_reference[5]; // I1_ref_L
-         INV_data_buf[3] = 0x0000;
-         INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+    if (using_inv_num >= 3)
+    {
+        INV_data_buf[0] = mode_plus_status;
+        INV_data_buf[1] = current_reference[4]; // I1_ref_H
+        INV_data_buf[2] = current_reference[5]; // I1_ref_L
+        INV_data_buf[3] = 0x0000;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
-         INV2_CS_0 = INV_data_buf[0];
-         INV2_CS_1 = INV_data_buf[1];
-         INV2_CS_2 = INV_data_buf[2];
-         INV2_CS_3 = INV_data_buf[3];
-         INV2_CS_4 = INV_data_buf[4];
-     }
+        INV2_CS_0 = INV_data_buf[0];
+        INV2_CS_1 = INV_data_buf[1];
+        INV2_CS_2 = INV_data_buf[2];
+        INV2_CS_3 = INV_data_buf[3];
+        INV2_CS_4 = INV_data_buf[4];
+    }
 
-     if (using_inv_num >= 4)
-     {
-         INV_data_buf[0] = mode_plus_status;
-         INV_data_buf[1] = current_reference[6]; // I1_ref_H
-         INV_data_buf[2] = current_reference[7]; // I1_ref_L
-         INV_data_buf[3] = 0x0000;
-         INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+    if (using_inv_num >= 4)
+    {
+        INV_data_buf[0] = mode_plus_status;
+        INV_data_buf[1] = current_reference[6]; // I1_ref_H
+        INV_data_buf[2] = current_reference[7]; // I1_ref_L
+        INV_data_buf[3] = 0x0000;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
-         INV3_CS_0 = INV_data_buf[0];
-         INV3_CS_1 = INV_data_buf[1];
-         INV3_CS_2 = INV_data_buf[2];
-         INV3_CS_3 = INV_data_buf[3];
-         INV3_CS_4 = INV_data_buf[4];
-     }
+        INV3_CS_0 = INV_data_buf[0];
+        INV3_CS_1 = INV_data_buf[1];
+        INV3_CS_2 = INV_data_buf[2];
+        INV3_CS_3 = INV_data_buf[3];
+        INV3_CS_4 = INV_data_buf[4];
+    }
 
-     if (using_inv_num >= 5)
-     {
-         INV_data_buf[0] = mode_plus_status;
-         INV_data_buf[1] = current_reference[8]; // I1_ref_H
-         INV_data_buf[2] = current_reference[9]; // I1_ref_L
-         INV_data_buf[3] = 0x0000;
-         INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+    if (using_inv_num >= 5)
+    {
+        INV_data_buf[0] = mode_plus_status;
+        INV_data_buf[1] = current_reference[8]; // I1_ref_H
+        INV_data_buf[2] = current_reference[9]; // I1_ref_L
+        INV_data_buf[3] = 0x0000;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
-         INV4_CS_0 = INV_data_buf[0];
-         INV4_CS_1 = INV_data_buf[1];
-         INV4_CS_2 = INV_data_buf[2];
-         INV4_CS_3 = INV_data_buf[3];
-         INV4_CS_4 = INV_data_buf[4];
-     }
+        INV4_CS_0 = INV_data_buf[0];
+        INV4_CS_1 = INV_data_buf[1];
+        INV4_CS_2 = INV_data_buf[2];
+        INV4_CS_3 = INV_data_buf[3];
+        INV4_CS_4 = INV_data_buf[4];
+    }
 
-     if (using_inv_num >= 6)
-     {
-         INV_data_buf[0] = mode_plus_status;
-         INV_data_buf[1] = current_reference[10]; // I1_ref_H
-         INV_data_buf[2] = current_reference[11]; // I1_ref_L
-         INV_data_buf[3] = 0x0000;
-         INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+    if (using_inv_num >= 6)
+    {
+        INV_data_buf[0] = mode_plus_status;
+        INV_data_buf[1] = current_reference[10]; // I1_ref_H
+        INV_data_buf[2] = current_reference[11]; // I1_ref_L
+        INV_data_buf[3] = 0x0000;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
-         INV5_CS_0 = INV_data_buf[0];
-         INV5_CS_1 = INV_data_buf[1];
-         INV5_CS_2 = INV_data_buf[2];
-         INV5_CS_3 = INV_data_buf[3];
-         INV5_CS_4 = INV_data_buf[4];
-     }
+        INV5_CS_0 = INV_data_buf[0];
+        INV5_CS_1 = INV_data_buf[1];
+        INV5_CS_2 = INV_data_buf[2];
+        INV5_CS_3 = INV_data_buf[3];
+        INV5_CS_4 = INV_data_buf[4];
+    }
 
-     if (using_inv_num >= 7)
-     {
-         INV_data_buf[0] = mode_plus_status;
-         INV_data_buf[1] = current_reference[12]; // I1_ref_H
-         INV_data_buf[2] = current_reference[13]; // I1_ref_L
-         INV_data_buf[3] = 0x0000;
-         INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+    if (using_inv_num >= 7)
+    {
+        INV_data_buf[0] = mode_plus_status;
+        INV_data_buf[1] = current_reference[12]; // I1_ref_H
+        INV_data_buf[2] = current_reference[13]; // I1_ref_L
+        INV_data_buf[3] = 0x0000;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
-         INV6_CS_0 = INV_data_buf[0];
-         INV6_CS_1 = INV_data_buf[1];
-         INV6_CS_2 = INV_data_buf[2];
-         INV6_CS_3 = INV_data_buf[3];
-         INV6_CS_4 = INV_data_buf[4];
-     }
+        INV6_CS_0 = INV_data_buf[0];
+        INV6_CS_1 = INV_data_buf[1];
+        INV6_CS_2 = INV_data_buf[2];
+        INV6_CS_3 = INV_data_buf[3];
+        INV6_CS_4 = INV_data_buf[4];
+    }
 
-     if (using_inv_num == 8)
-     {
-         INV_data_buf[0] = mode_plus_status;
-         INV_data_buf[1] = current_reference[14]; // I1_ref_H
-         INV_data_buf[2] = current_reference[15]; // I1_ref_L
-         INV_data_buf[3] = 0x0000;
-         INV_data_buf[4] = CalcChecksum(INV_data_buf, 4);
+    if (using_inv_num == 8)
+    {
+        INV_data_buf[0] = mode_plus_status;
+        INV_data_buf[1] = current_reference[14]; // I1_ref_H
+        INV_data_buf[2] = current_reference[15]; // I1_ref_L
+        INV_data_buf[3] = 0x0000;
+        INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
-         INV7_CS_0 = INV_data_buf[0];
-         INV7_CS_1 = INV_data_buf[1];
-         INV7_CS_2 = INV_data_buf[2];
-         INV7_CS_3 = INV_data_buf[3];
-         INV7_CS_4 = INV_data_buf[4];
-     }
+        INV7_CS_0 = INV_data_buf[0];
+        INV7_CS_1 = INV_data_buf[1];
+        INV7_CS_2 = INV_data_buf[2];
+        INV7_CS_3 = INV_data_buf[3];
+        INV7_CS_4 = INV_data_buf[4];
+    }
 
     delaycc(1e-6);
     CS2_TEST_SEND = 0; // send-SPI signal to FPGA
@@ -1451,10 +1579,9 @@ void debug_mode_spi_func()
 
     debug_val[9] = CalcChecksum(debug_val, 5);
 
-
     if (CalcChecksum(debug_val, 5) == 0)
     {
-        check_sum_cnt[0]++;
+        com_check_success[0]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 1;
@@ -1473,10 +1600,11 @@ void debug_mode_spi_func()
         }
         current_sen_debug[0] = INV_data_buf[1]; // I1_H
         current_sen_debug[1] = INV_data_buf[2]; // I1_L
-    }else{
-        check_sum_fail[0]++;
     }
-
+    else
+    {
+        com_check_fail[0]++;
+    }
 
     INV_data_buf[0] = INV1_CS_0; // current fault / voltage fault / dummy / inv status
     INV_data_buf[1] = INV1_CS_1; // I2_H
@@ -1484,9 +1612,9 @@ void debug_mode_spi_func()
     INV_data_buf[3] = INV1_CS_3; // dummy
     INV_data_buf[4] = INV1_CS_4; // dummy
 
-    if (CalcChecksum(INV_data_buf, 5) == 0)
+    if (Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[1]++;
+        com_check_success[1]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 2;
@@ -1505,8 +1633,10 @@ void debug_mode_spi_func()
         }
         current_sen_debug[2] = INV_data_buf[1]; // I2_H
         current_sen_debug[3] = INV_data_buf[2]; // I2_L
-    }else{
-        check_sum_fail[1]++;
+    }
+    else
+    {
+        com_check_fail[1]++;
     }
 
     INV_data_buf[0] = INV2_CS_0; // current fault / voltage fault / dummy / inv status
@@ -1515,9 +1645,9 @@ void debug_mode_spi_func()
     INV_data_buf[3] = INV2_CS_3; // dummy
     INV_data_buf[4] = INV2_CS_4; // dummy
 
-    if (CalcChecksum(INV_data_buf, 5) == 0)
+    if (Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[2]++;
+        com_check_success[2]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 4;
@@ -1536,8 +1666,10 @@ void debug_mode_spi_func()
         }
         current_sen_debug[4] = INV_data_buf[1]; // I3_H
         current_sen_debug[5] = INV_data_buf[2]; // I3_L
-    }else{
-        check_sum_fail[2]++;
+    }
+    else
+    {
+        com_check_fail[2]++;
     }
 
     INV_data_buf[0] = INV3_CS_0; // current fault / voltage fault / dummy / inv status
@@ -1546,9 +1678,9 @@ void debug_mode_spi_func()
     INV_data_buf[3] = INV3_CS_3; // dummy
     INV_data_buf[4] = INV3_CS_4; // dummy
 
-    if (CalcChecksum(INV_data_buf, 5) == 0)
+    if (Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[3]++;
+        com_check_success[3]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 8;
@@ -1570,7 +1702,7 @@ void debug_mode_spi_func()
     }
     else
     {
-        check_sum_fail[3]++;
+        com_check_fail[3]++;
     }
 
     INV_data_buf[0] = INV4_CS_0; // current fault / voltage fault / dummy / inv status
@@ -1579,9 +1711,9 @@ void debug_mode_spi_func()
     INV_data_buf[3] = INV4_CS_3; // dummy
     INV_data_buf[4] = INV4_CS_4; // dummy
 
-    if (CalcChecksum(INV_data_buf, 5) == 0)
+    if (Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[4]++;
+        com_check_success[4]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 16;
@@ -1600,8 +1732,10 @@ void debug_mode_spi_func()
         }
         current_sen_debug[8] = INV_data_buf[1]; // I5_H
         current_sen_debug[9] = INV_data_buf[2]; // I5_L
-    }else{
-        check_sum_fail[4]++;
+    }
+    else
+    {
+        com_check_fail[4]++;
     }
 
     INV_data_buf[0] = INV5_CS_0; // current fault / voltage fault / dummy / inv status
@@ -1610,9 +1744,9 @@ void debug_mode_spi_func()
     INV_data_buf[3] = INV5_CS_3; // dummy
     INV_data_buf[4] = INV5_CS_4; // dummy
 
-    if (CalcChecksum(INV_data_buf, 5) == 0)
+    if (Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[5]++;
+        com_check_success[5]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 32;
@@ -1631,8 +1765,10 @@ void debug_mode_spi_func()
         }
         current_sen_debug[10] = INV_data_buf[1]; // I6_H
         current_sen_debug[11] = INV_data_buf[2]; // I6_L
-    }else{
-        check_sum_fail[5]++;
+    }
+    else
+    {
+        com_check_fail[5]++;
     }
 
     INV_data_buf[0] = INV6_CS_0; // current fault / voltage fault / dummy / inv status
@@ -1641,9 +1777,9 @@ void debug_mode_spi_func()
     INV_data_buf[3] = INV6_CS_3; // dummy
     INV_data_buf[4] = INV6_CS_4; // dummy
 
-    if (CalcChecksum(INV_data_buf, 5) == 0)
+    if (Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[6]++;
+        com_check_success[6]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 64;
@@ -1662,8 +1798,10 @@ void debug_mode_spi_func()
         }
         current_sen_debug[12] = INV_data_buf[1]; // I7_H
         current_sen_debug[13] = INV_data_buf[2]; // I7_L
-    }else{
-        check_sum_fail[6]++;
+    }
+    else
+    {
+        com_check_fail[6]++;
     }
 
     INV_data_buf[0] = INV7_CS_0; // current fault / voltage fault / dummy / inv status
@@ -1672,9 +1810,9 @@ void debug_mode_spi_func()
     INV_data_buf[3] = INV7_CS_3; // dummy
     INV_data_buf[4] = INV7_CS_4; // dummy
 
-    if (CalcChecksum(INV_data_buf, 5) == 0)
+    if (Calc_CRC_16_CCITT(INV_data_buf, 5) == 0)
     {
-        check_sum_cnt[7]++;
+        com_check_success[7]++;
         if (INV_data_buf[0] == 0xFFFF)
         { // CON_LOST
             INV_status[3] += 128;
@@ -1693,8 +1831,10 @@ void debug_mode_spi_func()
         }
         current_sen_debug[14] = INV_data_buf[1]; // I8_H
         current_sen_debug[15] = INV_data_buf[2]; // I8_L
-    }else{
-        check_sum_fail[7]++;
+    }
+    else
+    {
+        com_check_fail[7]++;
     }
 
     if (mode_changed)

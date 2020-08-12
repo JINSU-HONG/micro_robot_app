@@ -10,6 +10,7 @@
 
 #include "data_form_change.h"
 
+
 #pragma CODE_SECTION(cc, "ramfuncs");
 
 int cc_cnt = 0;
@@ -33,7 +34,7 @@ unsigned int recv_temp;
 unsigned int recv_temp_h;
 unsigned int recv_temp_l;
 
-int i;
+int i,j;
 
 int PC_mode;
 int PC_status;
@@ -51,6 +52,11 @@ int error_cnt[8] = {0,};
 int ref_gen_mode = 0;
 int ref_num = 0;
 
+uint16_t test_result1;
+uint16_t test_result2;
+uint16_t test_result3;
+
+
 
 __interrupt void cc(void) {
 	ccTimer1start = ReadCpuTimer1Counter();
@@ -61,8 +67,6 @@ __interrupt void cc(void) {
 	    PieVectTable.EPWM2_INT = &cc_debug;
 	    EDIS;
 	}
-
-
 
 
 
@@ -175,17 +179,7 @@ __interrupt void cc(void) {
 				send_buf[i] = 0;
 			}
 		} else if (UDP_RX_flag == 1) { // recv
-			/*
-			 if (Flag.OverallMode == OVERALL_MODE_INIT) {
-			 recv_len = UDP_HEADER_LEN + INIT_RECV_LEN;
-			 } else if (Flag.OverallMode == OVERALL_MODE_INV_TEST) {
-			 recv_len = UDP_HEADER_LEN + INV_TEST_RECV_LEN;
-			 } else if (Flag.OverallMode == OVERALL_MODE_IDLE) {
-			 recv_len = UDP_HEADER_LEN + IDLE_RECV_LEN;
-			 } else if (Flag.OverallMode == OVERALL_MODE_INV_TEST) {
-			 recv_len = UDP_HEADER_LEN + RUN_RECV_LEN;
-			 }
-			 */
+		    recv_cnt++;
 
 			recv_len = recvfrom(SOCK_1, recv_buf, recv_len, destip, &destport); // recv 1바이트씩 읽은 길이 반환
 			recv_iter = 0;

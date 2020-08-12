@@ -60,6 +60,7 @@ source/cc_spi_func.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Mic
 source/cc_spi_func.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/Filter.h
 source/cc_spi_func.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/types.h
 source/cc_spi_func.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/cc_spi_func.h
+source/cc_spi_func.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/check_CRC.h
 
 ../source/cc_spi_func.c: 
 C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/F2837xS_variable.h: 
@@ -121,3 +122,4 @@ C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/comp.h:
 C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/Filter.h: 
 C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/types.h: 
 C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/cc_spi_func.h: 
+C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/check_CRC.h: 

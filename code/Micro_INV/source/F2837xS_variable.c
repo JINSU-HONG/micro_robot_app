@@ -18,7 +18,7 @@ float Ih_ref = 0.;
 float Ih_ref_old = 0.;
 float V_ff = 0.;
 int disconnect_cnt = 0;
-int checksum_fail_cnt;
+uint16_t checksum_fail_cnt;
 unsigned int temp_sum_h=0, temp_sum_l=0;
 
 float Ia_present = 0.;

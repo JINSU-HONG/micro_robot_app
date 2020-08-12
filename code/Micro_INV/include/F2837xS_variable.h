@@ -71,7 +71,7 @@ extern float Ih_ref;
 extern float V_ff;
 extern float Ih_ref_old;
 extern int disconnect_cnt;
-extern int checksum_fail_cnt;
+extern uint16_t checksum_fail_cnt;
 extern unsigned int temp_sum_h, temp_sum_l;
 
 extern float Ia_present;

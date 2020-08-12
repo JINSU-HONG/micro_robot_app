@@ -23,6 +23,8 @@ int test_val1 = 0;
 int test_val2 = 0;
 int isSwitchOn = false;
 
+uint16_t WC;
+
 int gptest = 0;
 
 long sync_count = 0;
@@ -58,6 +60,7 @@ void convert_binary_to_float(float* float_data, int int_data_h, int int_data_l);
 __interrupt void SPI_RXINT(void)
 {
     spi_cnt++;
+    WC++;
     spiTimer0start = ReadCpuTimer1Counter();
     delaycc(10e-6); // safe delay to move data; error occured for 1e-6 delay.
     disconnect_cnt = 0;
@@ -81,7 +84,7 @@ __interrupt void SPI_RXINT(void)
 
         SPI_DAT_FILL = false;
 
-        if (CalcChecksum(SPI_data_RX, 5) == 0)
+        if (Calc_CRC_16_CCITT(SPI_data_RX, 5) == 0)
         {
             check_sum_sucess++;
             checksum_fail_cnt = 0;
@@ -283,8 +286,8 @@ __interrupt void SPI_RXINT(void)
         }
     }
 
-    SPI_data_TX[3] = 0;
-    SPI_data_TX[4] = CalcChecksum(SPI_data_TX, 4);
+    SPI_data_TX[3] = WC;
+    SPI_data_TX[4] = Calc_CRC_16_CCITT(SPI_data_TX, 4);
 
     SpibRegs.SPITXBUF = SPI_data_TX[0];
     SpibRegs.SPITXBUF = SPI_data_TX[1];
@@ -310,7 +313,7 @@ __interrupt void cc(void)
     if (disconnect_cnt > 1000 && !debug_mode)
     {
         Flag.OverallMode = OVERALL_MODE_INIT;
-        Flag.ModeStatus = MODE_STATUS_OK;
+        Flag.ModeStatus = MODE_STATUS_CON_LOST;
         Flag.Ready = 0;
         Ih_ref = 0.;
     }
@@ -318,7 +321,7 @@ __interrupt void cc(void)
     if (checksum_fail_cnt > 1000)
     {
         Flag.OverallMode = OVERALL_MODE_INIT;
-        Flag.ModeStatus = MODE_STATUS_OK;
+        Flag.ModeStatus = MODE_STATUS_CON_LOST;
         Flag.Ready = 0;
         Ih_ref = 0.;
     }

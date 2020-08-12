@@ -32,6 +32,7 @@ ORDERED_OBJS += \
 "./source/RingBuff.obj" \
 "./source/cc.obj" \
 "./source/cc_spi_func.obj" \
+"./source/check_CRC.obj" \
 "./source/data_form_change.obj" \
 "./source/easy2837xS_sci_v8.4.obj" \
 "./source/main.obj" \
@@ -183,8 +184,8 @@ Micro_DIST.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "source\F2837xS_Adc.obj" "source\F2837xS_CodeStartBranch.obj" "source\F2837xS_CpuTimers.obj" "source\F2837xS_DA.obj" "source\F2837xS_DefaultISR.obj" "source\F2837xS_EPwm.obj" "source\F2837xS_Emif.obj" "source\F2837xS_GlobalVariableDefs.obj" "source\F2837xS_Gpio.obj" "source\F2837xS_PieCtrl.obj" "source\F2837xS_PieVect.obj" "source\F2837xS_Spi.obj" "source\F2837xS_SysCtrl.obj" "source\F2837xS_Xbar.obj" "source\F2837xS_fault.obj" "source\F2837xS_struct.obj" "source\F2837xS_usDelay.obj" "source\F2837xS_variable.obj" "source\Filter.obj" "source\RingBuff.obj" "source\cc.obj" "source\cc_spi_func.obj" "source\data_form_change.obj" "source\easy2837xS_sci_v8.4.obj" "source\main.obj" "source\socket.obj" "source\w5300.obj" 
-	-$(RM) "source\F2837xS_Adc.d" "source\F2837xS_CpuTimers.d" "source\F2837xS_DA.d" "source\F2837xS_DefaultISR.d" "source\F2837xS_EPwm.d" "source\F2837xS_Emif.d" "source\F2837xS_GlobalVariableDefs.d" "source\F2837xS_Gpio.d" "source\F2837xS_PieCtrl.d" "source\F2837xS_PieVect.d" "source\F2837xS_Spi.d" "source\F2837xS_SysCtrl.d" "source\F2837xS_Xbar.d" "source\F2837xS_fault.d" "source\F2837xS_struct.d" "source\F2837xS_variable.d" "source\Filter.d" "source\RingBuff.d" "source\cc.d" "source\cc_spi_func.d" "source\data_form_change.d" "source\easy2837xS_sci_v8.4.d" "source\main.d" "source\socket.d" "source\w5300.d" 
+	-$(RM) "source\F2837xS_Adc.obj" "source\F2837xS_CodeStartBranch.obj" "source\F2837xS_CpuTimers.obj" "source\F2837xS_DA.obj" "source\F2837xS_DefaultISR.obj" "source\F2837xS_EPwm.obj" "source\F2837xS_Emif.obj" "source\F2837xS_GlobalVariableDefs.obj" "source\F2837xS_Gpio.obj" "source\F2837xS_PieCtrl.obj" "source\F2837xS_PieVect.obj" "source\F2837xS_Spi.obj" "source\F2837xS_SysCtrl.obj" "source\F2837xS_Xbar.obj" "source\F2837xS_fault.obj" "source\F2837xS_struct.obj" "source\F2837xS_usDelay.obj" "source\F2837xS_variable.obj" "source\Filter.obj" "source\RingBuff.obj" "source\cc.obj" "source\cc_spi_func.obj" "source\check_CRC.obj" "source\data_form_change.obj" "source\easy2837xS_sci_v8.4.obj" "source\main.obj" "source\socket.obj" "source\w5300.obj" 
+	-$(RM) "source\F2837xS_Adc.d" "source\F2837xS_CpuTimers.d" "source\F2837xS_DA.d" "source\F2837xS_DefaultISR.d" "source\F2837xS_EPwm.d" "source\F2837xS_Emif.d" "source\F2837xS_GlobalVariableDefs.d" "source\F2837xS_Gpio.d" "source\F2837xS_PieCtrl.d" "source\F2837xS_PieVect.d" "source\F2837xS_Spi.d" "source\F2837xS_SysCtrl.d" "source\F2837xS_Xbar.d" "source\F2837xS_fault.d" "source\F2837xS_struct.d" "source\F2837xS_variable.d" "source\Filter.d" "source\RingBuff.d" "source\cc.d" "source\cc_spi_func.d" "source\check_CRC.d" "source\data_form_change.d" "source\easy2837xS_sci_v8.4.d" "source\main.d" "source\socket.d" "source\w5300.d" 
 	-$(RM) "source\F2837xS_CodeStartBranch.d" "source\F2837xS_usDelay.d" 
 	-@echo 'Finished clean'
 	-@echo ' '

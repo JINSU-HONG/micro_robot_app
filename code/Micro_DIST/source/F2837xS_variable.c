@@ -5,9 +5,9 @@
 #define ADCb_fix_ratio 0.95
 
 //Switching frequency
-double Fsw = 5e3;
-double Fsamp = 5e3;
-long reset_inv_num = -5e4; // count to 0 to wait 10 sec; 10 * Fsw
+double Fsw = 2e3;
+double Fsamp = 2e3;
+long reset_inv_num = -1e4; // count to 0 to wait 10 sec; 10 * Fsw
 int reset_inv_waiting = 0;
 
 Uint16 maxCount_ePWM = 0.;
@@ -66,7 +66,7 @@ float current_ref_set[8] = {0., 0., 0., 0., 0., 0., 0., 0.};
 unsigned int UDP_data[32] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 unsigned int INV_status[4] = {0, 0, 0, 0};
 unsigned int INV_status_record[4] = {0, 0, 0, 0};
-unsigned int INV_data_buf[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+uint16_t INV_data_buf[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int disconnect_cnt = 0;
 bool mode_changed = true;
 //int using_inv_num = 1;

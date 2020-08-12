@@ -159,6 +159,13 @@ source/cc_spi_func.obj: ../source/cc_spi_func.c $(GEN_OPTS) | $(GEN_HDRS)
 	@echo 'Finished building: $<'
 	@echo ' '
 
+source/check_CRC.obj: ../source/check_CRC.c $(GEN_OPTS) | $(GEN_HDRS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C2000 Compiler'
+	"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/bin/cl2000" -v28 -ml -mt --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 --cla_support=cla1 --include_path="C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include" --include_path="D:/robot/28377S_POWER/include" --include_path="C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include" --include_path="C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include" --include_path="C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include" --advice:performance=all --symdebug:coff --define=_FLASH --diag_wrap=off --diag_warning=225 --display_error_number --preproc_with_compile --preproc_dependency="source/check_CRC.d_raw" --obj_directory="source" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 source/data_form_change.obj: ../source/data_form_change.c $(GEN_OPTS) | $(GEN_HDRS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C2000 Compiler'
