@@ -1,0 +1,375 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <vector>
+#include <pthread.h>
+
+#include <rtai_lxrt.h>
+
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+
+// typedef int SOCKET;
+#define NET_INVALID_SOCKET -1
+#define NET_SOCKET_ERROR -1
+
+#include "variables.h"
+#include "rt_setting.h"
+
+#include "actuation_matrix_calc.h"
+#include "load_b_lut.h"
+
+using std::vector;
+
+void load_b_luts();
+int rt_setting();
+int sock_setting();
+void periodic_recv();
+void periodic_send();
+void periodic_pinv();
+void gen_new_P_M_FB_des();
+void clear_recv();
+void *user_input_thr_func(void *arg);
+
+pthread_t user_input_thr;
+
+static RT_TASK* microrobot_task;
+
+static cpu_set_t cpu_mask;
+static int cpu_affinity = PINV_CPU_AFFINITY;
+
+int main(int argc, char *argv[]) {
+    //select CPU
+    CPU_ZERO(&cpu_mask);
+    CPU_SET(cpu_affinity, &cpu_mask);
+    retval = sched_setaffinity(0, sizeof(cpu_mask), &cpu_mask);
+    if (retval != 0) {
+        printf("CPU select error\n");
+        return -1;
+    }
+
+    //set timeout
+    timeout.tv_sec = 0;
+    timeout.tv_usec = RECV_TIMEOUT_uSEC;
+
+    //RT setting
+    if (rt_setting() != 0) return -1; // Error occured during rt_setting
+
+    // LOAD B LUT
+    load_b_luts();
+
+    // sock setting
+    if (sock_setting() == -1) return -1; // Error occured during sock_setting
+
+    // ready user input thread
+    pthread_create(&user_input_thr, NULL, &user_input_thr_func, NULL);
+    
+    for (task_iter = 0; task_iter < 1000; task_iter++) {
+        // wait 1 sec for safe period timer
+        rt_task_wait_period();
+    }
+    task_iter = 0;
+
+    time_start = rt_get_time_ns();
+    while (keep_on_running) {
+        if (udp_work_mode == WORK_MODE_RECV) {
+            periodic_recv();
+
+            task_iter++;
+            if (task_iter == task_period) {
+                udp_work_mode = WORK_MODE_TERM;
+            } else {
+                udp_work_mode = WORK_MODE_SEND;
+            }
+
+            if (DISCONNECT_ESCAPE_MODE) {
+                if (recv_remain_cnt > DISCONNECT_ESCAPE_COUNT)  {
+                    printf("UDP disconnected. Escape.\n");
+                    break;
+                }
+            }
+        } else if (udp_work_mode == WORK_MODE_SEND) {
+            //time_a = rt_get_time_ns(); //include psuedo inverse calculation time
+            gen_new_P_M_FB_des();
+            periodic_pinv();
+            //printf("Current %d : (%f, %f, %f, %f, %f, %f, %f, %f)\n", task_iter, (*Current)[0], (*Current)[1], (*Current)[2], (*Current)[3], (*Current)[4], (*Current)[5], (*Current)[6], (*Current)[7]);
+            time_a = rt_get_time_ns();
+            periodic_send();
+
+            udp_work_mode = WORK_MODE_RECV;
+            //udp_work_mode = WORK_MODE_TERM;
+            if (SEND_RECV_COMB) continue; // no period wait before recv
+        } else { // WORK_MODE_TERM
+            break;
+        }
+        rt_task_wait_period();
+    }
+    time_end = rt_get_time_ns();
+    
+    printf("Task started at %luns\n", time_start);
+    printf("Task ended at   %luns\n", time_end);
+    printf("Task took %fms\n\n", (float)(time_end - time_start) / NS_PER_mSEC);
+	
+	printf("Timeout count : %d\n", timeout_cnt);
+    if (task_period != timeout_cnt) {
+	    printf("Average SEND-RECV time : %fus\n\n", (float)time_delta_sum / NS_PER_uSEC / (task_period-timeout_cnt));
+    }
+
+    // recv left data to clear
+    clear_recv();
+
+    // task delete
+    retval = rt_task_delete(microrobot_task);
+
+    if (retval != 0) {
+        if (retval == -EINVAL) {
+            printf("task structure is invalid\n");
+        } else {
+            printf("error stopping task\n");
+        }
+    }
+
+    // free memory
+    delete B_LUT1;
+    delete B_LUT2;
+    delete B_LUT3;
+    delete B_LUT4;
+    delete B_LUT5;
+    delete B_LUT6;
+    delete B_LUT7;
+    delete B_LUT8;
+    delete Position;
+    delete Magnetization;
+    delete FB_des;
+    delete Current;
+    printf("\nFreed memory\n");
+
+    // stop rt timer
+    rt_make_soft_real_time();
+    stop_rt_timer();
+    printf("RT timer stopped\n");
+    return 0;
+}
+
+void load_b_luts() {
+    load_b_lut(B_LUT1, "./data/B_LUT1.csv");
+    load_b_lut(B_LUT2, "./data/B_LUT2.csv");
+    load_b_lut(B_LUT3, "./data/B_LUT3.csv");
+    load_b_lut(B_LUT4, "./data/B_LUT4.csv");
+    load_b_lut(B_LUT5, "./data/B_LUT5.csv");
+    load_b_lut(B_LUT6, "./data/B_LUT6.csv");
+    load_b_lut(B_LUT7, "./data/B_LUT7.csv");
+    load_b_lut(B_LUT8, "./data/B_LUT8.csv");
+    printf("B LUTs are loaded\n");
+}
+
+int rt_setting() {
+    rt_set_oneshot_mode();
+    start_rt_timer(0);
+    printf("RT timer started\n");
+    
+    period_count = nano2count(TASK_PERIOD_uSEC * NS_PER_uSEC);
+    //printf("period count %d\n", period_count);
+
+    if (!(microrobot_task = rt_task_init_schmod(RT_TASK_NUM, // Name
+                                         2, // Priority
+                                         0, // Stack Size
+                                         0, // max_msg_size
+                                         SCHED_FIFO, // Policy
+                                         0))) {// cpus_allowed
+        printf("Error. Cannot initialize main task\n");
+
+        stop_rt_timer();
+        printf("RT timer stopped\n");
+        return -1;
+    }
+
+    mlockall(MCL_CURRENT | MCL_FUTURE);
+    rt_make_hard_real_time();
+
+    retval = rt_task_make_periodic(microrobot_task,
+                                   rt_get_time() + period_count,
+                                   period_count); //period in counts
+
+    if (retval != 0) {
+        if (retval == -EINVAL) {
+            printf("task structure is invalid\n");
+        } else {
+            printf("error stacking task\n");
+        }
+        stop_rt_timer();
+        printf("RT timer stopped\n");
+        return retval;
+    }
+
+    printf("RT setting done\n\n");
+    return 0;
+}
+
+int sock_setting() {
+    //if ((sock = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
+    if ((sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
+        printf("Error. socket creation fail\n");
+        stop_rt_timer();
+        printf("RT timer stopped\n");
+        return -1;
+    }
+
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(pc_port);
+    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+    memset(&dest_addr, 0, sizeof(dest_addr));
+    dest_addr.sin_family = AF_INET;
+    dest_addr.sin_port = htons(dest_port);
+    dest_addr.sin_addr.s_addr = inet_addr(dest_addr_string);
+    
+    if (bind(sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) == NET_SOCKET_ERROR) {
+        printf("Error. Socket binding fail\n");
+        close(sock);
+        stop_rt_timer();
+        printf("RT timer stopped\n");
+        return -1;
+    }
+
+    printf("Server is ready!\n\n");
+    return 0;
+}
+
+void periodic_recv() {
+    if (PRINT_COMM_DATA) printf("-----------------------------\n");
+    // clear the recv_buf
+    memset(&recv_buf[0], 0, sizeof(recv_buf));
+    if (PRINT_COMM_DATA) printf("Receiving data...\n");
+
+    recv_remain_cnt++;
+
+    // timeout using select function
+    FD_ZERO(&read_fds);
+    FD_SET(sock, &read_fds);
+
+    memcpy(&temp_timeout, &timeout, sizeof(timeout));
+    retval = select(sock+1, &read_fds, 0, 0, &temp_timeout);
+    switch (retval) {
+        case 0:
+            //printf("timeout\n");
+            timeout_cnt++;
+            data_size = -1;
+            break;
+        case -1:
+            printf("timeout error\n");
+            data_size = -1;
+            break;
+        default:
+            while (1) {
+                data_size = recvfrom(sock, recv_buf, BUFF_SIZE, 0, (struct sockaddr*)&client_addr, &client_addr_size);
+                time_b = rt_get_time_ns();
+                if (time_b - time_a > 350000) printf("delta %ld\n", time_b - time_a);
+                recv_remain_cnt--;
+                if (recv_remain_cnt > 0) {
+                    FD_ZERO(&read_fds);
+                    FD_SET(sock, &read_fds);
+                    memcpy(&temp_timeout, &timeout, sizeof(timeout));
+                    retval = select(sock+1, &read_fds, 0, 0, &temp_timeout);
+                    if (retval > 0) continue;
+                }
+                break;
+            }
+            time_delta_sum += time_b - time_a;
+            //time_b = rt_get_time_ns();
+            //printf("delta %ld\n", time_b - time_a);
+    }
+    if (PRINT_COMM_DATA) printf("Received data : %s\n", recv_buf);
+    if (data_size == -1) {
+        if (PRINT_COMM_DATA) printf("Error. Receiving fail\n");
+    } else if (data_size == 1) {
+        if (PRINT_COMM_DATA) printf("1 byte received.\n");
+    } else {
+        if (PRINT_COMM_DATA) printf("%d bytes received.\n", data_size);
+    }
+}
+
+void periodic_send() {
+    if (PRINT_COMM_DATA) printf("-----------------------------\n");
+    memset(&send_buf[0], 0, sizeof(send_buf));
+    //strcpy(send_buf, "abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd ");
+    strcpy(send_buf, "abcd ");
+
+    if (EVEN_DATA_MODE) {
+        send_buf[strlen(send_buf)] = '\0';
+        send_len = ((strlen(send_buf) + 1) / 2) * 2;
+    } else {
+        send_len = strlen(send_buf);
+    }
+
+    if (PRINT_COMM_DATA) printf("sending...\n");
+    data_size = sendto(sock, send_buf, send_len, 0, (struct sockaddr*)&dest_addr, sizeof(dest_addr));
+    if (data_size == -1) {
+        printf("Error. No data sent\n");
+    } else if (data_size == 1) {
+        if (PRINT_COMM_DATA) printf("1 byte sent\n");
+    } else {
+        if (PRINT_COMM_DATA) printf("%d bytes sent\n", data_size);
+    }
+}
+
+void periodic_pinv() {
+    time_a = rt_get_time_ns();
+    get_current(Position, Magnetization, FB_des, B_LUT1, B_LUT2, B_LUT3, B_LUT4, B_LUT5, B_LUT6, B_LUT7, B_LUT8, Current);
+    time_b = rt_get_time_ns();
+    if (time_delta < time_b - time_a) {
+        time_delta = time_b - time_a;
+    }
+    if (time_b - time_a > 100000) {
+        printf("big delta : %ldns\n", time_b - time_a);
+        //for (vector<double>::const_iterator i = I->begin(); i != I->end(); ++i)
+        //    printf("%f\n", *i);
+    }
+}
+
+void gen_new_P_M_FB_des() {
+    (*Position)[0] = rand() % (1000 * (GRID_RESOL-1)) / 1000.;
+    (*Position)[1] = rand() % (1000 * (GRID_RESOL-1)) / 1000.;
+    (*Position)[2] = rand() % (1000 * (GRID_RESOL-1)) / 1000.;
+    (*Magnetization)[0] = rand() % 1000 / 100000.;
+    (*Magnetization)[1] = rand() % 1000 / 100000.;
+    (*Magnetization)[2] = rand() % 1000 / 100000.;
+    (*FB_des)[0] = rand() % 1000 / 100000.;
+    (*FB_des)[1] = rand() % 1000 / 100000.;
+    (*FB_des)[2] = rand() % 1000 / 100000.;
+    (*FB_des)[3] = rand() % 1000 / 100000.;
+    (*FB_des)[4] = rand() % 1000 / 100000.;
+    (*FB_des)[5] = rand() % 1000 / 100000.;
+    return;
+}
+
+void clear_recv() {
+    printf("RECV remain count : %d\n", recv_remain_cnt);
+    ioctl(sock, FIONREAD, &data_size_tmp);
+    if (data_size_tmp != 0) printf("There exists left data. Receiving...\n");
+    while (data_size_tmp != 0) {
+        //printf("ioctl : %d\n", data_size_tmp);
+        data_size = recvfrom(sock, recv_buf, BUFF_SIZE, 0, (struct sockaddr*)&client_addr, &client_addr_size); 
+        if (data_size == -1) {
+            break;
+        }
+        ioctl(sock, FIONREAD, &data_size_tmp);
+    }
+    printf("Left data cleared\n");
+}
+
+void *user_input_thr_func(void *arg) {
+    char user_input;
+    char user_input_long[5];
+
+    while (1) {
+        gets(user_input_long);
+        user_input = user_input_long[0];
+        printf("%c\n", user_input);
+    }
+    return (void *)NULL;
+}
