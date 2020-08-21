@@ -1,14 +1,14 @@
 # FIXED
 
 source/F2837xS_Xbar.obj: ../source/F2837xS_Xbar.c
-source/F2837xS_Xbar.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/F2837xS_Init_Func.h
+source/F2837xS_Xbar.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/F2837xS_Init_Func.h
 source/F2837xS_Xbar.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_Device.h
-source/F2837xS_Xbar.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h
-source/F2837xS_Xbar.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h
-source/F2837xS_Xbar.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h
-source/F2837xS_Xbar.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h
-source/F2837xS_Xbar.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h
-source/F2837xS_Xbar.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h
+source/F2837xS_Xbar.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h
+source/F2837xS_Xbar.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h
+source/F2837xS_Xbar.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h
+source/F2837xS_Xbar.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h
+source/F2837xS_Xbar.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h
+source/F2837xS_Xbar.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h
 source/F2837xS_Xbar.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_adc.h
 source/F2837xS_Xbar.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_analogsubsys.h
 source/F2837xS_Xbar.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_cla.h
@@ -45,14 +45,14 @@ source/F2837xS_Xbar.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_
 source/F2837xS_Xbar.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Pie_defines.h
 
 ../source/F2837xS_Xbar.c: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/F2837xS_Init_Func.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/F2837xS_Init_Func.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_Device.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_adc.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_analogsubsys.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_cla.h: 

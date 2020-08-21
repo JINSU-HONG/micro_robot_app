@@ -2,12 +2,12 @@
 
 source/cc.obj: ../source/cc.c
 source/cc.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_device.h
-source/cc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h
-source/cc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h
-source/cc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h
-source/cc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h
-source/cc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h
-source/cc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h
+source/cc.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h
+source/cc.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h
+source/cc.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h
+source/cc.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h
+source/cc.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h
+source/cc.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h
 source/cc.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_adc.h
 source/cc.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_analogsubsys.h
 source/cc.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_cla.h
@@ -53,24 +53,24 @@ source/cc.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/inc
 source/cc.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Dma_defines.h
 source/cc.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_SysCtrl_defines.h
 source/cc.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Upp_defines.h
-source/cc.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_INV/include/cc.h
+source/cc.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_INV/include/cc.h
 source/cc.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F28x_Project.h
 source/cc.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Cla_typedefs.h
-source/cc.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_INV/include/F2837xS_variable.h
-source/cc.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_INV/include/comp.h
-source/cc.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_INV/include/Filter.h
-source/cc.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_INV/include/F2837xS_da.h
-source/cc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/math.h
-source/cc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/_defs.h
+source/cc.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_INV/include/F2837xS_variable.h
+source/cc.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_INV/include/comp.h
+source/cc.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_INV/include/Filter.h
+source/cc.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_INV/include/F2837xS_da.h
+source/cc.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/math.h
+source/cc.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/_defs.h
 
 ../source/cc.c: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_device.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_adc.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_analogsubsys.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_cla.h: 
@@ -116,12 +116,12 @@ C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Pi
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Dma_defines.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_SysCtrl_defines.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Upp_defines.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_INV/include/cc.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_INV/include/cc.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F28x_Project.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Cla_typedefs.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_INV/include/F2837xS_variable.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_INV/include/comp.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_INV/include/Filter.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_INV/include/F2837xS_da.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/math.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/_defs.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_INV/include/F2837xS_variable.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_INV/include/comp.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_INV/include/Filter.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_INV/include/F2837xS_da.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/math.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/_defs.h: 

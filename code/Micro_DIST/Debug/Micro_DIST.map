@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v15.12.6                    
 ******************************************************************************
->> Linked Thu Aug 13 03:25:57 2020
+>> Linked Wed Aug 19 19:22:18 2020
 
 OUTPUT FILE NAME:   <Micro_DIST.out>
 ENTRY POINT SYMBOL: "code_start"  address: 00080000
@@ -19,13 +19,13 @@ PAGE 0:
   RAMLS3                00009800   00000800  00000000  00000800  RWIX
   RAMLS4                0000a000   00000800  00000000  00000800  RWIX
   RAMD0                 0000b000   00000800  00000000  00000800  RWIX
-  RAMGS14               0001a000   00001000  00000bc2  0000043e  RWIX
+  RAMGS14               0001a000   00001000  00000c22  000003de  RWIX
   RAMGS15               0001b000   00001000  00000000  00001000  RWIX
   BEGIN                 00080000   00000002  00000002  00000000  RWIX
   FLASHA                00080002   00001ffe  00000000  00001ffe  RWIX
-  FLASHB                00082000   00002000  00001ffb  00000005  RWIX
+  FLASHB                00082000   00002000  00001ffc  00000004  RWIX
   FLASHC                00084000   00002000  00001ff5  0000000b  RWIX
-  FLASHD                00086000   00002000  00000bc2  0000143e  RWIX
+  FLASHD                00086000   00002000  00000c22  000013de  RWIX
   FLASHE                00088000   00008000  00000068  00007f98  RWIX
   FLASHF                00090000   00008000  000001c2  00007e3e  RWIX
   FLASHG                00098000   00008000  00000000  00008000  RWIX
@@ -196,12 +196,12 @@ codestart
 
 .pinit     0    00082000    00000000     UNINITIALIZED
 
-ramfuncs   0    00086000    00000bc2     RUN ADDR = 0001a000
-                  00086000    00000565     cc_spi_func.obj (ramfuncs)
-                  00086565    00000539     cc.obj (ramfuncs:retain)
-                  00086a9e    000000da     data_form_change.obj (ramfuncs)
-                  00086b78    00000046     check_CRC.obj (ramfuncs)
-                  00086bbe    00000004     F2837xS_usDelay.obj (ramfuncs)
+ramfuncs   0    00086000    00000c22     RUN ADDR = 0001a000
+                  00086000    000005c5     cc_spi_func.obj (ramfuncs)
+                  000865c5    00000539     cc.obj (ramfuncs:retain)
+                  00086afe    000000da     data_form_change.obj (ramfuncs)
+                  00086bd8    00000046     check_CRC.obj (ramfuncs)
+                  00086c1e    00000004     F2837xS_usDelay.obj (ramfuncs)
 
 .stack     1    00000400    00000300     UNINITIALIZED
                   00000400    00000300     --HOLE--
@@ -209,14 +209,14 @@ ramfuncs   0    00086000    00000bc2     RUN ADDR = 0001a000
 .reset     0    003fffc0    00000002     DSECT
                   003fffc0    00000002     rts2800_fpu32.lib : boot.obj (.reset)
 
-.text.1    0    00082670    0000198e     
-                  00082670    00000e26     cc_spi_func.obj (.text)
-                  00083496    000009c4     w5300.obj (.text)
-                  00083e5a    00000190     F2837xS_DA.obj (.text)
-                  00083fea    00000009     rts2800_fpu32.lib : _lock.obj (.text)
-                  00083ff3    00000008     F2837xS_CodeStartBranch.obj (.text)
-                  00083ffb    00000002     rts2800_fpu32.lib : pre_init.obj (.text)
-                  00083ffd    00000001                       : startup.obj (.text)
+.text.1    0    00082670    0000198f     
+                  00082670    00000e27     cc_spi_func.obj (.text)
+                  00083497    000009c4     w5300.obj (.text)
+                  00083e5b    00000190     F2837xS_DA.obj (.text)
+                  00083feb    00000009     rts2800_fpu32.lib : _lock.obj (.text)
+                  00083ff4    00000008     F2837xS_CodeStartBranch.obj (.text)
+                  00083ffc    00000002     rts2800_fpu32.lib : pre_init.obj (.text)
+                  00083ffe    00000001                       : startup.obj (.text)
 
 .text.2    0    00084000    00001ff5     
                   00084000    00000585     F2837xS_DefaultISR.obj (.text:retain)
@@ -676,7 +676,7 @@ MODULE SUMMARY
        ------                           ----    -------   -------
     .\source\
        F2837xS_GlobalVariableDefs.obj   0       0         8435   
-       cc_spi_func.obj                  6384    0         55     
+       cc_spi_func.obj                  6577    0         55     
        cc.obj                           3508    0         151    
        w5300.obj                        2500    0         48     
        F2837xS_variable.obj             271     0         2131   
@@ -702,9 +702,9 @@ MODULE SUMMARY
        F2837xS_CodeStartBranch.obj      10      0         0      
        F2837xS_usDelay.obj              8       0         0      
     +--+--------------------------------+-------+---------+---------+
-       Total:                           20369   0         12298  
+       Total:                           20562   0         12298  
                                                                  
-    C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/lib/rts2800_fpu32.lib
+    C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/lib/rts2800_fpu32.lib
        fs_div.obj                       136     0         0      
        boot.obj                         86      0         0      
        cpy_tbl.obj                      70      0         0      
@@ -722,7 +722,7 @@ MODULE SUMMARY
                                                                  
        Stack:                           0       0         768    
     +--+--------------------------------+-------+---------+---------+
-       Grand Total:                     20849   0         13100  
+       Grand Total:                     21042   0         13100  
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -1148,10 +1148,10 @@ abs   ffffffff  .text
 1     00007580  _AdcdRegs                             
 1     00000b60  _AdcdResultRegs                       
 0     00085cdf  _AddRing                              
-0     0001ab01  _AddSendBinaryData                    
-0     0001aabf  _AddSendFloatData                     
-0     0001aa9e  _AddSendHeaderData                    
-0     0001aaea  _AddSendShortBinaryData               
+0     0001ab61  _AddSendBinaryData                    
+0     0001ab1f  _AddSendFloatData                     
+0     0001aafe  _AddSendHeaderData                    
+0     0001ab4a  _AddSendShortBinaryData               
 1     0005d180  _AnalogSubsysRegs                     
 0     000853ba  _AuxAuxClkSel                         
 0     000853a4  _AuxIntOsc2Sel                        
@@ -1171,8 +1171,8 @@ abs   ffffffff  .text
 0     00084550  _CLA_OVERFLOW_ISR                     
 0     0008455a  _CLA_UNDERFLOW_ISR                    
 0     000855b1  _CalAdcINL                            
-0     0001a555  _CalcChecksum                         
-0     0001ab78  _Calc_CRC_16_CCITT                    
+0     0001a5b5  _CalcChecksum                         
+0     0001abd8  _Calc_CRC_16_CCITT                    
 1     00001400  _Cla1Regs                             
 0     00000ce0  _Cla1SoftIntRegs                      
 1     0005d200  _ClkCfgRegs                           
@@ -1292,7 +1292,7 @@ abs   ffffffff  .text
 1     00000d00  _EmuKey                               
 0     00085f8a  _EnableInterrupts                     
 0     00085d0b  _ExtractRing                          
-0     0001abbe  _F28x_usDelay                         
+0     0001ac1e  _F28x_usDelay                         
 0     00084528  _FLASH_CORRECTABLE_ERROR_ISR          
 0     000843fc  _FPU_OVERFLOW_ISR                     
 0     00084406  _FPU_UNDERFLOW_ISR                    
@@ -1336,8 +1336,8 @@ abs   ffffffff  .text
 1     00007300  _I2caRegs                             
 1     00007340  _I2cbRegs                             
 0     000853c4  _IDLE                                 
-0     00083496  _IINCHIP_READ                         
-0     0008349c  _IINCHIP_WRITE                        
+0     00083497  _IINCHIP_READ                         
+0     0008349d  _IINCHIP_WRITE                        
 0     0008403c  _ILLEGAL_ISR                          
 1     0000ab80  _INV                                  
 1     0000a83e  _INV_Tsamp                            
@@ -1363,7 +1363,7 @@ abs   ffffffff  .text
 0     00085156  _InitPeripheralClocks                 
 0     00085f6b  _InitPieCtrl                          
 0     00085f93  _InitPieVectTable                     
-0     00083e5a  _InitSpiDac                           
+0     00083e5b  _InitSpiDac                           
 0     00085115  _InitSysCtrl                          
 0     00085258  _InitSysPll                           
 0     00088000  _InitXbar                             
@@ -1402,15 +1402,15 @@ abs   ffffffff  .text
 0     0008451e  _RAM_CORRECTABLE_ERROR_ISR            
 0     0008401e  _RTOS_ISR                             
 1     0000aea0  _RXMEM_SIZE                           
-0     00086bc2  _RamfuncsLoadEnd                      
-abs   00000bc2  _RamfuncsLoadSize                     
+0     00086c22  _RamfuncsLoadEnd                      
+abs   00000c22  _RamfuncsLoadSize                     
 0     00086000  _RamfuncsLoadStart                    
-0     0001abc2  _RamfuncsRunEnd                       
-abs   00000bc2  _RamfuncsRunSize                      
+0     0001ac22  _RamfuncsRunEnd                       
+abs   00000c22  _RamfuncsRunSize                      
 0     0001a000  _RamfuncsRunStart                     
-0     0001ab20  _ReadRecvFloatData                    
-0     0001ab35  _ReadRecvIntData                      
-0     0001ab49  _ReadRecvShortData                    
+0     0001ab80  _ReadRecvFloatData                    
+0     0001ab95  _ReadRecvIntData                      
+0     0001aba9  _ReadRecvShortData                    
 0     00085d1f  _ReadRing                             
 0     00085cc8  _ResetRing                            
 1     0005e608  _RomPrefetchRegs                      
@@ -1451,7 +1451,7 @@ abs   00000bc2  _RamfuncsRunSize
 1     00005e00  _Sdfm1Regs                            
 1     00005e80  _Sdfm2Regs                            
 0     0008523c  _ServiceDog                           
-0     00083eb9  _SpiDacOut                            
+0     00083eba  _SpiDacOut                            
 1     00006100  _SpiaRegs                             
 1     00006110  _SpibRegs                             
 1     00006120  _SpicRegs                             
@@ -1512,18 +1512,18 @@ abs   ffffffff  ___text__
 0     00088037  __args_main                           
 0     00084e63  __close                               
 1     0000acbc  __lock                                
-0     00083ff2  __nop                                 
-0     00083fee  __register_lock                       
-0     00083fea  __register_unlock                     
+0     00083ff3  __nop                                 
+0     00083fef  __register_lock                       
+0     00083feb  __register_unlock                     
 1     00000400  __stack                               
-0     00083ffd  __system_post_cinit                   
-0     00083ffb  __system_pre_init                     
+0     00083ffe  __system_post_cinit                   
+0     00083ffc  __system_pre_init                     
 1     0000acbe  __unlock                              
 1     0000aca2  _a                                    
 0     00085f42  _abort                                
-0     0001abaf  _byte1                                
+0     0001ac0f  _byte1                                
 0     00085dc8  _c_int00                              
-0     0001a565  _cc                                   
+0     0001a5c5  _cc                                   
 1     0000aca4  _ccTime                               
 1     0000aca8  _ccTimer1start                        
 1     0000ac92  _cc_cnt                               
@@ -1531,15 +1531,15 @@ abs   ffffffff  ___text__
 1     0000ac96  _cc_debug_cnt                         
 1     0000a816  _check_header_flag                    
 1     0000aeb2  _check_sendok_flag                    
-0     00083594  _clearSUBR                            
+0     00083595  _clearSUBR                            
 1     0000a804  _cnt_delay                            
 1     0000aca0  _coil_num                             
 1     0000ae23  _com_check_fail                       
 1     0000ae2b  _com_check_fail_reset                 
 1     0000ae1b  _com_check_success                    
 0     00084eae  _connect                              
-0     0001ab68  _convert_binary_to_float              
-0     0001ab5a  _convert_float_to_binary              
+0     0001abc8  _convert_binary_to_float              
+0     0001abba  _convert_float_to_binary              
 0     00085ebd  _copy_in                              
 1     0000a910  _current_ref                          
 1     0000a8e4  _current_ref_set                      
@@ -1553,7 +1553,7 @@ abs   ffffffff  ___text__
 1     0000a8a0  _da_temp                              
 1     0000a848  _da_type                              
 0     0008801d  _ddcopy                               
-0     00082fea  _debug_mode_spi_func                  
+0     00082feb  _debug_mode_spi_func                  
 1     0000ae33  _debug_val                            
 1     0000a826  _default_Ki                           
 1     0000a824  _default_Kp                           
@@ -1593,55 +1593,55 @@ abs   ffffffff  ___text__
 1     0000af12  _ezDSP_ulData                         
 1     0000af14  _ezDSP_ullData                        
 1     0000ae75  _fault_cnt                            
-0     00083691  _getFMTUR                             
-0     00083528  _getGAR                               
-0     00083707  _getIDR                               
-0     00083e12  _getIINCHIP_RxMAX                     
-0     00083e06  _getIINCHIP_TxMAX                     
-0     000834c0  _getIMR                               
-0     000834b0  _getIR                                
-0     000834a4  _getMR                                
-0     0008360c  _getPATR                              
-0     00083638  _getPDHAR                             
-0     00083622  _getPMAGICR                           
-0     00083632  _getPSIDR                             
-0     00083612  _getPTIMER                            
-0     000836cf  _getPn_BDPTHR                         
-0     00083697  _getPn_BRDYR                          
-0     000835fc  _getRCR                               
-0     000835ec  _getRTR                               
-0     000834d0  _getSHAR                              
-0     000835af  _getSIPR                              
-0     0008355f  _getSUBR                              
-0     00083741  _getSn_CR                             
-0     0008383f  _getSn_DHAR                           
-0     0008395c  _getSn_DIPR                           
-0     00083c8d  _getSn_FRAGR                          
-0     00083792  _getSn_IMR                            
-0     000837ca  _getSn_IR                             
-0     00083a42  _getSn_KPALVTR                        
-0     0008370d  _getSn_MR                             
-0     00083a0a  _getSn_MSSR                           
-0     00083bc9  _getSn_PROTOR                         
-0     00083bae  _getSn_RX_FIFOR                       
-0     00083b4d  _getSn_RX_RSR                         
-0     00083802  _getSn_SSR                            
-0     00083c1d  _getSn_TOSR                           
-0     00083c55  _getSn_TTLR                           
-0     00083b0a  _getSn_TX_FSR                         
-0     00083a96  _getSn_TX_WRSR                        
-0     00083669  _getUIPR                              
-0     0008368b  _getUPORTR                            
+0     00083692  _getFMTUR                             
+0     00083529  _getGAR                               
+0     00083708  _getIDR                               
+0     00083e13  _getIINCHIP_RxMAX                     
+0     00083e07  _getIINCHIP_TxMAX                     
+0     000834c1  _getIMR                               
+0     000834b1  _getIR                                
+0     000834a5  _getMR                                
+0     0008360d  _getPATR                              
+0     00083639  _getPDHAR                             
+0     00083623  _getPMAGICR                           
+0     00083633  _getPSIDR                             
+0     00083613  _getPTIMER                            
+0     000836d0  _getPn_BDPTHR                         
+0     00083698  _getPn_BRDYR                          
+0     000835fd  _getRCR                               
+0     000835ed  _getRTR                               
+0     000834d1  _getSHAR                              
+0     000835b0  _getSIPR                              
+0     00083560  _getSUBR                              
+0     00083742  _getSn_CR                             
+0     00083840  _getSn_DHAR                           
+0     0008395d  _getSn_DIPR                           
+0     00083c8e  _getSn_FRAGR                          
+0     00083793  _getSn_IMR                            
+0     000837cb  _getSn_IR                             
+0     00083a43  _getSn_KPALVTR                        
+0     0008370e  _getSn_MR                             
+0     00083a0b  _getSn_MSSR                           
+0     00083bca  _getSn_PROTOR                         
+0     00083baf  _getSn_RX_FIFOR                       
+0     00083b4e  _getSn_RX_RSR                         
+0     00083803  _getSn_SSR                            
+0     00083c1e  _getSn_TOSR                           
+0     00083c56  _getSn_TTLR                           
+0     00083b0b  _getSn_TX_FSR                         
+0     00083a97  _getSn_TX_WRSR                        
+0     0008366a  _getUIPR                              
+0     0008368c  _getUPORTR                            
 1     0000a850  _gw_set                               
 1     0000aeca  _gw_veri                              
 1     0000a82c  _half_Vdc                             
 1     0000ac8a  _i                                    
 0     0001a000  _idle_mode_spi_func                   
 1     0000aec3  _idr_veri                             
-0     00083cc5  _iinchip_init                         
+0     00083cc6  _iinchip_init                         
 1     0000aeb1  _iinchip_source_port                  
 0     00082670  _init_mode_spi_func                   
-0     00082c23  _inv_test_mode_spi_func               
+0     00082c24  _inv_test_mode_spi_func               
 1     0000a854  _ip_set                               
 1     0000aece  _ip_veri                              
 1     0000ac9e  _is_debug_mode                        
@@ -1679,48 +1679,48 @@ abs   ffffffff  ___text__
 1     0000a832  _reset_inv_num                        
 1     0000a812  _reset_inv_total_cnt                  
 1     0000a814  _reset_inv_waiting                    
-0     00082fe7  _run_mode_spi_func                    
+0     00082fe8  _run_mode_spi_func                    
 1     0000a890  _rx_mem_conf                          
-0     00083570  _saveSUBR                             
+0     00083571  _saveSUBR                             
 1     0000ac97  _sen_mode                             
 0     00084f7f  _send                                 
 1     0000aa80  _send_buf                             
 1     0000ac9c  _send_fail                            
 1     0000a820  _send_len                             
 0     00085012  _sendto                               
-0     00083546  _setGAR                               
-0     000834c6  _setIMR                               
-0     000834b6  _setIR                                
-0     000834a8  _setMR                                
-0     00083628  _setPMAGICR                           
-0     00083618  _setPTIMER                            
-0     000836ea  _setPn_BDPTHR                         
-0     000836b2  _setPn_BRDYR                          
-0     00083602  _setRCR                               
-0     000835f2  _setRTR                               
-0     00083504  _setSHAR                              
-0     000835d3  _setSIPR                              
-0     0008357f  _setSUBR                              
-0     0008375c  _setSn_CR                             
-0     000838dd  _setSn_DHAR                           
-0     000839c7  _setSn_DIPR                           
-0     0008393f  _setSn_DPORTR                         
-0     00083ca8  _setSn_FRAGR                          
-0     000837ad  _setSn_IMR                            
-0     000837e5  _setSn_IR                             
-0     00083a5e  _setSn_KPALVTR                        
-0     00083726  _setSn_MR                             
-0     00083a25  _setSn_MSSR                           
-0     00083be4  _setSn_PROTOR                         
-0     00083c38  _setSn_TOSR                           
-0     00083c70  _setSn_TTLR                           
-0     00083b91  _setSn_TX_FIFOR                       
-0     00083ad1  _setSn_TX_WRSR                        
+0     00083547  _setGAR                               
+0     000834c7  _setIMR                               
+0     000834b7  _setIR                                
+0     000834a9  _setMR                                
+0     00083629  _setPMAGICR                           
+0     00083619  _setPTIMER                            
+0     000836eb  _setPn_BDPTHR                         
+0     000836b3  _setPn_BRDYR                          
+0     00083603  _setRCR                               
+0     000835f3  _setRTR                               
+0     00083505  _setSHAR                              
+0     000835d4  _setSIPR                              
+0     00083580  _setSUBR                              
+0     0008375d  _setSn_CR                             
+0     000838de  _setSn_DHAR                           
+0     000839c8  _setSn_DIPR                           
+0     00083940  _setSn_DPORTR                         
+0     00083ca9  _setSn_FRAGR                          
+0     000837ae  _setSn_IMR                            
+0     000837e6  _setSn_IR                             
+0     00083a5f  _setSn_KPALVTR                        
+0     00083727  _setSn_MR                             
+0     00083a26  _setSn_MSSR                           
+0     00083be5  _setSn_PROTOR                         
+0     00083c39  _setSn_TOSR                           
+0     00083c71  _setSn_TTLR                           
+0     00083b92  _setSn_TX_FIFOR                       
+0     00083ad2  _setSn_TX_WRSR                        
 1     0000a85c  _sn_set                               
 1     0000aed6  _sn_veri                              
 1     0000aed2  _sock_flags                           
 0     00084e02  _socket                               
-0     00083cca  _sysinit                              
+0     00083ccb  _sysinit                              
 1     0000acc0  _table_CRC_16                         
 1     0000acaa  _temp_float                           
 1     0000aca6  _temp_sum                             
@@ -1740,11 +1740,11 @@ abs   ffffffff  ___text__
 1     0000a872  _tx_mem_conf                          
 1     0000a815  _using_inv_num                        
 1     0000a930  _voltage_reference                    
-0     00083e49  _wait_10ms                            
-0     00083e36  _wait_1ms                             
-0     00083e1e  _wait_1us                             
-0     00083da8  _wiz_read_buf                         
-0     00083d79  _wiz_write_buf                        
+0     00083e4a  _wait_10ms                            
+0     00083e37  _wait_1ms                             
+0     00083e1f  _wait_1us                             
+0     00083da9  _wiz_read_buf                         
+0     00083d7a  _wiz_write_buf                        
 1     0000a817  _write_info                           
 abs   ffffffff  binit                                 
 0     00082000  cinit                                 
@@ -1760,113 +1760,113 @@ page  address   name
 0     00000ce0  _Cla1SoftIntRegs                      
 0     0001a000  _RamfuncsRunStart                     
 0     0001a000  _idle_mode_spi_func                   
-0     0001a555  _CalcChecksum                         
-0     0001a565  _cc                                   
-0     0001aa9e  _AddSendHeaderData                    
-0     0001aabf  _AddSendFloatData                     
-0     0001aaea  _AddSendShortBinaryData               
-0     0001ab01  _AddSendBinaryData                    
-0     0001ab20  _ReadRecvFloatData                    
-0     0001ab35  _ReadRecvIntData                      
-0     0001ab49  _ReadRecvShortData                    
-0     0001ab5a  _convert_float_to_binary              
-0     0001ab68  _convert_binary_to_float              
-0     0001ab78  _Calc_CRC_16_CCITT                    
-0     0001abaf  _byte1                                
-0     0001abbe  _F28x_usDelay                         
-0     0001abc2  _RamfuncsRunEnd                       
+0     0001a5b5  _CalcChecksum                         
+0     0001a5c5  _cc                                   
+0     0001aafe  _AddSendHeaderData                    
+0     0001ab1f  _AddSendFloatData                     
+0     0001ab4a  _AddSendShortBinaryData               
+0     0001ab61  _AddSendBinaryData                    
+0     0001ab80  _ReadRecvFloatData                    
+0     0001ab95  _ReadRecvIntData                      
+0     0001aba9  _ReadRecvShortData                    
+0     0001abba  _convert_float_to_binary              
+0     0001abc8  _convert_binary_to_float              
+0     0001abd8  _Calc_CRC_16_CCITT                    
+0     0001ac0f  _byte1                                
+0     0001ac1e  _F28x_usDelay                         
+0     0001ac22  _RamfuncsRunEnd                       
 0     00080000  code_start                            
 0     00082000  ___cinit__                            
 0     00082000  cinit                                 
 0     00082670  _init_mode_spi_func                   
-0     00082c23  _inv_test_mode_spi_func               
-0     00082fe7  _run_mode_spi_func                    
-0     00082fea  _debug_mode_spi_func                  
-0     00083496  _IINCHIP_READ                         
-0     0008349c  _IINCHIP_WRITE                        
-0     000834a4  _getMR                                
-0     000834a8  _setMR                                
-0     000834b0  _getIR                                
-0     000834b6  _setIR                                
-0     000834c0  _getIMR                               
-0     000834c6  _setIMR                               
-0     000834d0  _getSHAR                              
-0     00083504  _setSHAR                              
-0     00083528  _getGAR                               
-0     00083546  _setGAR                               
-0     0008355f  _getSUBR                              
-0     00083570  _saveSUBR                             
-0     0008357f  _setSUBR                              
-0     00083594  _clearSUBR                            
-0     000835af  _getSIPR                              
-0     000835d3  _setSIPR                              
-0     000835ec  _getRTR                               
-0     000835f2  _setRTR                               
-0     000835fc  _getRCR                               
-0     00083602  _setRCR                               
-0     0008360c  _getPATR                              
-0     00083612  _getPTIMER                            
-0     00083618  _setPTIMER                            
-0     00083622  _getPMAGICR                           
-0     00083628  _setPMAGICR                           
-0     00083632  _getPSIDR                             
-0     00083638  _getPDHAR                             
-0     00083669  _getUIPR                              
-0     0008368b  _getUPORTR                            
-0     00083691  _getFMTUR                             
-0     00083697  _getPn_BRDYR                          
-0     000836b2  _setPn_BRDYR                          
-0     000836cf  _getPn_BDPTHR                         
-0     000836ea  _setPn_BDPTHR                         
-0     00083707  _getIDR                               
-0     0008370d  _getSn_MR                             
-0     00083726  _setSn_MR                             
-0     00083741  _getSn_CR                             
-0     0008375c  _setSn_CR                             
-0     00083792  _getSn_IMR                            
-0     000837ad  _setSn_IMR                            
-0     000837ca  _getSn_IR                             
-0     000837e5  _setSn_IR                             
-0     00083802  _getSn_SSR                            
-0     0008383f  _getSn_DHAR                           
-0     000838dd  _setSn_DHAR                           
-0     0008393f  _setSn_DPORTR                         
-0     0008395c  _getSn_DIPR                           
-0     000839c7  _setSn_DIPR                           
-0     00083a0a  _getSn_MSSR                           
-0     00083a25  _setSn_MSSR                           
-0     00083a42  _getSn_KPALVTR                        
-0     00083a5e  _setSn_KPALVTR                        
-0     00083a96  _getSn_TX_WRSR                        
-0     00083ad1  _setSn_TX_WRSR                        
-0     00083b0a  _getSn_TX_FSR                         
-0     00083b4d  _getSn_RX_RSR                         
-0     00083b91  _setSn_TX_FIFOR                       
-0     00083bae  _getSn_RX_FIFOR                       
-0     00083bc9  _getSn_PROTOR                         
-0     00083be4  _setSn_PROTOR                         
-0     00083c1d  _getSn_TOSR                           
-0     00083c38  _setSn_TOSR                           
-0     00083c55  _getSn_TTLR                           
-0     00083c70  _setSn_TTLR                           
-0     00083c8d  _getSn_FRAGR                          
-0     00083ca8  _setSn_FRAGR                          
-0     00083cc5  _iinchip_init                         
-0     00083cca  _sysinit                              
-0     00083d79  _wiz_write_buf                        
-0     00083da8  _wiz_read_buf                         
-0     00083e06  _getIINCHIP_TxMAX                     
-0     00083e12  _getIINCHIP_RxMAX                     
-0     00083e1e  _wait_1us                             
-0     00083e36  _wait_1ms                             
-0     00083e49  _wait_10ms                            
-0     00083e5a  _InitSpiDac                           
-0     00083eb9  _SpiDacOut                            
-0     00083fea  __register_unlock                     
-0     00083fee  __register_lock                       
-0     00083ff2  __nop                                 
-0     00083ffb  __system_pre_init                     
-0     00083ffd  __system_post_cinit                   
+0     00082c24  _inv_test_mode_spi_func               
+0     00082fe8  _run_mode_spi_func                    
+0     00082feb  _debug_mode_spi_func                  
+0     00083497  _IINCHIP_READ                         
+0     0008349d  _IINCHIP_WRITE                        
+0     000834a5  _getMR                                
+0     000834a9  _setMR                                
+0     000834b1  _getIR                                
+0     000834b7  _setIR                                
+0     000834c1  _getIMR                               
+0     000834c7  _setIMR                               
+0     000834d1  _getSHAR                              
+0     00083505  _setSHAR                              
+0     00083529  _getGAR                               
+0     00083547  _setGAR                               
+0     00083560  _getSUBR                              
+0     00083571  _saveSUBR                             
+0     00083580  _setSUBR                              
+0     00083595  _clearSUBR                            
+0     000835b0  _getSIPR                              
+0     000835d4  _setSIPR                              
+0     000835ed  _getRTR                               
+0     000835f3  _setRTR                               
+0     000835fd  _getRCR                               
+0     00083603  _setRCR                               
+0     0008360d  _getPATR                              
+0     00083613  _getPTIMER                            
+0     00083619  _setPTIMER                            
+0     00083623  _getPMAGICR                           
+0     00083629  _setPMAGICR                           
+0     00083633  _getPSIDR                             
+0     00083639  _getPDHAR                             
+0     0008366a  _getUIPR                              
+0     0008368c  _getUPORTR                            
+0     00083692  _getFMTUR                             
+0     00083698  _getPn_BRDYR                          
+0     000836b3  _setPn_BRDYR                          
+0     000836d0  _getPn_BDPTHR                         
+0     000836eb  _setPn_BDPTHR                         
+0     00083708  _getIDR                               
+0     0008370e  _getSn_MR                             
+0     00083727  _setSn_MR                             
+0     00083742  _getSn_CR                             
+0     0008375d  _setSn_CR                             
+0     00083793  _getSn_IMR                            
+0     000837ae  _setSn_IMR                            
+0     000837cb  _getSn_IR                             
+0     000837e6  _setSn_IR                             
+0     00083803  _getSn_SSR                            
+0     00083840  _getSn_DHAR                           
+0     000838de  _setSn_DHAR                           
+0     00083940  _setSn_DPORTR                         
+0     0008395d  _getSn_DIPR                           
+0     000839c8  _setSn_DIPR                           
+0     00083a0b  _getSn_MSSR                           
+0     00083a26  _setSn_MSSR                           
+0     00083a43  _getSn_KPALVTR                        
+0     00083a5f  _setSn_KPALVTR                        
+0     00083a97  _getSn_TX_WRSR                        
+0     00083ad2  _setSn_TX_WRSR                        
+0     00083b0b  _getSn_TX_FSR                         
+0     00083b4e  _getSn_RX_RSR                         
+0     00083b92  _setSn_TX_FIFOR                       
+0     00083baf  _getSn_RX_FIFOR                       
+0     00083bca  _getSn_PROTOR                         
+0     00083be5  _setSn_PROTOR                         
+0     00083c1e  _getSn_TOSR                           
+0     00083c39  _setSn_TOSR                           
+0     00083c56  _getSn_TTLR                           
+0     00083c71  _setSn_TTLR                           
+0     00083c8e  _getSn_FRAGR                          
+0     00083ca9  _setSn_FRAGR                          
+0     00083cc6  _iinchip_init                         
+0     00083ccb  _sysinit                              
+0     00083d7a  _wiz_write_buf                        
+0     00083da9  _wiz_read_buf                         
+0     00083e07  _getIINCHIP_TxMAX                     
+0     00083e13  _getIINCHIP_RxMAX                     
+0     00083e1f  _wait_1us                             
+0     00083e37  _wait_1ms                             
+0     00083e4a  _wait_10ms                            
+0     00083e5b  _InitSpiDac                           
+0     00083eba  _SpiDacOut                            
+0     00083feb  __register_unlock                     
+0     00083fef  __register_lock                       
+0     00083ff3  __nop                                 
+0     00083ffc  __system_pre_init                     
+0     00083ffe  __system_post_cinit                   
 0     00084000  _TIMER1_ISR                           
 0     0008400a  _TIMER2_ISR                           
 0     00084014  _DATALOG_ISR                          
@@ -2100,7 +2100,7 @@ page  address   name
 0     00085fcb  ULL$$CMP                              
 0     00085fd7  _memcpy                               
 0     00086000  _RamfuncsLoadStart                    
-0     00086bc2  _RamfuncsLoadEnd                      
+0     00086c22  _RamfuncsLoadEnd                      
 0     00088000  _InitXbar                             
 0     0008801d  _ddcopy                               
 0     0008801d  _dpcopy                               
@@ -2390,8 +2390,8 @@ page  address   name
 1     00078000  _DcsmZ1Otp                            
 1     00078200  _DcsmZ2Otp                            
 abs   00000300  __STACK_SIZE                          
-abs   00000bc2  _RamfuncsLoadSize                     
-abs   00000bc2  _RamfuncsRunSize                      
+abs   00000c22  _RamfuncsLoadSize                     
+abs   00000c22  _RamfuncsRunSize                      
 abs   ffffffff  .text                                 
 abs   ffffffff  ___TI_pprof_out_hndl                  
 abs   ffffffff  ___TI_prof_data_size                  

@@ -20,7 +20,7 @@ void init_mode_spi_func(void)
     uint16_t mode_plus_status = Flag.OverallMode * 16 + Flag.ModeStatus;
     // connection test
     INV_data_buf[0] = mode_plus_status;
-    INV_data_buf[1] = 0;
+    INV_data_buf[1] = 1234;
     INV_data_buf[2] = 0;
     INV_data_buf[3] = WC++;
     INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
@@ -963,8 +963,8 @@ void idle_mode_spi_func()
     if (using_inv_num >= 2)
     {
         INV_data_buf[0] = mode_plus_status;
-        INV_data_buf[1] = current_reference[2]; // I1_ref_H
-        INV_data_buf[2] = current_reference[3]; // I1_ref_L
+        INV_data_buf[1] = current_reference[3]; // I1_ref_H
+        INV_data_buf[2] = current_reference[2]; // I1_ref_L
         INV_data_buf[3] = WC;
         INV_data_buf[4] = Calc_CRC_16_CCITT(INV_data_buf, 4);
 
@@ -1107,7 +1107,7 @@ void idle_mode_spi_func()
     {
         com_check_fail[0]++;
         com_check_fail_reset[0]++;
-        if (com_check_fail_reset[0] > 200)
+        if (com_check_fail_reset[0] > Fsw*5)
         {
             INV_status[3] += 1;
         }
@@ -1146,7 +1146,7 @@ void idle_mode_spi_func()
     {
         com_check_fail[1]++;
         com_check_fail_reset[1]++;
-        if (com_check_fail_reset[1] > 200)
+        if (com_check_fail_reset[1] > Fsw*5)
         {
             INV_status[3] += 2;
         }
@@ -1185,7 +1185,7 @@ void idle_mode_spi_func()
     {
         com_check_fail[2]++;
         com_check_fail_reset[2]++;
-        if (com_check_fail_reset[2] > 200)
+        if (com_check_fail_reset[2] > Fsw*5)
         {
             INV_status[3] += 4;
         }
@@ -1224,7 +1224,7 @@ void idle_mode_spi_func()
     {
         com_check_fail[3]++;
         com_check_fail_reset[3]++;
-        if (com_check_fail_reset[3] > 200)
+        if (com_check_fail_reset[3] > Fsw*5)
         {
             INV_status[3] += 8;
         }
@@ -1263,7 +1263,7 @@ void idle_mode_spi_func()
     {
         com_check_fail[4]++;
         com_check_fail_reset[4]++;
-        if (com_check_fail_reset[4] > 200)
+        if (com_check_fail_reset[4] > Fsw*5)
         {
             INV_status[3] += 16;
         }
@@ -1302,7 +1302,7 @@ void idle_mode_spi_func()
     {
         com_check_fail[5]++;
         com_check_fail_reset[5]++;
-        if (com_check_fail_reset[5] > 200)
+        if (com_check_fail_reset[5] > Fsw*5)
         {
             INV_status[3] += 32;
         }
@@ -1341,7 +1341,7 @@ void idle_mode_spi_func()
     {
         com_check_fail[6]++;
         com_check_fail_reset[6]++;
-        if (com_check_fail_reset[6] > 200)
+        if (com_check_fail_reset[6] > Fsw*5)
         {
             INV_status[3] += 64;
         }
@@ -1380,7 +1380,7 @@ void idle_mode_spi_func()
     {
         com_check_fail[7]++;
         com_check_fail_reset[7]++;
-        if (com_check_fail_reset[7] > 200)
+        if (com_check_fail_reset[7] > Fsw*5)
         {
             INV_status[3] += 128;
         }

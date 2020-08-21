@@ -1,10 +1,12 @@
 [Basic Page]
-m_strPrjFileName = C:\Users\HALAB_G\Desktop\micro_robot_app-master\code\Micro_INV\Micro_INV.ezd
-m_strOutFileName = C:\Users\HALAB_G\Desktop\micro_robot_app-master\code\Micro_INV\Debug\Micro_INV.out
+m_strPrjFileName = C:\Users\User\Desktop\micro_robot_app\code\Micro_INV\Micro_INV.ezd
+m_strOutFileName = C:\Users\User\Desktop\micro_robot_app\code\Micro_INV\Debug\Micro_INV.out
 m_strOut2FileName = 
-m_strCoffFileName = C:\Users\HALAB_G\Desktop\micro_robot_app-master\code\Micro_INV\Debug\Micro_INV.out
+m_strCoffFileName = C:\Users\User\Desktop\micro_robot_app\code\Micro_INV\Debug\Micro_INV.out
 m_strDSPType = TMS320F28377S
 m_strCommPort = SCI
+m_strOut3FileName = 
+m_strDebuggingModel = coff
 [Parallel & RS232 Port]
 m_strProtocol = Normal
 [USB Port]
@@ -16,5 +18,6 @@ m_bBluetoothEnabled = 0
 m_bVariableAutoSeek = 1
 m_bStopWhenSuccessiveFail = 0
 m_strEditor = 
+m_bDisplayPrintableChar = 0
 [Project Information]
-m_uVersion = 852
+m_uVersion = 1000

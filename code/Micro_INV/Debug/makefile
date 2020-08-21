@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS
+CG_TOOL_ROOT := C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -165,16 +165,17 @@ all: Micro_INV.out
 
 # Tool invocations
 Micro_INV.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@echo 'Building target: $@'
+	@echo 'Building target: "$@"'
 	@echo 'Invoking: C2000 Linker'
-	"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/bin/cl2000" -v28 -ml -mt --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 --cla_support=cla1 --advice:performance=all --symdebug:coff --define=_FLASH --diag_wrap=off --diag_warning=225 --display_error_number -z -m"Micro_INV.map" --stack_size=0x300 --warn_sections -i"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/lib" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include" --reread_libs --diag_wrap=off --display_error_number --xml_link_info="Micro_INV_linkInfo.xml" --entry_point=code_start --rom_model -o "Micro_INV.out" $(ORDERED_OBJS)
-	@echo 'Finished building target: $@'
+	"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/bin/cl2000" -v28 -ml -mt --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 --cla_support=cla1 --advice:performance=all --symdebug:coff --define=_FLASH --diag_wrap=off --diag_warning=225 --display_error_number -z -m"Micro_INV.map" --stack_size=0x300 --warn_sections -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/lib" -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include" --reread_libs --diag_wrap=off --display_error_number --xml_link_info="Micro_INV_linkInfo.xml" --entry_point=code_start --rom_model -o "Micro_INV.out" $(ORDERED_OBJS)
+	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 Micro_INV.hex: $(EXE_OUTPUTS)
+	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: C2000 Hex Utility'
-	"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/bin/hex2000"  -o "Micro_INV.hex" $(EXE_OUTPUTS__QUOTED)
-	@echo 'Finished building: $@'
+	"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/bin/hex2000"  -o "Micro_INV.hex" $(EXE_OUTPUTS__QUOTED)
+	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
 # Other Targets

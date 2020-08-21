@@ -30,6 +30,7 @@ C_SRCS += \
 ../source/RingBuff.c \
 ../source/cc.c \
 ../source/cc_spi_func.c \
+../source/check_CRC.c \
 ../source/data_form_change.c \
 ../source/easy2837xS_sci_v8.4.c \
 ../source/main.c \
@@ -57,6 +58,7 @@ C_DEPS += \
 ./source/RingBuff.d \
 ./source/cc.d \
 ./source/cc_spi_func.d \
+./source/check_CRC.d \
 ./source/data_form_change.d \
 ./source/easy2837xS_sci_v8.4.d \
 ./source/main.d \
@@ -86,6 +88,7 @@ OBJS += \
 ./source/RingBuff.obj \
 ./source/cc.obj \
 ./source/cc_spi_func.obj \
+./source/check_CRC.obj \
 ./source/data_form_change.obj \
 ./source/easy2837xS_sci_v8.4.obj \
 ./source/main.obj \
@@ -119,6 +122,7 @@ OBJS__QUOTED += \
 "source\RingBuff.obj" \
 "source\cc.obj" \
 "source\cc_spi_func.obj" \
+"source\check_CRC.obj" \
 "source\data_form_change.obj" \
 "source\easy2837xS_sci_v8.4.obj" \
 "source\main.obj" \
@@ -146,6 +150,7 @@ C_DEPS__QUOTED += \
 "source\RingBuff.d" \
 "source\cc.d" \
 "source\cc_spi_func.d" \
+"source\check_CRC.d" \
 "source\data_form_change.d" \
 "source\easy2837xS_sci_v8.4.d" \
 "source\main.d" \
@@ -177,6 +182,7 @@ C_SRCS__QUOTED += \
 "../source/RingBuff.c" \
 "../source/cc.c" \
 "../source/cc_spi_func.c" \
+"../source/check_CRC.c" \
 "../source/data_form_change.c" \
 "../source/easy2837xS_sci_v8.4.c" \
 "../source/main.c" \

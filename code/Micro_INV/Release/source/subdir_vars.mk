@@ -29,6 +29,7 @@ C_SRCS += \
 ../source/Filter.c \
 ../source/RingBuff.c \
 ../source/cc.c \
+../source/check_CRC.c \
 ../source/easy2837xS_sci_v8.4.c \
 ../source/main.c 
 
@@ -52,6 +53,7 @@ C_DEPS += \
 ./source/Filter.d \
 ./source/RingBuff.d \
 ./source/cc.d \
+./source/check_CRC.d \
 ./source/easy2837xS_sci_v8.4.d \
 ./source/main.d 
 
@@ -77,6 +79,7 @@ OBJS += \
 ./source/Filter.obj \
 ./source/RingBuff.obj \
 ./source/cc.obj \
+./source/check_CRC.obj \
 ./source/easy2837xS_sci_v8.4.obj \
 ./source/main.obj 
 
@@ -106,6 +109,7 @@ OBJS__QUOTED += \
 "source\Filter.obj" \
 "source\RingBuff.obj" \
 "source\cc.obj" \
+"source\check_CRC.obj" \
 "source\easy2837xS_sci_v8.4.obj" \
 "source\main.obj" 
 
@@ -129,6 +133,7 @@ C_DEPS__QUOTED += \
 "source\Filter.d" \
 "source\RingBuff.d" \
 "source\cc.d" \
+"source\check_CRC.d" \
 "source\easy2837xS_sci_v8.4.d" \
 "source\main.d" 
 
@@ -156,6 +161,7 @@ C_SRCS__QUOTED += \
 "../source/Filter.c" \
 "../source/RingBuff.c" \
 "../source/cc.c" \
+"../source/check_CRC.c" \
 "../source/easy2837xS_sci_v8.4.c" \
 "../source/main.c" 
 

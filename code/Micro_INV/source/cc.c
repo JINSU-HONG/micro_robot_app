@@ -12,6 +12,8 @@
 #pragma CODE_SECTION(HPwmUpdate, "ramfuncs");
 #pragma CODE_SECTION(HINV_Process, "ramfuncs");
 
+//#define INT_DATASEND_MODE
+
 int i;
 
 int cc_cnt = 0;
@@ -37,6 +39,7 @@ float ccTime;
 float spiTime;
 float test_d;
 float temp_float = 0.;
+int data_send_type_err = 0.;
 
 int DIST_mode = OVERALL_MODE_INIT;
 int DIST_status = MODE_STATUS_CHECKING;
@@ -62,7 +65,8 @@ __interrupt void SPI_RXINT(void)
     spi_cnt++;
     WC++;
     spiTimer0start = ReadCpuTimer1Counter();
-    delaycc(10e-6); // safe delay to move data; error occured for 1e-6 delay.
+    while((spiTimer0start-ReadCpuTimer1Counter())>((10e-6)/SYS_CLK_PRD));
+//    delaycc(10e-6); // safe delay to move data; error occured for 1e-6 delay.
     disconnect_cnt = 0;
 
     if(debug_mode){
@@ -155,15 +159,32 @@ __interrupt void SPI_RXINT(void)
             {
                 //convert_binary_to_float(&Ih_ref, SPI_data_RX[1], SPI_data_RX[2]); // update current reference
 
-                tempRX[0] = SPI_data_RX[2]; //low 16 bit
-                tempRX[1] = SPI_data_RX[1]; //high 16 bit
+#ifdef INT_DATASEND_MODE
+                if (SPI_data_RX[2] == SPI_data_RX[1])
+                {
+                    temp_float = (*((int16_t *)&SPI_data_RX[1]))/100.;
+                }else{
+                    data_send_type_err++;
+                }
 
-                temp_float = *((float *) (tempRX));
+#else
+                if(SPI_data_RX[2]!=SPI_data_RX[1])
+                {
+                    tempRX[0] = SPI_data_RX[2]; //low 16 bit
+                    tempRX[1] = SPI_data_RX[1];//high 16 bit
+
+                    temp_float = *((float *) (tempRX));
+                }else{
+                    data_send_type_err++;
+                }
+#endif
+
+
                 if (temp_float != 0)
                 { // 0 might be recv error
                     if (fabs(temp_float) > (INV.FaultLevel + 1))
                     {
-                        checksum_fail_cnt++;
+
                     }
                     else
                     {
@@ -177,7 +198,7 @@ __interrupt void SPI_RXINT(void)
         {
             checksum_fail_cnt++;
 
-            if (checksum_fail_cnt == 10)
+            if (checksum_fail_cnt%50 == 49)
             {
                 InitSpiGpio();
             }
@@ -310,7 +331,7 @@ __interrupt void cc(void)
     ccTimer0start = ReadCpuTimer1Counter();
 
     disconnect_cnt++;
-    if (disconnect_cnt > 1000 && !debug_mode)
+    if (disconnect_cnt > Fsw && !debug_mode)
     {
         Flag.OverallMode = OVERALL_MODE_INIT;
         Flag.ModeStatus = MODE_STATUS_CON_LOST;
@@ -318,7 +339,7 @@ __interrupt void cc(void)
         Ih_ref = 0.;
     }
 
-    if (checksum_fail_cnt > 1000)
+    if (checksum_fail_cnt > 5*2000)
     {
         Flag.OverallMode = OVERALL_MODE_INIT;
         Flag.ModeStatus = MODE_STATUS_CON_LOST;
@@ -356,7 +377,7 @@ __interrupt void cc(void)
         Flag.Ready = 0;
     }
 
-//		Ia_present = ScaleAin_adc_A[0]*(double)((int)(AdcaResultRegs.ADCRESULT0&Mode_16bit) - (int)OffsetAin_adc_A[0] );   // ADCA_SOC0 : INVa_shunt_ADC_P/N
+//      Ia_present = ScaleAin_adc_A[0]*(double)((int)(AdcaResultRegs.ADCRESULT0&Mode_16bit) - (int)OffsetAin_adc_A[0] );   // ADCA_SOC0 : INVa_shunt_ADC_P/N
     Ib_present = ScaleAin_adc_A[1]
             * (float) ((int) (AdcaResultRegs.ADCRESULT1 & Mode_16bit)
                     - (int) OffsetAin_adc_A[1]); // ADCA_SOC1 : INVb_shunt_ADC_P/N
@@ -749,7 +770,7 @@ void HPwmUpdate(void)
 
 void Current_Transform(void)
 {
-//	INV.Thetar = BOUND_PI(INV.PP * INV.Thetarm);
+//  INV.Thetar = BOUND_PI(INV.PP * INV.Thetarm);
 
     test_theta += test_f * 2 * PI * Tsamp;
 
@@ -832,7 +853,7 @@ void INV_Process(void)
      INV.Vbn_ref = INV.Vbs_ref + INV.Vsn;
      INV.Vcn_ref = INV.Vcs_ref + INV.Vsn;
 
-     INV.Van_ref_set = (INV.Van_ref > half_Vdc ) ? half_Vdc  : ((INV.Van_ref < -half_Vdc) ? -half_Vdc : INV.Van_ref);		// < ? a:b > true->a , false ->b
+     INV.Van_ref_set = (INV.Van_ref > half_Vdc ) ? half_Vdc  : ((INV.Van_ref < -half_Vdc) ? -half_Vdc : INV.Van_ref);       // < ? a:b > true->a , false ->b
      INV.Vbn_ref_set = (INV.Vbn_ref > half_Vdc ) ? half_Vdc  : ((INV.Vbn_ref < -half_Vdc) ? -half_Vdc : INV.Vbn_ref);
      INV.Vcn_ref_set = (INV.Vcn_ref > half_Vdc ) ? half_Vdc  : ((INV.Vcn_ref < -half_Vdc) ? -half_Vdc : INV.Vcn_ref);
 
@@ -861,7 +882,7 @@ void PwmUpdate(void)
     EPwm2Regs.CMPA.bit.CMPA = INV.CompA;
     EPwm6Regs.CMPA.bit.CMPA = INV.CompB;
     EPwm7Regs.CMPA.bit.CMPA = INV.CompC;
-//	EPwm11Regs.CMPA.bit.CMPA = INV.CompC;
+//  EPwm11Regs.CMPA.bit.CMPA = INV.CompC;
 }
 
 void ResetHINV(void)

@@ -2,12 +2,12 @@
 
 source/easy2837xS_sci_v8.4.obj: ../source/easy2837xS_sci_v8.4.c
 source/easy2837xS_sci_v8.4.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_device.h
-source/easy2837xS_sci_v8.4.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h
-source/easy2837xS_sci_v8.4.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h
-source/easy2837xS_sci_v8.4.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h
-source/easy2837xS_sci_v8.4.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h
-source/easy2837xS_sci_v8.4.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h
-source/easy2837xS_sci_v8.4.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h
+source/easy2837xS_sci_v8.4.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h
+source/easy2837xS_sci_v8.4.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h
+source/easy2837xS_sci_v8.4.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h
+source/easy2837xS_sci_v8.4.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h
+source/easy2837xS_sci_v8.4.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h
+source/easy2837xS_sci_v8.4.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h
 source/easy2837xS_sci_v8.4.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_adc.h
 source/easy2837xS_sci_v8.4.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_analogsubsys.h
 source/easy2837xS_sci_v8.4.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_cla.h
@@ -55,21 +55,21 @@ source/easy2837xS_sci_v8.4.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F
 source/easy2837xS_sci_v8.4.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Dma_defines.h
 source/easy2837xS_sci_v8.4.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_SysCtrl_defines.h
 source/easy2837xS_sci_v8.4.obj: C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Upp_defines.h
-source/easy2837xS_sci_v8.4.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/easy2837xS_sci_v8.4.h
-source/easy2837xS_sci_v8.4.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/RingBuff.h
-source/easy2837xS_sci_v8.4.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/F2837xS_variable.h
-source/easy2837xS_sci_v8.4.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/comp.h
-source/easy2837xS_sci_v8.4.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/Filter.h
-source/easy2837xS_sci_v8.4.obj: C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/types.h
+source/easy2837xS_sci_v8.4.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/easy2837xS_sci_v8.4.h
+source/easy2837xS_sci_v8.4.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/RingBuff.h
+source/easy2837xS_sci_v8.4.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/F2837xS_variable.h
+source/easy2837xS_sci_v8.4.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/comp.h
+source/easy2837xS_sci_v8.4.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/Filter.h
+source/easy2837xS_sci_v8.4.obj: C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/types.h
 
 ../source/easy2837xS_sci_v8.4.c: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_device.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/assert.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/linkage.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdarg.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdbool.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stddef.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-c2000_15.12.6.LTS/include/stdint.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_adc.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_analogsubsys.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_headers/include/F2837xS_cla.h: 
@@ -117,9 +117,9 @@ C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Pi
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Dma_defines.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_SysCtrl_defines.h: 
 C:/ti/controlSUITE/device_support/F2837xS/v150/F2837xS_common/include/F2837xS_Upp_defines.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/easy2837xS_sci_v8.4.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/RingBuff.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/F2837xS_variable.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/comp.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/Filter.h: 
-C:/Users/HALAB_G/Desktop/micro_robot_app-master/code/Micro_DIST/include/types.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/easy2837xS_sci_v8.4.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/RingBuff.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/F2837xS_variable.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/comp.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/Filter.h: 
+C:/Users/User/Desktop/micro_robot_app/code/Micro_DIST/include/types.h: 

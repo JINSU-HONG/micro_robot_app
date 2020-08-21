@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE EP4CE6E22C8
 set_global_assignment -name TOP_LEVEL_ENTITY FPGA_20140329
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "11.1 SP2"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "20:34:58  JULY 14, 2015"
-set_global_assignment -name LAST_QUARTUS_VERSION "17.1.0 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
 set_global_assignment -name VHDL_FILE Reset_Gen.vhd
 set_global_assignment -name AHDL_FILE readdec.tdf
 set_global_assignment -name AHDL_FILE RDYGEN.tdf

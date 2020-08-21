@@ -1,5 +1,5 @@
 [Watch-1 Recent Index]
-Registered = 47
+Registered = 24
 All = 0
 [Window Size]
 Command-1Pos = 6, 28, 355, 458
@@ -50,8 +50,8 @@ Tree-2 recent variable = SPI_TEST_B
 Tree-2 update time = 2 sec
 [Frame Activity]
 Register Frame = 0
-Watch Frame-0 = 1
-Watch Frame-0 (Name) = Watch-1
+Watch Frame-0 = 0
+Watch Frame-0 (Name) = 
 Watch Frame-1 = 0
 Watch Frame-1 (Name) = 
 Watch Frame-2 = 0
@@ -321,6 +321,11 @@ SecY = 1
 SecZ = 1
 SecAA = 1
 SecAB = 1
+SuccessfulBootBps = 62956
+SecAC = 0
+SecAD = 0
+SecAE = 0
+SecAF = 0
 [Command-2 position]
 first visible line = 0
 [Watch-2 Recent Index]
@@ -427,11 +432,157 @@ Plot-3 Sampling Period = 500
 Plot-3 Total Plot Period = 5
 Plot-3 ShowAll = 0
 Plot-3 Toolbar pause at exit = 0
+Plot-1 Name4 = 
+Plot-1 Name5 = 
+Plot-1 Name6 = 
+Plot-1 Name7 = 
+Plot-1 Auto4 = FALSE
+Plot-1 Auto5 = FALSE
+Plot-1 Auto6 = FALSE
+Plot-1 Auto7 = FALSE
+Plot-1 Visible4 = 1
+Plot-1 Visible5 = 1
+Plot-1 Visible6 = 1
+Plot-1 Visible7 = 1
+Plot-1 ShowLine4 = 1
+Plot-1 ShowLine5 = 1
+Plot-1 ShowLine6 = 1
+Plot-1 ShowLine7 = 1
+Plot-1 ShowSymbol4 = 1
+Plot-1 ShowSymbol5 = 1
+Plot-1 ShowSymbol6 = 1
+Plot-1 ShowSymbol7 = 1
+Plot-1 Min4 = -100
+Plot-1 Max4 = 100
+Plot-1 Min5 = -100
+Plot-1 Max5 = 100
+Plot-1 Min6 = -100
+Plot-1 Max6 = 100
+Plot-1 Min7 = -100
+Plot-1 Max7 = 100
+Plot-2 Name4 = 
+Plot-2 Name5 = 
+Plot-2 Name6 = 
+Plot-2 Name7 = 
+Plot-2 Auto4 = FALSE
+Plot-2 Auto5 = FALSE
+Plot-2 Auto6 = FALSE
+Plot-2 Auto7 = FALSE
+Plot-2 Visible4 = 1
+Plot-2 Visible5 = 1
+Plot-2 Visible6 = 1
+Plot-2 Visible7 = 1
+Plot-2 ShowLine4 = 1
+Plot-2 ShowLine5 = 1
+Plot-2 ShowLine6 = 1
+Plot-2 ShowLine7 = 1
+Plot-2 ShowSymbol4 = 1
+Plot-2 ShowSymbol5 = 1
+Plot-2 ShowSymbol6 = 1
+Plot-2 ShowSymbol7 = 1
+Plot-2 Min4 = -100
+Plot-2 Max4 = 100
+Plot-2 Min5 = -100
+Plot-2 Max5 = 100
+Plot-2 Min6 = -100
+Plot-2 Max6 = 100
+Plot-2 Min7 = -100
+Plot-2 Max7 = 100
 [28x SCI Boot Dialog]
 Auto Bauding Rate = 62956
 [Command-4 position]
 first visible line = 0
 [Recent contents of Command-4 window]
+
+[Recent contents of Command-3 window]
+Ih_ref_w = 0
+Ih_ref = 3.1416
+Ih_ref = 0
+Ih_ref = 1
+Ih_ref = -1
+Ih_ref = 5
+Ih_ref = -5
+
+Flag.Ready = 0
+Flag.Ready = 1
+
+// 0 : stop,  1 : current control,  2 : direct duty
+Flag.CC_mode = 0
+Flag.CC_mode = 1
+Flag.CC_mode = 2
+
+d_ext = 0.05
+
+// 0 : SV, 1 : DPWM
+PWM_style = 0
+PWM_style = 1
+
+fault_cnt=0
+
+debug_mode = 0
+debug_mode = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 [Watch-1 Watched Variables]
 Flag.OverallMode
@@ -683,6 +834,8 @@ da_mid[3] = 0
 
 
 
+
+
 [Recent contents of Command-2 window]
 da[0] = &test_fault_b
 da_type[0] = 0
@@ -705,93 +858,6 @@ da[3] = &test_fault_c;
 da_type[3] = 0;
 da_scale[3] = <2048./4>;
 da_mid[3] = 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[Recent contents of Command-3 window]
-Ih_ref_w = 0
-Ih_ref = 3.1416
-Ih_ref = 0
-Ih_ref = 1
-Ih_ref = -1
-Ih_ref = 5
-Ih_ref = -5
-
-Flag.Ready = 0
-Flag.Ready = 1
-
-// 0 : stop,  1 : current control,  2 : direct duty
-Flag.CC_mode = 0
-Flag.CC_mode = 1
-Flag.CC_mode = 2
-
-d_ext = 0.05
-
-// 0 : SV, 1 : DPWM
-PWM_style = 0
-PWM_style = 1
-
-fault_cnt=0
-
-debug_mode = 0
-debug_mode = 1
-
-
-
 
 
 
