@@ -52,7 +52,7 @@ uint32 send_len=0; // it should be defined within uint32 !!! do not use int !!!
 uint8 ip_set[4] = {192, 168, 100, 200};                   // for setting SIP register
 uint8 gw_set[4] = {192, 168, 100, 1};                     // for setting GAR register
 uint8 sn_set[4] = {255,255,255,0};                     // for setting SUBR register
-uint8 mac_set[6] = {0x00,0x08,0xDC,0x00,0x6F,0xC8}; 	   // for setting SHAR register
+uint8 mac_set[6] = {0x00,0x08,0xDC,0x00,0x6F,0xC8};        // for setting SHAR register
 uint8 tx_mem_conf[8] = {32,16,16,0,0,0,0,0};          // for setting TMSR regsiter
 uint8 rx_mem_conf[8] = {32,16,16,0,0,0,0,0};          // for setting RMSR regsiter
 
@@ -67,6 +67,8 @@ unsigned int UDP_data[32] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 unsigned int INV_status[4] = {0, 0, 0, 0};
 unsigned int INV_status_record[4] = {0, 0, 0, 0};
 uint16_t INV_data_buf[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+uint16_t INV_data_TX_buf[8][16] = {0,};
+uint16_t INV_data_RX_buf[8][16] = {0,};
 int disconnect_cnt = 0;
 bool mode_changed = true;
 //int using_inv_num = 1;
@@ -77,7 +79,7 @@ int reset_inv_total_cnt = 0;
 
 /* DAC */
 int *da[4] = {0, 0, 0, 0};
-int	 da_type[4] = {0, 0, 0, 0}, da_data[4] ={0,0,0,0};
+int  da_type[4] = {0, 0, 0, 0}, da_data[4] ={0,0,0,0};
 
 float da_scale[4] = {5., 5., 5., 5.}, da_mid[4] = {0., 0., 0., 0.}, da_temp[4] = {0., 0., 0., 0.};
 int DacOffset=0;
@@ -88,98 +90,98 @@ FLAG_ Flag;
 
 // Scale & Offset ADCA
 double ScaleAin_adc_A[3] = {
-							100. * 3.3 * 2. * 5.1 / 16. / 65536.,		//ADCINA0 (INVa_shunt_ADC_P/N) : SOC0
-							100. * 3.3 * 2. * 5.1 / 16. / 65536.,		//ADCINA1 (INVb_shunt_ADC_P/N) : SOC1
-							100. * 3.3 * 2. * 5.1 / 16. / 65536.		//ADCINA2 (INVc_shunt_ADC_P/N) : SOC2
-						 };
+                            100. * 3.3 * 2. * 5.1 / 16. / 65536.,       //ADCINA0 (INVa_shunt_ADC_P/N) : SOC0
+                            100. * 3.3 * 2. * 5.1 / 16. / 65536.,       //ADCINA1 (INVb_shunt_ADC_P/N) : SOC1
+                            100. * 3.3 * 2. * 5.1 / 16. / 65536.        //ADCINA2 (INVc_shunt_ADC_P/N) : SOC2
+                         };
 long OffsetAin_adc_A[3] = {
-							0.,		//ADCINA0 (INVa_shunt_ADC_P/N) : SOC0
-							0.,		//ADCINA1 (INVb_shunt_ADC_P/N) : SOC1
-							0.,		//ADCINA2 (INVc_shunt_ADC_P/N) : SOC2
-						  };
+                            0.,     //ADCINA0 (INVa_shunt_ADC_P/N) : SOC0
+                            0.,     //ADCINA1 (INVb_shunt_ADC_P/N) : SOC1
+                            0.,     //ADCINA2 (INVc_shunt_ADC_P/N) : SOC2
+                          };
 
 double ScaleAin_adc_B[5] = {
-							1.,		//ADCINB0 (DSP_AD2) : SOC0
-							(33200*4+604.)/(604.)/4096 * 3.3 * ADCb_fix_ratio,		//ADCINB2 (Vdc_ADC) : SOC1
-							1.,		//ADCINB3 (Filt_a_AD) : SOC2
-							1.,		//ADCINB4 (Filt_b_AD) : SOC3
-							1.,		//ADCINB5 (Filt_c_AD) : SOC4
-						 };
+                            1.,     //ADCINB0 (DSP_AD2) : SOC0
+                            (33200*4+604.)/(604.)/4096 * 3.3 * ADCb_fix_ratio,      //ADCINB2 (Vdc_ADC) : SOC1
+                            1.,     //ADCINB3 (Filt_a_AD) : SOC2
+                            1.,     //ADCINB4 (Filt_b_AD) : SOC3
+                            1.,     //ADCINB5 (Filt_c_AD) : SOC4
+                         };
 long OffsetAin_adc_B[5] = {
-							0.,		//ADCINB0 (DSP_AD2) : SOC0
-							0.,		//ADCINB2 (Vdc_ADC) : SOC1
-							0.,		//ADCINB3 (Filt_a_AD) : SOC2
-							0.,		//ADCINB4 (Filt_b_AD) : SOC3
-							0.,		//ADCINB5 (Filt_c_AD) : SOC4
-						  };
+                            0.,     //ADCINB0 (DSP_AD2) : SOC0
+                            0.,     //ADCINB2 (Vdc_ADC) : SOC1
+                            0.,     //ADCINB3 (Filt_a_AD) : SOC2
+                            0.,     //ADCINB4 (Filt_b_AD) : SOC3
+                            0.,     //ADCINB5 (Filt_c_AD) : SOC4
+                          };
 
 void DUTY_OFF(void)
 {
-	EPwm2Regs.CMPA.bit.CMPA = 0;
-	EPwm6Regs.CMPA.bit.CMPA = 0;
-	EPwm7Regs.CMPA.bit.CMPA = 0;
+    EPwm2Regs.CMPA.bit.CMPA = 0;
+    EPwm6Regs.CMPA.bit.CMPA = 0;
+    EPwm7Regs.CMPA.bit.CMPA = 0;
 }
 
 void delaycc(float time)
 {
-	cnt_delay=(unsigned short)(time*SYS_CLK);
-	asm(" RPT @_cnt_delay	|| NOP ");
-	asm(" NOP		");
+    cnt_delay=(unsigned short)(time*SYS_CLK);
+    asm(" RPT @_cnt_delay   || NOP ");
+    asm(" NOP       ");
 }
 
 void InitFlags(void)
 {
-	Flag.OverallMode = OVERALL_MODE_INIT;
-	Flag.ModeStatus = MODE_STATUS_CHECKING;
-	Flag.Ready    = 0;
-	Flag.INV_Run  = 0;
-	Flag.CC_mode  = 0;
-	Flag.CCIdleMode = CC_IDLE_MODE_ZERO;
-	Flag.Fault    = 0;
-	Flag.init_charge_done = false;
+    Flag.OverallMode = OVERALL_MODE_INIT;
+    Flag.ModeStatus = MODE_STATUS_CHECKING;
+    Flag.Ready    = 0;
+    Flag.INV_Run  = 0;
+    Flag.CC_mode  = 0;
+    Flag.CCIdleMode = CC_IDLE_MODE_ZERO;
+    Flag.Fault    = 0;
+    Flag.init_charge_done = false;
 }
 
 void InitParameters(void)
 {
-	INV.Pole = 8.;
-	INV.PolePair = INV.Pole * 0.5;
-	INV.InvPolePair = 1./INV.PolePair;
+    INV.Pole = 8.;
+    INV.PolePair = INV.Pole * 0.5;
+    INV.InvPolePair = 1./INV.PolePair;
 
-	INV.Rs = 12;
-	INV.Ls = 0.0266;
-	INV.INV_Ls = 1./INV.Ls;
-	INV.INV_Ls_Tsw=INV.INV_Ls * Tsamp;
-	INV.Lds = INV.Ls;
-	INV.Lqs = INV.Ls;
-	INV.Ls_Fs= INV.Ls * Fsw;
+    INV.Rs = 12;
+    INV.Ls = 0.0266;
+    INV.INV_Ls = 1./INV.Ls;
+    INV.INV_Ls_Tsw=INV.INV_Ls * Tsamp;
+    INV.Lds = INV.Ls;
+    INV.Lqs = INV.Ls;
+    INV.Ls_Fs= INV.Ls * Fsw;
 
-	INV.Ke = 0.263;
-	INV.LAMpm = INV.Ke;
-	INV.INV_LAMpm = 1./INV.LAMpm;
+    INV.Ke = 0.263;
+    INV.LAMpm = INV.Ke;
+    INV.INV_LAMpm = 1./INV.LAMpm;
 
-	INV.Wr = 0.;
-	INV.Wrm = 0.;
-	INV.Wrpm = 0.;
-	INV.ThetaOffset = 0.;
-	INV.Thetar = 0.;
-	INV.Thetar_num = 0.;
+    INV.Wr = 0.;
+    INV.Wrm = 0.;
+    INV.Wrpm = 0.;
+    INV.ThetaOffset = 0.;
+    INV.Thetar = 0.;
+    INV.Thetar_num = 0.;
 
 
-	INV.Fcc = 200.;
-	INV.Wc_cc = 2. * PI * INV.Fcc;
+    INV.Fcc = 200.;
+    INV.Wc_cc = 2. * PI * INV.Fcc;
 }
 
 void InitController(void)
 {
-	//////////////////// INVERTER ////////////////////
-	INV.Wc_cc = INV.Fcc * 2 * PI;
+    //////////////////// INVERTER ////////////////////
+    INV.Wc_cc = INV.Fcc * 2 * PI;
 
-	INV.Kpd = INV.Ls * INV.Wc_cc;
-	INV.Kpq = INV.Ls * INV.Wc_cc;
+    INV.Kpd = INV.Ls * INV.Wc_cc;
+    INV.Kpq = INV.Ls * INV.Wc_cc;
 
-	INV.Kid_T = INV.Rs * INV.Wc_cc * Tsamp;
-	INV.Kiq_T = INV.Rs * INV.Wc_cc * Tsamp;
+    INV.Kid_T = INV.Rs * INV.Wc_cc * Tsamp;
+    INV.Kiq_T = INV.Rs * INV.Wc_cc * Tsamp;
 
-	INV.Kad = 1 / INV.Kpd;
-	INV.Kaq = 1 / INV.Kpq;
+    INV.Kad = 1 / INV.Kpd;
+    INV.Kaq = 1 / INV.Kpq;
 }

@@ -7,9 +7,9 @@
 #include "types.h"
 
 //system setting
-#define SYS_CLK			((float)200e6)
-#define SYS_CLK_HALF	((float)100e6)
-#define SYS_CLK_PRD		((float)5.0e-9)
+#define SYS_CLK         ((float)200e6)
+#define SYS_CLK_HALF    ((float)100e6)
+#define SYS_CLK_PRD     ((float)5.0e-9)
 
 //w5300
 #define SOCK_0 0
@@ -37,21 +37,21 @@
 
 #define RESET_INV_MAX_TRIAL 10
 
-#define FAN_ON()	GpioDataRegs.GPASET.bit.GPIO21 	= 0x1
-#define FAN_OFF()	GpioDataRegs.GPACLEAR.bit.GPIO21	= 0x1
+#define FAN_ON()    GpioDataRegs.GPASET.bit.GPIO21  = 0x1
+#define FAN_OFF()   GpioDataRegs.GPACLEAR.bit.GPIO21    = 0x1
 
-#define DOUT1_ON()	GpioDataRegs.GPASET.bit.GPIO29 	= 0x1
-#define DOUT1_OFF()	GpioDataRegs.GPACLEAR.bit.GPIO29	= 0x1
+#define DOUT1_ON()  GpioDataRegs.GPASET.bit.GPIO29  = 0x1
+#define DOUT1_OFF() GpioDataRegs.GPACLEAR.bit.GPIO29    = 0x1
 
-#define DOUT2_ON()	GpioDataRegs.GPBSET.bit.GPIO32 	= 0x1
-#define DOUT2_OFF()	GpioDataRegs.GPBCLEAR.bit.GPIO32	= 0x1
+#define DOUT2_ON()  GpioDataRegs.GPBSET.bit.GPIO32  = 0x1
+#define DOUT2_OFF() GpioDataRegs.GPBCLEAR.bit.GPIO32    = 0x1
 
-#define DOUT3_ON()	GpioDataRegs.GPASET.bit.GPIO23 	= 0x1
-#define DOUT3_OFF()	GpioDataRegs.GPACLEAR.bit.GPIO23	= 0x1
+#define DOUT3_ON()  GpioDataRegs.GPASET.bit.GPIO23  = 0x1
+#define DOUT3_OFF() GpioDataRegs.GPACLEAR.bit.GPIO23    = 0x1
 
 
-#define DFPGA_ON()	GpioDataRegs.GPBSET.bit.GPIO54 	= 0x1
-#define DFPGA_OFF()	GpioDataRegs.GPBCLEAR.bit.GPIO54	= 0x1
+#define DFPGA_ON()  GpioDataRegs.GPBSET.bit.GPIO54  = 0x1
+#define DFPGA_OFF() GpioDataRegs.GPBCLEAR.bit.GPIO54    = 0x1
 
 #define CS4BASE 0x380000
 #define CS3BASE 0x300000
@@ -129,13 +129,13 @@
 #define INV7_CS_6           (*(volatile int *)(CS2BASE + ((0x276)<<1)))
 #define INV7_CS_7           (*(volatile int *)(CS2BASE + ((0x277)<<1)))
 
-#define CS2_TEST_SEND    	(*(volatile int *)(CS2BASE + 0x20000))
+#define CS2_TEST_SEND       (*(volatile int *)(CS2BASE + 0x20000))
 
-#define	CS3_TEST_T1			(*(volatile int *)(CS3BASE + 0x0))
-#define	CS3_TEST_T2			(*(volatile int *)(CS3BASE + 0x2))
+#define CS3_TEST_T1         (*(volatile int *)(CS3BASE + 0x0))
+#define CS3_TEST_T2         (*(volatile int *)(CS3BASE + 0x2))
 
-#define	CS4_TEST_T1			(*(volatile int *)(CS4BASE + 0x0))
-#define	CS4_TEST_T2			(*(volatile int *)(CS4BASE + 0x2))
+#define CS4_TEST_T1         (*(volatile int *)(CS4BASE + 0x0))
+#define CS4_TEST_T2         (*(volatile int *)(CS4BASE + 0x2))
 
 
 // PWM Master/Slave
@@ -143,8 +143,8 @@
 #define PWM_SLAVE  1
 
 //ADC
-#define Mode_12bit	0x0FFF
-#define Mode_16bit	0xFFFF
+#define Mode_12bit  0x0FFF
+#define Mode_16bit  0xFFFF
 
 extern void delaycc(float time);
 extern unsigned short cnt_delay;
@@ -211,7 +211,7 @@ extern uint32 send_len; // it should be defined within uint32 !!! do not use int
 extern uint8 ip_set[4];                   // for setting SIP register
 extern uint8 gw_set[4];                     // for setting GAR register
 extern uint8 sn_set[4];                     // for setting SUBR register
-extern uint8 mac_set[6]; 	   // for setting SHAR register
+extern uint8 mac_set[6];       // for setting SHAR register
 extern uint8 tx_mem_conf[8];          // for setting TMSR regsiter
 extern uint8 rx_mem_conf[8];          // for setting RMSR regsiter
 
@@ -227,6 +227,8 @@ extern unsigned int UDP_data[32];
 extern unsigned int INV_status[4];
 extern unsigned int INV_status_record[4];
 extern unsigned int INV_data_buf[16];
+extern uint16_t INV_data_TX_buf[8][16];
+extern uint16_t INV_data_RX_buf[8][16];
 //extern bool current_fault_buf[8];
 //extern bool voltage_fault_buf[8];
 extern int disconnect_cnt;
@@ -239,64 +241,64 @@ extern int reset_inv_total_cnt;
 // Inverter Parameter
 typedef struct _INV_
 {
-	//Motor parameter
-	int 	Pole, PolePair;
-	double 	InvPolePair;
-	double 	Rs, Ls, INV_Ls, Ke, Lds, Lqs, LAMpm, INV_LAMpm, INV_Ls_Tsw, Ls_Fs;
-	double 	Idss, Iqss, Idse, Iqse;
-	double 	Thetar, Thetarm, ThetaAdv, ThetaOffset;
-	double 	Wr, Wrm, Wrpm;
+    //Motor parameter
+    int     Pole, PolePair;
+    double  InvPolePair;
+    double  Rs, Ls, INV_Ls, Ke, Lds, Lqs, LAMpm, INV_LAMpm, INV_Ls_Tsw, Ls_Fs;
+    double  Idss, Iqss, Idse, Iqse;
+    double  Thetar, Thetarm, ThetaAdv, ThetaOffset;
+    double  Wr, Wrm, Wrpm;
 
 
-	//current controller
-	double   R_comp,L_comp;
-	double	Idse_ref, Iqse_ref ;
-	double 	Idse_ref_tmp, Iqse_ref_tmp ;
-	double	Idss_ref, Iqss_ref ;
-	double	Idse_ref_set, Iqse_ref_set ;
-	double   Ias_ref, Ibs_ref, Ics_ref;
-	double   Idse_old, Iqse_old;
-	double   sinThetar, cosThetar, Theta_sq;
+    //current controller
+    double   R_comp,L_comp;
+    double  Idse_ref, Iqse_ref ;
+    double  Idse_ref_tmp, Iqse_ref_tmp ;
+    double  Idss_ref, Iqss_ref ;
+    double  Idse_ref_set, Iqse_ref_set ;
+    double   Ias_ref, Ibs_ref, Ics_ref;
+    double   Idse_old, Iqse_old;
+    double   sinThetar, cosThetar, Theta_sq;
 
-	double 	Ia, Ib, Ic;
+    double  Ia, Ib, Ic;
 
-	double	Err_Idse, Err_Iqse;
-	double 	Idse_integ,Iqse_integ;
-	double	Kpd, Kpq, Kad, Kaq, Kid_T, Kiq_T;
+    double  Err_Idse, Err_Iqse;
+    double  Idse_integ,Iqse_integ;
+    double  Kpd, Kpq, Kad, Kaq, Kid_T, Kiq_T;
 
-	double  	Vdse, Vqse;
-	double   Vdse_ref, Vqse_ref;
-	double   Vdse_ref_fb, Vqse_ref_fb;
-	double   Vdse_ref_ff, Vqse_ref_ff;
-	double   Vdss_ref, Vqss_ref, Vdss_ref_old, Vqss_ref_old;
-	double   Vdse_ref_set, Vqse_ref_set;
-	double   Vdss_ref_set, Vqss_ref_set;
-	double   Vas_ref, Vbs_ref, Vcs_ref;
-	double   Vas, Vbs, Vcs;
-	double   Vdss, Vqss;
-	double   Van_ref_set, Vbn_ref_set, Vcn_ref_set;
-	double   Vdqse_ref;
-	double   Vdc;
+    double      Vdse, Vqse;
+    double   Vdse_ref, Vqse_ref;
+    double   Vdse_ref_fb, Vqse_ref_fb;
+    double   Vdse_ref_ff, Vqse_ref_ff;
+    double   Vdss_ref, Vqss_ref, Vdss_ref_old, Vqss_ref_old;
+    double   Vdse_ref_set, Vqse_ref_set;
+    double   Vdss_ref_set, Vqss_ref_set;
+    double   Vas_ref, Vbs_ref, Vcs_ref;
+    double   Vas, Vbs, Vcs;
+    double   Vdss, Vqss;
+    double   Van_ref_set, Vbn_ref_set, Vcn_ref_set;
+    double   Vdqse_ref;
+    double   Vdc;
 
-	double	Vdse_ref_lim,Vqse_ref_lim;
-	double	Vdse_ref_set_old,Vqse_ref_set_old;
-	double	Vdss_ref_set_old,Vqss_ref_set_old;
+    double  Vdse_ref_lim,Vqse_ref_lim;
+    double  Vdse_ref_set_old,Vqse_ref_set_old;
+    double  Vdss_ref_set_old,Vqss_ref_set_old;
 
-	double 	Vdse_anti, Vqse_anti;
+    double  Vdse_anti, Vqse_anti;
 
-	double	Van_ref, Vbn_ref, Vcn_ref;
+    double  Van_ref, Vbn_ref, Vcn_ref;
 
-	double	alpha, Wc_cc, Fcc;
-	double	Idqse_ref, Te_real;
+    double  alpha, Wc_cc, Fcc;
+    double  Idqse_ref, Te_real;
 
-	double 	Rv;
-	double	Vmax, Vmin, Vmid, Vsn, Vsn_max, Vsn_min;
-	double   Thetar_num;
+    double  Rv;
+    double  Vmax, Vmin, Vmid, Vsn, Vsn_max, Vsn_min;
+    double   Thetar_num;
 
-	unsigned int		CompA, CompB, CompC;
+    unsigned int        CompA, CompB, CompC;
 
 
-	IIR2 Vdse_ref_NCF, Vqse_ref_NCF;
+    IIR2 Vdse_ref_NCF, Vqse_ref_NCF;
 } INV_;
 extern INV_ INV;
 
@@ -321,16 +323,16 @@ extern INV_ INV;
 #define CC_IDLE_MODE_KEEP 2 // keep the last current references
 
 // Flags
-typedef struct 	_FLAGS_
+typedef struct  _FLAGS_
 {
-	int OverallMode;
-	int ModeStatus;
-	int Ready;
-	int	INV_Run;
-	int CC_mode;
-	int CCIdleMode;
-	int Fault;
-	bool init_charge_done;
+    int OverallMode;
+    int ModeStatus;
+    int Ready;
+    int INV_Run;
+    int CC_mode;
+    int CCIdleMode;
+    int Fault;
+    bool init_charge_done;
 } FLAG_;
 extern FLAG_ Flag;
 

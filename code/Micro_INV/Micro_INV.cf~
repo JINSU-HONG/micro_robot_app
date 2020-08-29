@@ -50,8 +50,8 @@ Tree-2 recent variable = SPI_TEST_B
 Tree-2 update time = 2 sec
 [Frame Activity]
 Register Frame = 0
-Watch Frame-0 = 0
-Watch Frame-0 (Name) = 
+Watch Frame-0 = 1
+Watch Frame-0 (Name) = Watch-1
 Watch Frame-1 = 0
 Watch Frame-1 (Name) = 
 Watch Frame-2 = 0
@@ -494,95 +494,6 @@ Auto Bauding Rate = 62956
 first visible line = 0
 [Recent contents of Command-4 window]
 
-[Recent contents of Command-3 window]
-Ih_ref_w = 0
-Ih_ref = 3.1416
-Ih_ref = 0
-Ih_ref = 1
-Ih_ref = -1
-Ih_ref = 5
-Ih_ref = -5
-
-Flag.Ready = 0
-Flag.Ready = 1
-
-// 0 : stop,  1 : current control,  2 : direct duty
-Flag.CC_mode = 0
-Flag.CC_mode = 1
-Flag.CC_mode = 2
-
-d_ext = 0.05
-
-// 0 : SV, 1 : DPWM
-PWM_style = 0
-PWM_style = 1
-
-fault_cnt=0
-
-debug_mode = 0
-debug_mode = 1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 [Watch-1 Watched Variables]
 Flag.OverallMode
@@ -836,6 +747,10 @@ da_mid[3] = 0
 
 
 
+
+
+
+
 [Recent contents of Command-2 window]
 da[0] = &test_fault_b
 da_type[0] = 0
@@ -858,6 +773,105 @@ da[3] = &test_fault_c;
 da_type[3] = 0;
 da_scale[3] = <2048./4>;
 da_mid[3] = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Recent contents of Command-3 window]
+Ih_ref_w = 0
+Ih_ref = 3.1416
+Ih_ref = 0
+Ih_ref = 1
+Ih_ref = -1
+Ih_ref = 5
+Ih_ref = -5
+
+Flag.Ready = 0
+Flag.Ready = 1
+
+// 0 : stop,  1 : current control,  2 : direct duty
+Flag.CC_mode = 0
+Flag.CC_mode = 1
+Flag.CC_mode = 2
+
+d_ext = 0.05
+
+// 0 : SV, 1 : DPWM
+PWM_style = 0
+PWM_style = 1
+
+fault_cnt=0
+
+debug_mode = 0
+debug_mode = 1
+
+
+
+
+
+
+
+
+
 
 
 
